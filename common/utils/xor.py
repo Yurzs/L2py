@@ -1,10 +1,10 @@
 import functools
+
 from common.datatypes.integer import Int32, Int8, UInt32
 from common.helpers.bytearray import ByteArray
 
 
 def xor_encrypt_login(func):
-
     def xor(data: ByteArray, key):
         stop = len(data) - 8
         start = 4
@@ -35,12 +35,12 @@ def xor_encrypt_login(func):
     def wrap(packet, client, *args, **kwargs):
         data = func(packet, client, *args, **kwargs)
         return xor(data, client.xor_key.key)
+
     return wrap
 
 
 def xor_encrypt_game(func):
     def xor(data, key):
-
         temp = Int8(0)
         print(f"data len {len(data)}, key len {len(key)}")
 
@@ -66,6 +66,7 @@ def xor_encrypt_game(func):
 
     def wrap(packet, client, *args, **kwargs):
         return xor(func(packet, client, *args, **kwargs), client.xor_key.encrypt_key)
+
     return wrap
 
 
@@ -95,4 +96,5 @@ def xor_decrypt_login(func):
     def wrap(packet_cls, data, client, *args, **kwargs):
         decrypted = xor(data, client.xor_key.key)
         return func(packet_cls, decrypted, client, *args, **kwargs)
+
     return wrap

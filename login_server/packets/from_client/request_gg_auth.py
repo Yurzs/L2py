@@ -1,8 +1,7 @@
 import logging
+
+from common.datatypes.integer import Int32, Int8
 from .base import LoginClientPacket
-from common.utils.xor import xor_decrypt_login
-from common.utils.checksum import verify_checksum
-from common.datatypes.integer import Int8, Int32
 
 log = logging.getLogger("login_server." + __name__)
 

@@ -1,7 +1,8 @@
-from .base import LoginServerPacket, add_length, add_padding
-from common.utils.blowfish import blowfish_encrypt
-from common.datatypes import Int32, Int8, Int16
+from common.datatypes import Int16, Int32, Int8
 from common.helpers.bytearray import ByteArray
+from common.packet import add_length, add_padding
+from common.utils.blowfish import blowfish_encrypt
+from .base import LoginServerPacket
 
 
 class ServerList(LoginServerPacket):

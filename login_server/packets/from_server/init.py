@@ -1,9 +1,8 @@
-from collections import OrderedDict
-
 from common.datatypes import Bytes, Int32, Int8
-from login_server.packets.from_server.base import LoginServerPacket, add_length, add_padding
-from common.utils.xor import xor_encrypt_login
+from common.packet import add_length, add_padding
 from common.utils.blowfish import blowfish_encrypt
+from common.utils.xor import xor_encrypt_login
+from login_server.packets.from_server.base import LoginServerPacket
 
 
 class Init(LoginServerPacket):

@@ -1,6 +1,7 @@
-from .base import DataType
-import struct
 import ctypes
+import struct
+
+from .base import DataType
 
 
 class Int:

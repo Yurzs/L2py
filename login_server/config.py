@@ -1,7 +1,7 @@
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
 import asyncio
+import os
 
+from motor.motor_asyncio import AsyncIOMotorClient
 
 loop = asyncio.get_event_loop()
 

@@ -1,9 +1,11 @@
-from common.manager import Manager
-from .state import GGAuthenticated, Authenticated, Connected, WaitingGameServerSelect
-from .packets.from_server import GGAuth, LoginFail, LoginOk, ServerList, PlayOk, PlayFail
-from mdocument import DocumentDoesntExist
-from login_server.models import Account, GameServer
 import random
+
+from mdocument import DocumentDoesntExist
+
+from common.manager import Manager
+from login_server.models import Account, GameServer
+from .packets.from_server import GGAuth, LoginFail, LoginOk, PlayFail, PlayOk, ServerList
+from .state import Authenticated, Connected, GGAuthenticated, WaitingGameServerSelect
 
 
 class LoginManager(Manager):

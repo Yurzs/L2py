@@ -1,5 +1,3 @@
-from collections import OrderedDict
-
 from common.datatypes import Int32, Int8
 from common.packet import Packet
 

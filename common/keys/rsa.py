@@ -1,9 +1,7 @@
-import math
-import struct
-
 from Cryptodome.PublicKey import RSA
-from M2Crypto import RSA as M2RSA
 from M2Crypto import BIO
+from M2Crypto import RSA as M2RSA
+
 from common.helpers.bytearray import ByteArray
 
 

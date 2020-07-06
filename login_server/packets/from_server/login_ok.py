@@ -1,5 +1,5 @@
+from common.datatypes import Bytes, Int32, Int8
 from .base import LoginServerPacket
-from common.datatypes import Int8, Bytes, Int32
 
 
 class LoginOk(LoginServerPacket):

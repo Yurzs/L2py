@@ -1,6 +1,6 @@
 import random
+
 from common.helpers.bytearray import ByteArray
-import copy
 
 
 class GameXorKey:

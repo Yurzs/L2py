@@ -1,7 +1,7 @@
 import os
 
-from Cryptodome.Cipher import Blowfish
 from blowfish import Cipher
+
 from common.helpers.bytearray import ByteArray
 
 
@@ -43,4 +43,3 @@ class BlowfishKey:
         else:
             encrypted = ByteArray(b"".join(self.encoder.encrypt_ecb(bytes(packet))))
         return encrypted
-

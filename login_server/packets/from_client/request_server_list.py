@@ -1,5 +1,5 @@
+from common.datatypes import Int32, Int8
 from .base import LoginClientPacket
-from common.datatypes import Int8, Int32
 
 
 class RequestServerList(LoginClientPacket):

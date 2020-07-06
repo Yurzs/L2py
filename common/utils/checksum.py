@@ -1,12 +1,11 @@
 import functools
-import struct
-from common.helpers.bytearray import ByteArray
+
 from common.datatypes import Int32, Int8
+from common.helpers.bytearray import ByteArray
 
 
 def add_checksum(func):
     def _checksum(data: ByteArray):
-
         chksum = Int32(0)
         for i in range(0, len(data) - 8, 4):
             check = Int8(data[i]) & 0xff
@@ -28,6 +27,7 @@ def add_checksum(func):
     def wrap(*args, **kwargs):
         data = func(*args, **kwargs)
         return _checksum(data)
+
     return wrap
 
 

@@ -1,8 +1,8 @@
-from login_server.packets.from_client.base import LoginClientPacket
-from common.datatypes import Int32, Int8, String
-from common.helpers.bytearray import ByteArray
-from common.utils.xor import xor_decrypt_login
 from M2Crypto import RSA
+
+from common.datatypes import Int8, String
+from common.helpers.bytearray import ByteArray
+from login_server.packets.from_client.base import LoginClientPacket
 
 
 class RequestAuthLogin(LoginClientPacket):

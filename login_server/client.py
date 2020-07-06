@@ -1,8 +1,9 @@
+import random
+
 from common.keys.blowfish import BlowfishKey
+from common.keys.rsa import L2RsaKey
 from common.keys.xor import LoginXorKey
 from .state import Connected
-import random
-from common.keys.rsa import L2RsaKey
 
 
 class Client:
@@ -17,4 +18,3 @@ class Client:
         self.session_id1_2 = None
         self.session_id2_1 = None
         self.session_id2_2 = None
-

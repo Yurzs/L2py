@@ -1,6 +1,7 @@
-from .base import LoginServerPacket, add_padding, add_length
-from common.datatypes import Int8, Int32
+from common.datatypes import Int32, Int8
+from common.packet import add_length, add_padding
 from common.utils.blowfish import blowfish_encrypt
+from .base import LoginServerPacket
 
 
 class GGAuth(LoginServerPacket):

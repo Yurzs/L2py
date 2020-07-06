@@ -1,13 +1,12 @@
 from abc import abstractmethod
-import struct
+import functools
 from abc import abstractmethod
 from collections import OrderedDict
+
+from common.datatypes import Int16, Int8
 from common.helpers.bytearray import ByteArray
-from common.utils.xor import xor_decrypt_login
-from common.datatypes import Bytes, Int16, Int8
-from common.utils.blowfish import blowfish_encrypt, blowfish_decrypt
+from common.utils.blowfish import blowfish_decrypt, blowfish_encrypt
 from common.utils.checksum import add_checksum
-import functools
 
 
 class UnknownPacket(Exception):
@@ -21,6 +20,7 @@ def add_length(func):
         packet.reverse()
         packed_size = Int16(2 + len(packet)).encode()
         return packet + packed_size
+
     return wrap
 
 
@@ -35,7 +35,9 @@ def add_padding(xor_key=False):
             pad_length += 8 - (len(data) + pad_length) % 8
             data.pad(pad_length)
             return data
+
         return wrap
+
     return inner
 
 

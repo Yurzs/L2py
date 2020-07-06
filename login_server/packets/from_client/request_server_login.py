@@ -1,6 +1,6 @@
-from .base import LoginClientPacket
-from common.datatypes import Int8, Int32
+from common.datatypes import Int32, Int8
 from common.helpers.bytearray import ByteArray
+from .base import LoginClientPacket
 
 
 class RequestServerLogin(LoginClientPacket):

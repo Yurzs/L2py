@@ -1,6 +1,6 @@
-import random
 from mdocument import Document
-from login_server.config import mongo_client, database_name
+
+from login_server.config import database_name, mongo_client
 
 
 class GameServer(Document):

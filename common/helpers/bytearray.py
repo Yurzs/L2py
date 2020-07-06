@@ -1,10 +1,8 @@
-from collections import UserList
-import struct
-import ctypes
-import typing
-from common.datatypes import Int8, Int32
 import functools
-import math
+import struct
+from collections import UserList
+
+from common.datatypes import Int8
 
 
 def to_bytearray_deco(func):
@@ -13,6 +11,7 @@ def to_bytearray_deco(func):
         packed = func(datatype)
         array = ByteArray(packed)
         return array
+
     return wrap
 
 

@@ -1,16 +1,13 @@
 import asyncio
 import functools
-from common.transport.packet_transport import PacketTransport
-from Cryptodome.Cipher import PKCS1_OAEP
 
-from common.keys.blowfish import BlowfishKey
-from login_server.client import Client
-from login_server.packets import LoginClientPacket
-from login_server.packets.from_server import Init, LoginFail
-from login_server.packets.from_client.base import LoginClientPacket
 from common.helpers.bytearray import ByteArray
-from login_server.manager import LoginManager
+from common.transport.packet_transport import PacketTransport
+from login_server.client import Client
 from login_server.config import loop
+from login_server.manager import LoginManager
+from login_server.packets.from_client.base import LoginClientPacket
+from login_server.packets.from_server import Init
 
 
 def make_async(func):
@@ -25,6 +22,7 @@ def make_async(func):
         packet_len = data[-2:]
         data = ByteArray(data[:-2])
         return asyncio.Task(async_wrap(self, data, packet_len), loop=loop)
+
     return wrap
 
 
