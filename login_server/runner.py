@@ -1,11 +1,10 @@
 import asyncio
 
 from login_server.protocol.tcp import Lineage2LoginProtocol
-from login_server import packets
+from login_server.config import loop
 
 
 async def main():
-    loop = asyncio.get_running_loop()
 
     server = await loop.create_server(
         lambda: Lineage2LoginProtocol(),
@@ -15,4 +14,4 @@ async def main():
         await server.serve_forever()
 
 
-asyncio.run(main())
+loop.run_until_complete(main())

@@ -1,35 +1,31 @@
-from login_server.packets.from_server.base import LoginServerPacket
-from common.datatypes import Int, String, Char, Bytes
 from collections import OrderedDict
-from common.keys.blowfish import BlowfishKey
-from common.keys.rsa import L2RsaKey
+
+from common.datatypes import Bytes, Int32, Int8
+from login_server.packets.from_server.base import LoginServerPacket, add_length, add_padding
+from common.utils.xor import xor_encrypt_login
+from common.utils.blowfish import blowfish_encrypt
 
 
 class Init(LoginServerPacket):
-    type = 0
+    type = Int8(0)
+    arg_order = ["type", "session_id", "protocol_version", "rsa_key",
+                 "unknown1", "unknown2", "unknown3", "unknown4",
+                 "blowfish_key", "null_termination"]
 
-    def __init__(self, session_id,
-                 protocol_version,
-                 public_key,
-                 blowfish_key):
-        self.data = OrderedDict([
-            ("session_id", Int(session_id)),
-            ("protocol_version", Int(protocol_version)),
-            ("public_key", Bytes(public_key)),
-            ("unknown", Bytes(
-                b"\x29\xDD\x95\x4E" +
-                b"\x77\xC3\x9C\xFC" +
-                b"\x97\xAD\xB6\x20" +
-                b"\x07\xBD\xE0\xF7")),
-            ("blowfish_key", Bytes(blowfish_key)),
-            ("null_termination", Char(0))
-        ])
+    def __init__(self, client):
+        self.session_id = Int32(client.session_id)
+        self.protocol_version = Int32(0x0000c621)
+        self.rsa_key = Bytes(client.rsa_key.scramble_mod())
+        self.unknown1 = Int32(0x29DD954E)
+        self.unknown2 = Int32(0x77C39CFC)
+        self.unknown3 = Int32(0x97ADB620)
+        self.unknown4 = Int32(0x07BDE0F7)
+        self.blowfish_key = Bytes(client.blowfish_key.key)
+        self.null_termination = Int8(0)
 
-    @classmethod
-    def parse(cls, packet_len, packet_type, data):
-        return cls(
-            Int.decode(data[0:4]),
-            Int.decode(data[4:8]),
-            String.decode(data[8:24]),
-            String.decode(data[24:40])
-        )
+    @add_length
+    @blowfish_encrypt(init=True)
+    @xor_encrypt_login
+    @add_padding(xor_key=True)
+    def encode(self, client):
+        return self.body

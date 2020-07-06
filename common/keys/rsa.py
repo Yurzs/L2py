@@ -1,14 +1,16 @@
 import math
 import struct
+
 from Cryptodome.PublicKey import RSA
+from M2Crypto import RSA as M2RSA
+from M2Crypto import BIO
+from common.helpers.bytearray import ByteArray
 
 
 class L2RsaKey(RSA.RsaKey):
 
     def scramble_mod(self) -> bytes:
-        n = self.n
-        n = n.to_bytes(math.ceil(n.bit_length() / 8), "big")
-        n = list(struct.unpack("!{}".format("b" * len(n)), n))
+        n = ByteArray(self.n_bytes)
 
         # step 1: 0x4d - 0x50 <-> 0x00 - 0x04
         for i in range(4):
@@ -26,11 +28,11 @@ class L2RsaKey(RSA.RsaKey):
         for i in range(0x40):
             n[0x40 + i] = n[0x40 + i] ^ n[i]
 
-        return struct.pack("!{}".format("b" * len(n)), *n)
+        return bytes(n)
 
     @classmethod
     def unscramble_mod(cls, n: bytes) -> int:
-        n = list(struct.unpack("!{}".format("b" * len(n)), n))
+        n = ByteArray(n)
 
         for i in range(0x40):
             n[0x40 + i] = n[0x40 + i] ^ n[i]
@@ -46,7 +48,11 @@ class L2RsaKey(RSA.RsaKey):
             n[0x00 + i] = n[0x4d + i]
             n[0x4d + i] = temp
 
-        return int.from_bytes(struct.pack("!{}".format("b" * len(n)), *n), "big")
+        return int.from_bytes(bytes(n), "big")
+
+    @property
+    def n_bytes(self):
+        return self.n.to_bytes(128, "big")
 
     @classmethod
     def from_scrambled(cls, data) -> "L2RsaKey":
@@ -63,3 +69,14 @@ class L2RsaKey(RSA.RsaKey):
 
     def __repr__(self):
         return "L2" + super().__repr__()
+
+    @property
+    def m2crypto_key(self):
+        key_bio = BIO.MemoryBuffer(self.export_key())
+        return M2RSA.load_key_bio(key_bio)
+
+    @property
+    def scrambled_key(self):
+        scrambled_key = RSA.construct((int.from_bytes(self.scramble_mod(), "big"), self.e))
+        key_bio = BIO.MemoryBuffer(scrambled_key.export_key())
+        return M2RSA.load_key_bio(key_bio)

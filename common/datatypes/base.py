@@ -7,16 +7,17 @@ class DataType(metaclass=ABCMeta):
 
     def __init__(self, python_data):
         if isinstance(python_data, DataType):
-            self.data = python_data.data
+            self.value = python_data.value
         else:
-            self.data = python_data
+            self.value = python_data
 
     def encode(self):
-        return struct.pack(f"!{self.struct_format}", self.data)
+        from common.helpers.bytearray import to_bytearray
+        return to_bytearray(struct.pack(f"!{self.struct_format}", self.value))
 
     @classmethod
     def decode(cls, data):
         return cls(struct.unpack(f"!{cls.struct_format}", data)[0])
 
     def __repr__(self):
-        return str(self.data)
+        return str(self.value)

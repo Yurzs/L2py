@@ -1,13 +1,18 @@
-
-
 class State:
     pass
 
 
-class Unauthenticated(State):
+class Connected(State):
+    pass
+
+
+class GGAuthenticated(State):
     pass
 
 
 class Authenticated(State):
     pass
 
+
+class WaitingGameServerSelect(State):
+    pass

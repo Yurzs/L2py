@@ -7,4 +7,3 @@ class Account(Document):
     collection = "accounts"
     database = database
     client = database_client
-

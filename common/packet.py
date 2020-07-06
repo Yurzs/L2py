@@ -1,96 +1,82 @@
-from .datatypes import Short
-from abc import ABCMeta, abstractmethod
-from common.datatypes import Short, Int, Bytes
-from collections import OrderedDict
+from abc import abstractmethod
 import struct
+from abc import abstractmethod
+from collections import OrderedDict
+from common.helpers.bytearray import ByteArray
+from common.utils.xor import xor_decrypt_login
+from common.datatypes import Bytes, Int16, Int8
+from common.utils.blowfish import blowfish_encrypt, blowfish_decrypt
+from common.utils.checksum import add_checksum
+import functools
 
 
 class UnknownPacket(Exception):
     pass
 
 
+def add_length(func):
+    @functools.wraps(func)
+    def wrap(*args, **kwargs):
+        packet = func(*args, **kwargs)
+        packet.reverse()
+        packed_size = Int16(2 + len(packet)).encode()
+        return packet + packed_size
+    return wrap
+
+
+def add_padding(xor_key=False):
+    def inner(func):
+        @functools.wraps(func)
+        def wrap(*args, **kwargs):
+            data = func(*args, **kwargs)
+            pad_length = 4
+            if xor_key:
+                pad_length += 4
+            pad_length += 8 - (len(data) + pad_length) % 8
+            data.pad(pad_length)
+            return data
+        return wrap
+    return inner
+
+
 class Packet:
-    type: int
-    data: OrderedDict
+    type: Int8
+    arg_order: OrderedDict
+
+    @add_length
+    @blowfish_encrypt()
+    @add_checksum
+    @add_padding()
+    def encode(self, client):
+        return self.body
 
     @property
-    def encoded(self):
-        encoded_params = b"".join([data.encode() for data in self.data.values()])
-        if 3 + len(encoded_params) < 255:
-            packed_size = Bytes((3 + len(encoded_params)).to_bytes(1, "big") + b"\x00").encode()
-        else:
-            packed_size = Short(3 + len(encoded_params)).encode()
-        return b"".join([
-            packed_size,
-            self.type.to_bytes(1, "big"),
-            encoded_params
-        ])
-
-    @property
-    def checksum(self):
-        chksum = 0
-        data = self.encoded
-        for i in range(0, len(data), 4):
-            check = data[i] & 0xff
-            check |= data[i + 1] << 8 & 0xff00
-            check |= data[i + 2] << 0x10 & 0xff0000
-            check |= data[i + 3] << 0x18 & 0xff000000
-            chksum ^= check
-
-        return struct.pack("!L", chksum)
-
-    def verify_checksum(self, data, offset, size):
-        if size % 4 != 0:
-            return False
-
-        data = list(struct.unpack("!{}".format("b" * len(data)), data))
-        chksum = 0
-        j = 0
-        for i in range(offset, size - 4, 4):
-            check = data[i] & 0xff
-            check |= data[i + 1] << 8 & 0xff00
-            check |= data[i + 2] << 0x10 & 0xff0000
-            check |= data[i + 3] << 0x18 & 0xff000000
-
-            chksum ^= check
-
-            j = i
-
-        check = data[j] & 0xff
-        check |= data[j + 1] << 8 & 0xff00
-        check |= data[j + 2] << 0x10 & 0xff0000
-        check |= data[j + 3] << 0x18 & 0xff000000
-
-        return check == chksum
-
-    @property
-    def encoded_with_checksum(self):
-        result = self.encoded
-        checksum = self.checksum
-        pad_len = (8 - (len(result) + len(checksum)) % 8) % 8
-        return self.encoded + self.checksum + pad_len * b"\x00"
+    def body(self):
+        data = ByteArray(b"")
+        for arg in self.arg_order:
+            data.extend(getattr(self, arg).encode())
+        return data
 
     @classmethod
     @abstractmethod
-    def parse(cls, packet_len, packet_type, data):
+    def parse(cls, data, client):
         pass
 
     @classmethod
-    def decode(cls, data, packet_len=None, packet_type=None):
-        if not packet_len and not packet_type:
-            packet_len = Short.decode(data[0:2])
-            packet_type = data[3]
-            data = data[3:]
+    @blowfish_decrypt
+    def decode(cls, data, client, packet_len, packet_type=None):
+        if not packet_type:
+            packet_type = data[0]
+            # data = data[1:]
 
         packet_cls: Packet = None
         for sub in cls.__subclasses__():
-            print(sub.type, packet_type )
             if sub.type == packet_type:
                 packet_cls = sub
                 break
             else:
-                result = sub.decode(data, packet_len, packet_type)
+                result = sub.decode(data, client, packet_len, packet_type)
                 if result:
                     return result
         if packet_cls:
-            return packet_cls.parse(packet_len, packet_type, data)
+            return packet_cls.parse(data, client)
