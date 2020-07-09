@@ -13,9 +13,3 @@ class GGAuth(LoginServerPacket):
 
     async def answer(self, client):
         pass
-
-    @add_length
-    @blowfish_encrypt()
-    @add_padding()
-    def encode(self, client):
-        return self.body

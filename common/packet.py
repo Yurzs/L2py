@@ -7,6 +7,7 @@ from common.datatypes import Int16, Int8
 from common.helpers.bytearray import ByteArray
 from common.utils.blowfish import blowfish_decrypt, blowfish_encrypt
 from common.utils.checksum import add_checksum
+from abc import ABCMeta, abstractmethod
 
 
 class UnknownPacket(Exception):
@@ -41,16 +42,13 @@ def add_padding(xor_key=False):
     return inner
 
 
-class Packet:
+class Packet(metaclass=ABCMeta):
     type: Int8
     arg_order: OrderedDict
 
-    @add_length
-    @blowfish_encrypt()
-    @add_checksum
-    @add_padding()
+    @abstractmethod
     def encode(self, client):
-        return self.body
+        pass
 
     @property
     def body(self):
@@ -66,7 +64,7 @@ class Packet:
 
     @classmethod
     @blowfish_decrypt
-    def decode(cls, data, client, packet_len, packet_type=None):
+    def decode(cls, data, client, packet_type=None):
         if not packet_type:
             packet_type = data[0]
             # data = data[1:]
@@ -77,7 +75,7 @@ class Packet:
                 packet_cls = sub
                 break
             else:
-                result = sub.decode(data, client, packet_len, packet_type)
+                result = sub.decode(data, client, packet_type)
                 if result:
                     return result
         if packet_cls:

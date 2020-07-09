@@ -137,6 +137,11 @@ class Int32(Int, ctypes.c_int32):
     ctype = ctypes.c_int32
 
 
+class Int64(Int, ctypes.c_int64):
+    length = 8
+    ctype = ctypes.c_int64
+
+
 class UInt8(UInt, ctypes.c_uint8):
     length = 1
     ctype = ctypes.c_uint8

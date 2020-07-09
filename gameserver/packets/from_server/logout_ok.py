@@ -1,5 +1,5 @@
-from .base import GameServerPacket
 from common.datatypes import Int8
+from .base import GameServerPacket
 
 
 class LogoutOk(GameServerPacket):

@@ -3,7 +3,7 @@ import logging
 from common.datatypes.integer import Int32, Int8
 from .base import LoginClientPacket
 
-log = logging.getLogger("login_server." + __name__)
+log = logging.getLogger("loginserver." + __name__)
 
 
 class RequestGGAuth(LoginClientPacket):
@@ -25,4 +25,4 @@ class RequestGGAuth(LoginClientPacket):
         if client.session_id != Int32(data[0:4]):
             log.error("Session_id doesnt match")
             return
-        return cls(data[1:4], data[4:8], data[8:12], data[12:16], data[16:20])
+        return cls(data[0:4], data[4:8], data[8:12], data[12:16], data[16:20])

@@ -1,5 +1,5 @@
+from common.datatypes import Int32, Int8
 from .base import GameServerPacket
-from common.datatypes import Int8, Int32
 
 
 class ChangeWaitType(GameServerPacket):
@@ -12,4 +12,3 @@ class ChangeWaitType(GameServerPacket):
         self.x = Int32(x)
         self.y = Int32(y)
         self.z = Int32(z)
-        

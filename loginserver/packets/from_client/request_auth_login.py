@@ -2,7 +2,7 @@ from M2Crypto import RSA
 
 from common.datatypes import Int8, String
 from common.helpers.bytearray import ByteArray
-from login_server.packets.from_client.base import LoginClientPacket
+from loginserver.packets.from_client.base import LoginClientPacket
 
 
 class RequestAuthLogin(LoginClientPacket):
@@ -13,7 +13,7 @@ class RequestAuthLogin(LoginClientPacket):
         self.password = String(password)
 
     @classmethod
-    def parse(cls, data: ByteArray, client: "Client"):
+    def parse(cls, data: ByteArray, client: "LoginClient"):
         data = ByteArray(data[1:])
         encrypted = ByteArray(data[0:128])
         key = client.rsa_key.m2crypto_key

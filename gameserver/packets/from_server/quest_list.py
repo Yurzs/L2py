@@ -1,5 +1,5 @@
+from common.datatypes import Int8
 from .base import GameServerPacket
-from common.datatypes import Int8, Int32
 
 
 class QuestList(GameServerPacket):

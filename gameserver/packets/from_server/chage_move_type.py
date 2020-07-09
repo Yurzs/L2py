@@ -1,5 +1,5 @@
-from .base import GameServerPacket
 from common.datatypes import Int32, Int8
+from .base import GameServerPacket
 
 
 class ChangeMoveType(GameServerPacket):

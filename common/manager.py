@@ -1,2 +1,2 @@
-class Manager:
+class PacketManager:
     pass

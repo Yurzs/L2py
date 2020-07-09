@@ -16,3 +16,7 @@ class Authenticated(State):
 
 class WaitingGameServerSelect(State):
     pass
+
+
+class GameServerSelected(State):
+    pass

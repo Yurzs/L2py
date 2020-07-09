@@ -1,8 +1,8 @@
 from common.datatypes import Int32, Int8
-from common.packet import Packet
+from .base import LoginServerPacket
 
 
-class LoginFail(Packet):
+class LoginFail(LoginServerPacket):
     type = Int8(1)
     arg_order = ["type", "reason_id"]
 

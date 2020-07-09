@@ -1,6 +1,6 @@
 from mdocument import Document
 
-from login_server.config import database_name, mongo_client
+from loginserver.config import database_name, mongo_client
 
 
 class GameServer(Document):

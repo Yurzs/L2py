@@ -1,5 +1,5 @@
-from .base import GameServerPacket
 from common.datatypes import Int8
+from .base import GameServerPacket
 
 
 class UserInfo(GameServerPacket):
@@ -20,7 +20,8 @@ class UserInfo(GameServerPacket):
         "underwear_item_id", "rear_item_id", "left_rear_item_id", "necklace_item_id",
         "right_ring_item_id", "left_ring_item_id", "helmet_item_id", "left_hand_item_id",
         "right_hand_item_id",
-        "gloves_item_id", "main_armor_item_id", "leggings_item_id", "boots_item_id", "back_item_id",
+        "gloves_item_id", "main_armor_item_id", "leggings_item_id", "boots_item_id",
+        "back_item_id",
         "left_right_hand_item_id", "hair_item_id", "face_item_id",
         "unknown2",
         "patk", "patk_speed", "pdef", "evasion", "accuracy", "critical", "matk", "cast_speed",
