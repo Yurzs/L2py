@@ -32,7 +32,6 @@ class BlowfishKey:
 
     @classmethod
     def generate(cls):
-        # return cls(int("37c902b848227231613e0987d06e2b54", 16).to_bytes(16, "big"))
         return cls(os.urandom(16))
 
     def decrypt(self, data):

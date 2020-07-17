@@ -1,5 +1,6 @@
 import ctypes
 import struct
+import random
 
 from .base import DataType
 
@@ -114,6 +115,15 @@ class Int:
             return self.value == other.value
         else:
             return self.value == other
+
+    @classmethod
+    def random(cls):
+        size = ctypes.sizeof(cls.ctype) * 8
+        limit = 2 ** (size) - 1 if cls.signed else 2 ** size
+        if cls.signed:
+            return cls(random.randrange(-limit, limit - 1))
+        else:
+            return cls(random.randrange(0, limit - 1))
 
 
 class UInt(Int):

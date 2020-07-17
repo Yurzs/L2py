@@ -1,6 +1,11 @@
+import logging
+import sys
+
 from loginserver.config import loop
 from loginserver.protocol.outer import Lineage2LoginProtocol
 from loginserver.manager import LoginServerPacketManager
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 
 async def main():

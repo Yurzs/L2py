@@ -16,6 +16,7 @@ class Account(Document):
             "salt": str,
             "banned": bool,
             "deleted": bool,
+            "latest_server": int,
         }
 
     """
@@ -25,8 +26,8 @@ class Account(Document):
     client = mongo_client
 
     @classmethod
-    def create(cls, login, password) -> "Document":
-        """Register new user."""
+    async def create(cls, login, password) -> "Document":
+        """Registers new user."""
 
         hashed_password, salt = cls.hash_password(password)
 
@@ -58,7 +59,7 @@ class Account(Document):
 
     @classmethod
     async def authenticate(cls, login, password):
-        """Authenticate account using password."""
+        """Authenticates account using password."""
 
         account = await cls.one(login=login)
         if account.check_password(password) and not getattr(account, "deleted", False):
@@ -69,7 +70,18 @@ class Account(Document):
         return True if not getattr(self, "banned", False) else False
 
     async def ban(self):
-        """Mark account as banned."""
+        """Marks account as banned."""
 
         self.banned = True
         await self.push_update()
+
+    async def unban(self):
+        """Removes banned mark."""
+
+        if getattr(self, "banned", False):
+            delattr(self, "deleted")
+        await self.push_update()
+
+    @property
+    def latest_server(self):
+        return self._document_.get("latest_server", 0)

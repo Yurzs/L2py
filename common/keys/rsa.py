@@ -8,8 +8,6 @@ from common.helpers.bytearray import ByteArray
 class L2RsaKey(RSA.RsaKey):
 
     def scramble_mod(self) -> bytes:
-        # return int(
-        #     "982822cc88992f14fae16f5354e96bcd778a5bd904517f6d9f7c9ad746ee5706623b9d5ac8b279ec66495fb7f7e0f38927111e77c8f3bb6203f8c5c573b16347a9dfb28f2d2ee33f5ded87fd690996013bb1b98f036c1d3f78f23bf32bacda61834a082a5e0d2ae7b53345380db55430a3ffeb0bc3fdd2c99e51c2f3928bb8be", 16).to_bytes(128, "big")
         n = ByteArray(self.n_bytes)
 
         # step 1: 0x4d - 0x50 <-> 0x00 - 0x04

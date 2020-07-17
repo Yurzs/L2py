@@ -80,3 +80,6 @@ class Packet(metaclass=ABCMeta):
                     return result
         if packet_cls:
             return packet_cls.parse(data, client)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.__dict__})"
