@@ -6,24 +6,22 @@ Stage: Alpha
 
 What currently works
 --------------------
+- [x] Login Server
+- [ ] Game Server
 
-.. |checked_checkbox| raw:: html
-
-    <input checked=""  type="checkbox">
-
-.. |checkbox| raw:: html
-
-    <input type="checkbox">
-
-|checked_checkbox| Login Server
-
-|checkbox| Game Server
 
 Contribute
 ----------
 
-Feel free to contribute. Jira/Trello comming soon.
+Feel free to contribute. Jira/Trello coming soon.
 
+How to start developing
+-----------------------
+
+- Run mongo on localhost
+- Create account in mongo according to Login Account structure
+- Start runner with env variable MONGO_URI
+- Login using l2 client
 
 Notice
 ------

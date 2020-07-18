@@ -23,7 +23,7 @@ class LoginServerPacketManager(PacketManager):
                     client.state = Authenticated()
                     client.account = account
                 else:
-                    reply = LoginFail(LoginFail.REASON.WRONG_LOGIN_OR_PASSWORD)
+                    reply = LoginFail(LoginFail.REASON.ACCESS_DENIED)
             except DocumentDoesntExist:
                 reply = LoginFail(LoginFail.REASON.WRONG_LOGIN_OR_PASSWORD)
             return reply
