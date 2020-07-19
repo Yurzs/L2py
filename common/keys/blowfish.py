@@ -27,8 +27,11 @@ class BlowfishKey:
 
     def __init__(self, key=None):
         self.key = key if key else self.static
-        self.encoder = Cipher(self.key, byte_order="little")
         self.static_encoder = Cipher(self.static, byte_order="little")
+
+    @property
+    def encoder(self):
+        return Cipher(self.key, byte_order="little")
 
     @classmethod
     def generate(cls):

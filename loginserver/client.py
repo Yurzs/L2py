@@ -15,3 +15,4 @@ class LoginClient:
         self.session_id = Int32.random()
         self.session_key = SessionKey()
         self.xor_key = LoginXorKey()
+        self.protocol_version = 50721

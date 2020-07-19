@@ -116,6 +116,12 @@ class Int:
         else:
             return self.value == other
 
+    def __len__(self):
+        return ctypes.sizeof(self.ctype)
+
+    def __reversed__(self):
+        return self.new(self.encode().data[::-1])
+
     @classmethod
     def random(cls):
         size = ctypes.sizeof(cls.ctype) * 8
@@ -124,6 +130,9 @@ class Int:
             return cls(random.randrange(-limit, limit - 1))
         else:
             return cls(random.randrange(0, limit - 1))
+
+    def __iter__(self):
+        return iter(self.encode().data)
 
 
 class UInt(Int):

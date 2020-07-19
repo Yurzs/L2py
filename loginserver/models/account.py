@@ -67,7 +67,7 @@ class Account(Document):
 
     @property
     def can_login(self):
-        return True if not getattr(self, "banned", False) else False
+        return not bool(getattr(self, "banned", False))
 
     async def ban(self):
         """Marks account as banned."""

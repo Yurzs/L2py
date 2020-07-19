@@ -1,8 +1,12 @@
+import logging
+
 from common.transport.protocol import TCPProtocol
 from asyncio import transports
 from gameserver.client import GameClient
 from common.transport.packet_transport import PacketTransport
 from gameserver.packets.from_client.base import GameClientPacket
+
+LOG = logging.getLogger(f"l2py.{__name__}")
 
 
 class Lineage2GameProtocol(TCPProtocol):
@@ -17,4 +21,5 @@ class Lineage2GameProtocol(TCPProtocol):
         packet = GameClientPacket.decode(data, self.client, packet_len=packet_len)
         reply = await self.manager.proceed(packet)
         if reply:
+            LOG.debug("Sending packet %s", packet)
             self.transport.write(reply)

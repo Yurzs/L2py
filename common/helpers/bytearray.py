@@ -28,7 +28,22 @@ class ByteArray(UserList):
 
     def __setitem__(self, key, value):
         try:
-            if isinstance(value, Int8):
+            if isinstance(key, slice):
+                start = key.start
+                stop = key.stop
+                if start is None:
+                    start = 0
+                if stop is None:
+                    stop = len(self.data) - 1
+
+                if len(value) > stop - start:
+                    raise ValueError("Value is too long")
+                elif start < len(self.data) and stop < len(self.data):
+                    for item_n, item in enumerate(value):
+                        self[start + item_n] = item
+                else:
+                    raise ValueError()
+            elif isinstance(value, Int8):
                 self.data[key] = value
             else:
                 self.data[key] = Int8(value)

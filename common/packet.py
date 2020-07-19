@@ -6,7 +6,7 @@ from collections import OrderedDict
 from common.datatypes import Int16, Int8
 from common.helpers.bytearray import ByteArray
 from common.utils.blowfish import blowfish_decrypt, blowfish_encrypt
-from common.utils.checksum import add_checksum
+from common.utils.checksum import add_checksum, verify_checksum
 from abc import ABCMeta, abstractmethod
 
 

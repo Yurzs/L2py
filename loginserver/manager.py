@@ -10,15 +10,23 @@ class LoginServerPacketManager(PacketManager):
 
     @classmethod
     async def proceed(cls, client: "LoginClient", packet):
+        if not packet:
+            return client.protocol.transport._transport.close()
         if isinstance(client.state, Connected):
+            if client.session_id != packet.session_id:
+                print("WTF WRONG SESSION ID!")
+            else:
+                print(f"SESSION_LOCAL {client.session_id}, SESSION_PACKET {packet.session_id}")
             reply = GGAuth()
             client.state = GGAuthenticated()
             return reply
         elif isinstance(client.state, GGAuthenticated):
             try:
-                account = await Account.one(login=packet.login.value,
-                                            password=packet.password.value)
-                if account.can_login:
+                account = await Account.authenticate(login=packet.login.value,
+                                                     password=packet.password.value)
+                if account is None:
+                    reply = LoginFail(LoginFail.REASON.WRONG_LOGIN_OR_PASSWORD)
+                elif account.can_login:
                     reply = LoginOk(client.session_key.login_ok1, client.session_key.login_ok2)
                     client.state = Authenticated()
                     client.account = account

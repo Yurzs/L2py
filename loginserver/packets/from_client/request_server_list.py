@@ -1,4 +1,5 @@
 from common.datatypes import Int32, Int8
+from common.utils.checksum import verify_checksum
 from .base import LoginClientPacket
 
 
@@ -11,6 +12,7 @@ class RequestServerList(LoginClientPacket):
         self.login_ok2 = Int32(login_ok2)
 
     @classmethod
+    @verify_checksum
     def parse(cls, data, client):
         data = data[1:]
         login_ok1 = data[0:4]

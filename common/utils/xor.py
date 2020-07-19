@@ -19,15 +19,9 @@ def xor_encrypt_login(func):
             ecx += edx
             edx ^= ecx
 
-            data[pos] = Int8(edx & 255)
-            data[pos + 1] = Int8(edx >> 8 & 255)
-            data[pos + 2] = Int8(edx >> 16 & 255)
-            data[pos + 3] = Int8(edx >> 24 & 255)
+            data[pos: pos+4] = reversed(edx)
 
-        data[stop] = Int8(ecx & 0xFF)
-        data[stop + 1] = Int8(ecx >> 8 & 0xFF)
-        data[stop + 2] = Int8(ecx >> 16 & 0xFF)
-        data[stop + 3] = Int8(ecx >> 24 & 0xFF)
+        data[-8:-4] = reversed(ecx)
 
         return data
 
@@ -42,11 +36,9 @@ def xor_encrypt_login(func):
 def xor_encrypt_game(func):
     def xor(data, key):
         temp = Int8(0)
-        print(f"data len {len(data)}, key len {len(key)}")
 
         for i in range(len(data)):
             temp2 = Int8(data[i] & 0xff)
-            print(temp2, type(temp2), i & 15, data[i])
             data[i] = Int8(temp2 ^ (key[i & 15] & 0xff) ^ temp)
             temp = data[i]
 
@@ -72,29 +64,26 @@ def xor_encrypt_game(func):
 
 def xor_decrypt_login(func):
     def xor(raw, key):
-        stop = 4
+        stop = 2
         pos = len(raw) - 12
-        ecx = UInt32(key)
+        ecx = Int32(key)
 
-        while (stop <= pos):
-            edx = Int32(raw[pos] & 0xff)
-            edx |= Int32((raw[pos + 1] & 0xff) << 8)
-            edx |= Int32((raw[pos + 2] & 0xff) << 16)
-            edx |= Int32((raw[pos + 3] & 0xff) << 24)
+        while stop < pos:
+            edx = (Int32(raw[pos]) & 255)
+            edx |= (Int32(raw[pos + 1]) & 255) << 8
+            edx |= (Int32(raw[pos + 2]) & 255) << 16
+            edx |= (Int32(raw[pos + 3]) & 255) << 24
 
             edx ^= ecx
             ecx -= edx
 
-            raw[pos] = Int8(edx & 0xff)
-            raw[pos + 1] = Int8((edx >> 8) & 0xff)
-            raw[pos + 2] = Int8((edx >> 16) & 0xff)
-            raw[pos + 3] = Int8((edx >> 24) & 0xff)
+            raw[pos: pos+4] = reversed(edx)
             pos -= 4
 
         return raw
 
-    def wrap(packet_cls, data, client, *args, **kwargs):
-        decrypted = xor(data, client.xor_key.key)
-        return func(packet_cls, decrypted, client, *args, **kwargs)
+    def wrap(packet_cls, data, *args, **kwargs):
+        decrypted = xor(data, list(reversed(data[-8: -4])))
+        return func(packet_cls, decrypted, *args, **kwargs)
 
     return wrap

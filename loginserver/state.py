@@ -10,7 +10,15 @@ class GGAuthenticated(State):
     pass
 
 
+class WaitingGGAccept(State):
+    pass
+
+
 class Authenticated(State):
+    pass
+
+
+class WaitingAuthenticationAccept(State):
     pass
 
 

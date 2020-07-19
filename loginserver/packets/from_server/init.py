@@ -1,8 +1,12 @@
 from common.datatypes import Bytes, Int32, Int8
 from common.packet import add_length, add_padding
 from common.utils.blowfish import blowfish_encrypt
-from common.utils.xor import xor_encrypt_login
+from common.utils.xor import xor_encrypt_login, xor_decrypt_login
 from loginserver.packets.from_server.base import LoginServerPacket
+from common.keys.rsa import L2RsaKey
+from common.keys.blowfish import BlowfishKey
+from common.keys.xor import LoginXorKey
+from common.helpers.bytearray import ByteArray
 
 
 class Init(LoginServerPacket):
@@ -13,7 +17,7 @@ class Init(LoginServerPacket):
 
     def __init__(self, client):
         self.session_id = Int32(client.session_id)
-        self.protocol_version = Int32(0x0000c621)
+        self.protocol_version = Int32(client.protocol_version)
         self.rsa_key = Bytes(client.rsa_key.scramble_mod())
         self.unknown1 = Int32(0x29DD954E)
         self.unknown2 = Int32(0x77C39CFC)
@@ -28,3 +32,15 @@ class Init(LoginServerPacket):
     @add_padding(xor_key=True)
     def encode(self, client):
         return self.body
+
+    @classmethod
+    def parse(cls, data, client):
+        client.xor_key = LoginXorKey(Int32(data[-8:-4]))
+        print(data.data)
+        data = xor_decrypt_login(lambda packet_cls, data, client: data)(cls, data, client)
+        data = data[1:]
+        client.session_id = Int32(data[0:4])
+        client.protocol_version = Int32(data[4:8])
+        client.rsa_key = L2RsaKey.from_scrambled(bytes(ByteArray(data[8:136])))
+        client.blowfish_key = BlowfishKey(bytes(ByteArray(data[152:168])))
+        return cls(client)

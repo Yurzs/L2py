@@ -5,7 +5,7 @@ from .base import LoginServerPacket
 class Reason:
     SYSTEM_ERROR = Int8(1)
     WRONG_PASSWORD = Int8(2)
-    WRONG_LOGIN_OR_PASSWORD = Int8(3)
+    WRONG_LOGIN_OR_PASSWORD = Int8(2)
     ACCESS_DENIED = Int8(4)
     DATABASE_ERROR = Int8(5)
     ACCOUNT_ALREADY_IN_USE = Int8(7)

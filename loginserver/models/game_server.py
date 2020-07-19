@@ -7,7 +7,7 @@ class GameServer(Document):
     """GameServer.
 
         structure = {
-            id": int,
+            "id": int,
             "ip": str,
             "port": int,
             "age_limit": int,

@@ -71,7 +71,10 @@ class L2RsaKey(RSA.RsaKey):
     @property
     def m2crypto_key(self):
         key_bio = BIO.MemoryBuffer(self.export_key())
-        return M2RSA.load_key_bio(key_bio)
+        if self.has_private():
+            return M2RSA.load_key_bio(key_bio)
+        else:
+            return M2RSA.load_pub_key_bio(key_bio)
 
     @property
     def scrambled_key(self):

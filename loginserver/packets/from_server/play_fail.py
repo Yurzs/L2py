@@ -3,7 +3,7 @@ from .base import LoginServerPacket
 
 
 class Reason:
-    PASSWORD_MISMATCH = Int8(3)
+    PASSWORD_MISMATCH = Int8(2)
     ACCESS_DENIED = Int8(4)
     TOO_MANY_USERS = Int8(15)
 
@@ -15,4 +15,4 @@ class PlayFail(LoginServerPacket):
     REASON = Reason
 
     def __init__(self, reason_id):
-        self.reason_id = Int32(reason_id)
+        self.reason_id = Int8(reason_id)

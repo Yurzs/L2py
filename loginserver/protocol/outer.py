@@ -15,7 +15,7 @@ class Lineage2LoginProtocol(TCPProtocol):
         self.transport = PacketTransport(transport, self.client)
         init_packet = Init(self.client)
         self.transport.write(init_packet)
-        LOG.debug("New connection from %s:%s",
+        LOG.debug("New connection %s from %s:%s", init_packet,
                   *self.transport._transport.get_extra_info("peername"))
 
     @TCPProtocol.make_async
