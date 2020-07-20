@@ -1,12 +1,9 @@
-from abc import abstractmethod
 import functools
-from abc import abstractmethod
 from collections import OrderedDict
 
 from common.datatypes import Int16, Int8
 from common.helpers.bytearray import ByteArray
-from common.utils.blowfish import blowfish_decrypt, blowfish_encrypt
-from common.utils.checksum import add_checksum, verify_checksum
+from common.utils.blowfish import blowfish_decrypt
 from abc import ABCMeta, abstractmethod
 
 
@@ -18,7 +15,6 @@ def add_length(func):
     @functools.wraps(func)
     def wrap(*args, **kwargs):
         packet = func(*args, **kwargs)
-        packet.reverse()
         packed_size = Int16(2 + len(packet)).encode()
         return packed_size + packet
 
@@ -42,7 +38,13 @@ def add_padding(xor_key=False):
     return inner
 
 
-class Packet(metaclass=ABCMeta):
+class MetaPacket(ABCMeta):
+    def __init__(cls, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        cls.mapper = {}
+
+
+class Packet(metaclass=MetaPacket):
     type: Int8
     arg_order: OrderedDict
 
@@ -64,21 +66,15 @@ class Packet(metaclass=ABCMeta):
 
     @classmethod
     @blowfish_decrypt
-    def decode(cls, data, client, packet_type=None):
-        if not packet_type:
-            packet_type = data[0]
-            # data = data[1:]
-        packet_cls: Packet = None
-        for sub in cls.__subclasses__():
-            if sub.type == packet_type:
-                packet_cls = sub
-                break
-            else:
-                result = sub.decode(data, client, packet_type)
-                if result:
-                    return result
+    def decode(cls, data, client, **kwargs):
+        packet_type = data[0]
+        packet_cls = cls.mapper.get(packet_type)
         if packet_cls:
             return packet_cls.parse(data, client)
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.__dict__})"
+
+    def __init_subclass__(cls, **kwargs):
+        if hasattr(cls, "type"):
+            cls.mapper[cls.type] = cls
