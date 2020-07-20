@@ -6,6 +6,7 @@ from loginserver.packets.from_client.base import LoginClientPacket, add_padding,
 from common.utils.checksum import verify_checksum, add_checksum
 from common.utils.blowfish import blowfish_encrypt
 
+
 class RequestAuthLogin(LoginClientPacket):
     type = Int8(0)
     arg_order = ["type", "login", "password"]
@@ -31,10 +32,25 @@ class RequestAuthLogin(LoginClientPacket):
     @add_padding()
     def encode(self, client):
         arr = ByteArray(self.type.encode())
-        arr.pad(123)
+
+        encrypt_arr = ByteArray(b"")
+        encrypt_arr.pad(128)
+        encrypt_arr[0x5b] = 0x24
+        enc_login = self.login.encode()
+        enc_password = self.password.encode()
+        encrypt_arr[0x5e: 0x5e + len(enc_login)] = enc_login
+        encrypt_arr[0x6c: 0x6c + len(enc_password)] = enc_password
+
         key = client.rsa_key.m2crypto_key
-        encrypted_login = key.public_encrypt(bytes(self.login.encode()), RSA.no_padding)
-        encrypted_password = key.public_encrypt(bytes(self.password.encode()), RSA.no_padding)
-        arr[94:107] = encrypted_login
-        arr[108:124] = encrypted_password
+        encrypted_login_info = key.public_encrypt(bytes(encrypt_arr), RSA.no_padding)
+        arr += ByteArray(encrypted_login_info)
+        arr.append(client.session_id)
+        arr += ByteArray([0x23, 0x01, 0x00, 0x00, 0x67, 0x45, 0x00, 0x00, 0xab, 0x89, 0x00,
+                          0x00, 0xef, 0xcd, 0x00, 0x00])
+        arr += ByteArray([0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+
+        footer = ByteArray(b"")
+        footer.pad(16)
+        arr += footer
+
         return arr

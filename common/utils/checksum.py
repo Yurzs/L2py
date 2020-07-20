@@ -20,7 +20,7 @@ def add_checksum(func):
 
             chksum ^= check
 
-        data[-4:] = reversed(chksum)
+        data[-4:] = chksum
 
         return data
 
@@ -57,8 +57,6 @@ def verify(data):
 
         chksum ^= check
 
-    check = Int32(data[-4:][::-1])
-
-    print(data[-4:], check, chksum)
+    check = Int32(data[-4:])
 
     return check == chksum

@@ -31,9 +31,8 @@ class TCPProtocol(asyncio.Protocol, metaclass=ABCMeta):
     def data_to_bytearray(func):
         async def wrap(protocol, data):
             data = ByteArray(data)
-            data.reverse()
-            packet_len = Int16(data[-2:]) - 2
-            data = ByteArray(data[:-2])
+            packet_len = Int16.decode(data[:2]) - 2
+            data = ByteArray(data[2:])
             if not packet_len == len(data):
                 log.error("Data len byte doesnt match data length.")
             return await func(protocol, data)

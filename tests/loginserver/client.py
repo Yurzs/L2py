@@ -41,6 +41,7 @@ class EchoClientProtocol(asyncio.Protocol):
             self.cli.state = WaitingAuthenticationAccept()
             self.transport.write(req_auth)
         elif isinstance(self.cli.state, WaitingAuthenticationAccept):
+            print(data.data)
             print(f"ohh {self.cli.state}")
             packet = LoginServerPacket.decode(data, self.cli)
             print(f"www {packet}")

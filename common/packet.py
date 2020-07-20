@@ -20,7 +20,7 @@ def add_length(func):
         packet = func(*args, **kwargs)
         packet.reverse()
         packed_size = Int16(2 + len(packet)).encode()
-        return packet + packed_size
+        return packed_size + packet
 
     return wrap
 
@@ -68,7 +68,6 @@ class Packet(metaclass=ABCMeta):
         if not packet_type:
             packet_type = data[0]
             # data = data[1:]
-
         packet_cls: Packet = None
         for sub in cls.__subclasses__():
             if sub.type == packet_type:

@@ -35,12 +35,11 @@ class Init(LoginServerPacket):
 
     @classmethod
     def parse(cls, data, client):
-        client.xor_key = LoginXorKey(Int32(data[-8:-4]))
-        print(data.data)
+        client.xor_key = LoginXorKey(Int32.decode(data[-8:-4]))
         data = xor_decrypt_login(lambda packet_cls, data, client: data)(cls, data, client)
         data = data[1:]
-        client.session_id = Int32(data[0:4])
-        client.protocol_version = Int32(data[4:8])
+        client.session_id = Int32.decode(data[0:4])
+        client.protocol_version = Int32.decode(data[4:8])
         client.rsa_key = L2RsaKey.from_scrambled(bytes(ByteArray(data[8:136])))
         client.blowfish_key = BlowfishKey(bytes(ByteArray(data[152:168])))
         return cls(client)

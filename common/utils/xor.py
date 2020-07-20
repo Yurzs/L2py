@@ -19,9 +19,9 @@ def xor_encrypt_login(func):
             ecx += edx
             edx ^= ecx
 
-            data[pos: pos+4] = reversed(edx)
+            data[pos: pos+4] = edx
 
-        data[-8:-4] = reversed(ecx)
+        data[-8:-4] = ecx
 
         return data
 
@@ -77,13 +77,13 @@ def xor_decrypt_login(func):
             edx ^= ecx
             ecx -= edx
 
-            raw[pos: pos+4] = reversed(edx)
+            raw[pos: pos+4] = edx
             pos -= 4
 
         return raw
 
     def wrap(packet_cls, data, *args, **kwargs):
-        decrypted = xor(data, list(reversed(data[-8: -4])))
+        decrypted = xor(data, list(data[-8: -4]))
         return func(packet_cls, decrypted, *args, **kwargs)
 
     return wrap

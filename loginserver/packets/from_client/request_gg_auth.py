@@ -26,7 +26,11 @@ class RequestGGAuth(LoginClientPacket):
     @verify_checksum
     def parse(cls, data, client):
         data = data[1:]
-        if client.session_id != Int32(data[0:4]):
+        if client.session_id != Int32.decode(data[0:4]):
             log.error("Session_id doesnt match")
-            return
-        return cls(data[0:4], data[4:8], data[8:12], data[12:16], data[16:20])
+            # return
+        return cls(Int32.decode(data[0:4]),
+                   Int32.decode(data[4:8]),
+                   Int32.decode(data[8:12]),
+                   Int32.decode(data[12:16]),
+                   Int32.decode(data[16:20]))

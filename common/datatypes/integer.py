@@ -18,17 +18,21 @@ class Int:
         elif isinstance(value, DataType):
             super(self.ctype, self).__init__(value.data)
         elif isinstance(value, list):
-            super(self.ctype, self).__init__(int.from_bytes(bytes(ByteArray(value)), "big"))
+            super(self.ctype, self).__init__(int.from_bytes(bytes(ByteArray(value)), "little"))
         else:
             super(self.ctype, self).__init__(int(value))
 
     def encode(self):
         from common.helpers.bytearray import ByteArray
-        return ByteArray(self.value.to_bytes(self.length, "big", signed=self.signed))
+        return ByteArray(self.value.to_bytes(self.length, "little", signed=self.signed))
 
     @classmethod
     def decode(cls, data):
-        return cls(struct.unpack(f"<{cls.struct_format}", data)[0])
+        from common.helpers.bytearray import ByteArray
+
+        if isinstance(data, list):
+            data = bytes(ByteArray(data))
+        return cls(int.from_bytes(data, "little", signed=cls.signed))
 
     @classmethod
     def new(cls, value):
