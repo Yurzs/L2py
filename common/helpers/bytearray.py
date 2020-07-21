@@ -3,6 +3,7 @@ import struct
 from collections import UserList
 
 from common.datatypes import Int8
+import os
 
 
 def to_bytearray_deco(func):
@@ -79,3 +80,7 @@ class ByteArray(UserList):
     def append(self, item) -> None:
         array = item.encode()
         self.data = self.data + array.data
+
+    @classmethod
+    def random(cls, length):
+        return cls(os.urandom(length))

@@ -138,6 +138,9 @@ class Int:
     def __iter__(self):
         return iter(self.encode().data)
 
+    def __hash__(self):
+        return hash(self.value)
+
 
 class UInt(Int):
     length = 4

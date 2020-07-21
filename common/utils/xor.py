@@ -35,30 +35,59 @@ def xor_encrypt_login(func):
 
 def xor_encrypt_game(func):
     def xor(data, key):
-        temp = Int8(0)
+        temp = Int32(0)
 
         for i in range(len(data)):
-            temp2 = Int8(data[i] & 0xff)
-            data[i] = Int8(temp2 ^ (key[i & 15] & 0xff) ^ temp)
+            temp2 = Int32(data[i] & 0xff)
+            data[i] = Int8(temp2 ^ key[i & 15] ^ temp)
             temp = data[i]
 
-        old = key[8] & 0xff
-        old |= (key[9] << 0x08) & 0xff00
-        old |= (key[10] << 0x10) & 0xff0000
-        old |= (key[11] << 0x18) & 0xff000000
+        old = Int32(key[8] & 0xff)
+        old |= Int32(key[9] << 0x08) & 0xff00
+        old |= Int32(key[10] << 0x10) & 0xff0000
+        old |= Int32(key[11] << 0x18) & 0xff000000
 
-        old += len(data)
+        old += Int32(len(data))
 
-        key[8] = old & 0xff
-        key[9] = (old >> 0x08) & 0xff
-        key[10] = (old >> 0x10) & 0xff
-        key[11] = (old >> 0x18) & 0xff
+        key[8:12] = old
 
         return data
 
     def wrap(packet, client, *args, **kwargs):
-        return xor(func(packet, client, *args, **kwargs), client.xor_key.encrypt_key)
+        if client.encryption_enabled:
+            return xor(func(packet, client, *args, **kwargs), client.xor_key.outgoing_key)
+        else:
+            return func(packet, client, *args, **kwargs)
 
+    return wrap
+
+
+def xor_decrypt_game(func):
+    def dexor(data, key):
+        print(f"before decrypt {data.data}, key {key}")
+        temp1 = Int32(0)
+        for i in range(len(data)):
+            temp2 = Int32(data[i]) & 0xff
+            data[i] = Int8(temp2 ^ key[i & 15] ^ temp1)
+            temp1 = temp2
+
+        old = (Int32(key[8]) & 0xff)
+        old |= (Int32(key[9]) << 0x08) & 0xff00
+        old |= (Int32(key[10]) << 0x10) & 0xff0000
+        old |= (Int32(key[11]) << 0x18) & 0xff000000
+
+        old += Int32(len(data))
+
+        key[8:12] = old
+        print(f"after decrypt {data.data}")
+        return data
+
+    def wrap(packet_cls, data, client, *args, **kwargs):
+        if client.encryption_enabled:
+            decrypted = dexor(data, client.xor_key.incoming_key)
+            return func(packet_cls, decrypted, client, *args, **kwargs)
+        else:
+            return func(packet_cls, data, client, *args, **kwargs)
     return wrap
 
 

@@ -12,3 +12,6 @@ class PacketTransport:
         # result.reverse()
         print(f"Sending {result.data}")
         return self._transport.write(bytes(result))
+
+    def close(self):
+        return self._transport.close()

@@ -16,3 +16,6 @@ class LoginClient:
         self.session_key = SessionKey()
         self.xor_key = LoginXorKey()
         self.protocol_version = 50721
+        self.blowfish_key.decode = True
+        self.blowfish_enabled = True
+        self.encryption_enabled = True

@@ -6,8 +6,7 @@ from common.utils.blowfish import blowfish_encrypt
 class GameServerPacket(Packet):
 
     @add_length
-    @blowfish_encrypt()
     @xor_encrypt_game
-    @add_padding()
+    # @add_padding()
     def encode(self, client):
         return self.body

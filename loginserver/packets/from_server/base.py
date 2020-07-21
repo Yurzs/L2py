@@ -1,5 +1,6 @@
-from common.packet import Packet, add_checksum, add_length, add_padding
+from common.packet import Packet, add_length, add_padding
 from common.utils.blowfish import blowfish_encrypt
+from common.utils.checksum import add_checksum
 
 
 class LoginServerPacket(Packet):
