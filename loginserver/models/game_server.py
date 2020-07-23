@@ -36,3 +36,22 @@ class GameServer(Document):
     @property
     def is_online(self):
         return bool(self._document_.get("is_online", False))
+
+    @classmethod
+    async def create(cls, **kwargs) -> "Document":
+
+        query = {
+            "id": kwargs["id"],
+            "ip": kwargs["ip"],
+            "port": kwargs["port"],
+            "age_limit": kwargs.get("age_limit", 0),
+            "is_pvp": kwargs.get("is_pvp", False),
+            "online": 0,
+            "max_online": 500,
+            "is_online": False,
+            "server_type": kwargs.get("server_type", 1),
+            "public": kwargs.get("public", True),
+            "brackets": kwargs.get("brackets", False)
+        }
+
+        return await super().create(**query)
