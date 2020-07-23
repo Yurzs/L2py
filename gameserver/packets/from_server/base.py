@@ -1,6 +1,5 @@
-from common.packet import Packet, add_padding, add_length
+from common.packet import add_length, Packet
 from common.utils.xor import xor_encrypt_game
-from common.utils.blowfish import blowfish_encrypt
 
 
 class GameServerPacket(Packet):
@@ -10,3 +9,7 @@ class GameServerPacket(Packet):
     # @add_padding()
     def encode(self, client):
         return self.body
+
+    @classmethod
+    def parse(cls, data, client):
+        pass

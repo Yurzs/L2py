@@ -8,3 +8,11 @@ class Any(State):
 
 class Connected(State):
     pass
+
+
+class WaitingAuthentication(State):
+    pass
+
+
+class WaitingCharacterSelect(State):
+    pass

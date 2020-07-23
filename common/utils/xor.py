@@ -1,6 +1,6 @@
 import functools
 
-from common.datatypes.integer import Int32, Int8, UInt32
+from common.datatypes.integer import Int32, Int8
 from common.helpers.bytearray import ByteArray
 
 
@@ -55,16 +55,15 @@ def xor_encrypt_game(func):
 
     def wrap(packet, client, *args, **kwargs):
         if client.encryption_enabled:
-            return xor(func(packet, client, *args, **kwargs), client.xor_key.outgoing_key)
+            result = xor(func(packet, client, *args, **kwargs), client.xor_key.outgoing_key)
         else:
-            return func(packet, client, *args, **kwargs)
-
+            result = func(packet, client, *args, **kwargs)
+        return result
     return wrap
 
 
 def xor_decrypt_game(func):
     def dexor(data, key):
-        print(f"before decrypt {data.data}, key {key}")
         temp1 = Int32(0)
         for i in range(len(data)):
             temp2 = Int32(data[i]) & 0xff
@@ -79,7 +78,6 @@ def xor_decrypt_game(func):
         old += Int32(len(data))
 
         key[8:12] = old
-        print(f"after decrypt {data.data}")
         return data
 
     def wrap(packet_cls, data, client, *args, **kwargs):

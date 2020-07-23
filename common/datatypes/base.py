@@ -21,3 +21,9 @@ class DataType(metaclass=ABCMeta):
 
     def __repr__(self):
         return str(self.value)
+
+    def __eq__(self, other):
+        return self.value == other
+
+    def __hash__(self):
+        return hash(self.value)

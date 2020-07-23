@@ -1,21 +1,29 @@
-from common.utils.xor import xor_encrypt_login, xor_decrypt_login
-import pytest
-from loginserver.client import LoginClient
-from common.helpers.bytearray import ByteArray
 import copy
+
+import pytest
+
+from common.helpers.bytearray import ByteArray
 from common.keys.xor import LoginXorKey
+from common.utils.xor import xor_decrypt_game, xor_decrypt_login, xor_encrypt_login
+from gameserver.client import GameClient
+from loginserver.client import LoginClient
 
 
 @pytest.fixture()
-def client():
+def login_client():
     return LoginClient(None)
+
+
+@pytest.fixture()
+def game_client():
+    return GameClient(None)
 
 
 @pytest.mark.parametrize("data", [
     ByteArray(b"\x00\xFA\xFB\x00\xFA\xFB\x00\xFA\xFB\x00\xFA\xFB\x00\x00\x00\x00"
               b"\x00\xFA\xFB\x00\xFA\xFB\x00\xFA\x00\x00\x00\x00\x00\x00\x00\x00")
 ])
-def test_xor_encrypt_decrypt(client, data):
+def test_xor_encrypt_decrypt(login_client, data):
 
     @xor_encrypt_login
     def encrypt(packet, client, *args, **kwargs):
@@ -26,9 +34,7 @@ def test_xor_encrypt_decrypt(client, data):
         return _data
 
     data2 = copy.deepcopy(data)
-
-    result = encrypt(None, client)
-
+    result = encrypt(None, login_client)
     assert decrypt(None, result).data[:-8] == data2.data[:-8]
 
 
@@ -39,7 +45,7 @@ def test_xor_encrypt_decrypt(client, data):
         12345
     )
 ])
-def test_xor_encrypt(client, data, result, key):
+def test_xor_encrypt_login(login_client, data, result, key):
 
     data = ByteArray(bytes.fromhex(data))
     result = ByteArray(bytes.fromhex(result))
@@ -48,6 +54,32 @@ def test_xor_encrypt(client, data, result, key):
     def _xor_encrypt(_data, _client):
         return _data
 
-    client.xor_key = LoginXorKey(key)
-    _result = _xor_encrypt(data, client)
-    assert bytes(_result).hex() == bytes(result).hex()
+    login_client.xor_key = LoginXorKey(key)
+    _result = _xor_encrypt(data, login_client)
+    assert _result == result
+
+
+@pytest.mark.parametrize(["data", "result", "key"], [
+    (
+            "A281CA723FF41B65ADE47776D784A080D54DD826651092AC998AF9177E1322B51F",
+            "08610064006D0069FA8549B54A9C5FF2FFDADE220ED36D2907DFA95A82A24A4500",
+            "aa424bdc4da6ef1732ccdab4ebcf7bd2"
+    ),
+    (
+            "A281CA723FF41B65ADE47776D784A080D54DD826651092AC998AF9177E1322B51F",
+            "A2234BB84DCBEF7EC8499301A1532420559895FE4375823E351373EE696D3197AA",
+            "00000000000000000000000000000000"
+    )
+])
+def test_xor_decrypt_game(game_client, data, result, key):
+    data = ByteArray(bytes.fromhex(data))
+    result = ByteArray(bytes.fromhex(result))
+    key = ByteArray(bytes.fromhex(key))
+
+    @xor_decrypt_game
+    def _xor_decrypt_game(packet_cls, _data, _client, *args, **kwargs):
+        return _data
+
+    game_client.xor_key.incoming_key = key
+    game_client.encryption_enabled = True
+    assert _xor_decrypt_game(None, data, game_client) == result

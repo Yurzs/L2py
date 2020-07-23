@@ -1,5 +1,5 @@
+from common.datatypes import Int32, Int8, String
 from .base import GameClientPacket
-from common.datatypes import Int8, String, Int32
 
 
 class RequestAuthLogin(GameClientPacket):
@@ -15,8 +15,8 @@ class RequestAuthLogin(GameClientPacket):
     @classmethod
     def parse(cls, data, client):
         login, pos = String.read(data, 1)
-        play_ok1 = data[pos:pos + 4]
-        play_ok2 = data[pos + 4:pos + 8]
+        play_ok2 = data[pos:pos + 4]
+        play_ok1 = data[pos + 4:pos + 8]
         login_ok1 = data[pos + 8:pos + 12]
         login_ok2 = data[pos + 12:pos + 16]
         return cls(login, play_ok1, play_ok2, login_ok1, login_ok2)

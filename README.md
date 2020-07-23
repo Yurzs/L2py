@@ -13,7 +13,9 @@ What currently works
 Contribute
 ----------
 
-Feel free to contribute. Jira/Trello coming soon.
+Feel free to contribute.
+
+[Trello]: https://trello.com/b/DjgolGFw/l2py 
 
 How to start developing
 -----------------------

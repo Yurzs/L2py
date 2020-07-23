@@ -1,9 +1,9 @@
 import functools
+import os
 import struct
 from collections import UserList
 
 from common.datatypes import Int8
-import os
 
 
 def to_bytearray_deco(func):
@@ -24,8 +24,11 @@ class ByteArray(UserList):
 
     def __init__(self, iterable: bytes):
         self.data = []
-        for value in iterable:
-            self.data.append(Int8(value))
+        if isinstance(iterable, ByteArray):
+            self.data = iterable.data
+        else:
+            for value in iterable:
+                self.data.append(Int8(value))
 
     def __setitem__(self, key, value):
         try:
@@ -84,3 +87,13 @@ class ByteArray(UserList):
     @classmethod
     def random(cls, length):
         return cls(os.urandom(length))
+
+    def __hex__(self):
+        return bytes(self.data).hex()
+
+    def hex(self):
+        return bytes(self).hex()
+
+    @classmethod
+    def from_hex(cls, hex_data):
+        return cls(bytes.fromhex(hex_data))

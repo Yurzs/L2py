@@ -24,3 +24,11 @@ class SessionKey:
         if self.login_ok1 == login_ok1 and self.login_ok2 == login_ok2:
             return True
         return False
+
+    def to_dict(self):
+        return {
+            "login_ok1": self.login_ok1,
+            "login_ok2": self.login_ok2,
+            "play_ok1": self.play_ok1,
+            "play_ok2": self.play_ok2
+        }

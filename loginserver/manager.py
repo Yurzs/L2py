@@ -1,9 +1,13 @@
 from mdocument import DocumentDoesntExist
 
 from common.manager import PacketManager
-from loginserver.models import Account, GameServer
+from common.models import Account
+from loginserver.config import auto_registration
+from loginserver.models import GameServer
+from loginserver.session_storage import session_storage
 from .packets.from_server import GGAuth, LoginFail, LoginOk, PlayFail, PlayOk, ServerList
-from .state import Authenticated, Connected, GGAuthenticated, WaitingGameServerSelect, GameServerSelected
+from .state import Authenticated, Connected, GameServerSelected, GGAuthenticated, \
+    WaitingGameServerSelect
 
 
 class LoginServerPacketManager(PacketManager):
@@ -13,10 +17,6 @@ class LoginServerPacketManager(PacketManager):
         if not packet:
             return client.protocol.transport._transport.close()
         if isinstance(client.state, Connected):
-            if client.session_id != packet.session_id:
-                print("WTF WRONG SESSION ID!")
-            else:
-                print(f"SESSION_LOCAL {client.session_id}, SESSION_PACKET {packet.session_id}")
             reply = GGAuth()
             client.state = GGAuthenticated()
             return reply
@@ -33,7 +33,13 @@ class LoginServerPacketManager(PacketManager):
                 else:
                     reply = LoginFail(LoginFail.REASON.ACCESS_DENIED)
             except DocumentDoesntExist:
-                reply = LoginFail(LoginFail.REASON.WRONG_LOGIN_OR_PASSWORD)
+                if auto_registration:
+                    account = await Account.create(packet.login.value, packet.password.value)
+                    reply = LoginOk(client.session_key.login_ok1, client.session_key.login_ok2)
+                    client.state = Authenticated()
+                    client.account = account
+                else:
+                    reply = LoginFail(LoginFail.REASON.WRONG_LOGIN_OR_PASSWORD)
             return reply
         elif isinstance(client.state, Authenticated):
             if client.session_key.verify_login(packet.login_ok1, packet.login_ok2):
@@ -43,9 +49,9 @@ class LoginServerPacketManager(PacketManager):
                     client.state = WaitingGameServerSelect()
                 except DocumentDoesntExist:
                     client.state = WaitingGameServerSelect()
-                    reply = ServerList([])
+                    reply = ServerList()
             else:
-                reply = ServerList([])
+                reply = ServerList()
             return reply
         elif isinstance(client.state, WaitingGameServerSelect):
             if client.session_key.verify_login(packet.login_ok1, packet.login_ok2):
@@ -55,6 +61,7 @@ class LoginServerPacketManager(PacketManager):
                     reply = PlayOk(client.session_key.play_ok1, client.session_key.play_ok2)
                     client.state = GameServerSelected()
                     await client.account.push_update()
+                    session_storage[client.account.login] = client.session_key.to_dict()
                 except DocumentDoesntExist:
                     reply = PlayFail(PlayFail.REASON.ACCESS_DENIED)
             else:

@@ -1,4 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 
-database = "l2py"
+# Database connection
+database_name = "l2py"
 database_client = AsyncIOMotorClient()

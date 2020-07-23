@@ -12,8 +12,8 @@ from .base import LoginServerPacket
 class ServerList(LoginServerPacket):
     type = Int8(4)
 
-    def __init__(self, servers_list: typing.List[GameServer]):
-        self.servers = servers_list
+    def __init__(self, servers_list: typing.List[GameServer] = None):
+        self.servers = servers_list if servers_list is not None else []
 
     @add_length
     @blowfish_encrypt()
