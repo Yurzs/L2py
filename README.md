@@ -13,9 +13,7 @@ What currently works
 Contribute
 ----------
 
-Feel free to contribute.
-
-[Trello]: https://trello.com/b/DjgolGFw/l2py 
+Feel free to contribute. [Trello desk](https://trello.com/b/DjgolGFw/l2py)
 
 How to start developing
 -----------------------
