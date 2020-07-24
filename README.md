@@ -23,9 +23,9 @@ How to start developing
 - Start runner with env variable MONGO_URI
 - Login using l2 client
 
-Notice
-------
+Emulator servers architecture
+----------------
 
-This project won't include any DMCA protected data (no datapacks) and will focus only on
-networking and core mechanics of any MMORPG game.
-Please do not create pull requests with such content.
+Each server have a JSON api via which they communicate. 
+Game and login servers are just network wrappers of L2 world.  
+All events hapen in data server. Such architecture will allow load balancing between LS and GS instances.
