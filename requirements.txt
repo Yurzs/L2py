@@ -1,0 +1,5 @@
+git+https://l2py@bitbucket.org/l2py/l2py-server-common.git
+aiojson
+M2Crypto
+PyCryptodomex
+blowfish
