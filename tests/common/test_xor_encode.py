@@ -3,8 +3,9 @@ import copy
 import pytest
 
 from common.helpers.bytearray import ByteArray
-from common.keys.xor import LoginXorKey
-from common.utils.xor import xor_decrypt_game, xor_decrypt_login, xor_encrypt_login
+from loginserver.keys.xor import LoginXorKey
+from gameserver.crypt.xor import xor_decrypt_game
+from loginserver.crypt.xor import xor_encrypt_login, xor_decrypt_login
 from gameserver.client import GameClient
 from loginserver.client import LoginClient
 

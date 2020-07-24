@@ -3,8 +3,8 @@ from M2Crypto import RSA
 from common.datatypes import Int8, String
 from common.helpers.bytearray import ByteArray
 from loginserver.packets.from_client.base import LoginClientPacket, add_padding, add_length
-from common.utils.checksum import verify_checksum, add_checksum
-from common.utils.blowfish import blowfish_encrypt
+from loginserver.checksum import add_checksum, verify_checksum
+from loginserver.crypt.blowfish import blowfish_encrypt
 
 
 class RequestAuthLogin(LoginClientPacket):

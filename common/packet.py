@@ -3,7 +3,6 @@ from collections import OrderedDict
 
 from common.datatypes import Int16, Int8
 from common.helpers.bytearray import ByteArray
-from common.utils.blowfish import blowfish_decrypt
 from abc import ABCMeta, abstractmethod
 
 
@@ -65,12 +64,9 @@ class Packet(metaclass=MetaPacket):
         pass
 
     @classmethod
-    @blowfish_decrypt
+    @abstractmethod
     def decode(cls, data, client, **kwargs):
-        packet_type = data[0]
-        packet_cls = cls.mapper.get(packet_type)
-        if packet_cls:
-            return packet_cls.parse(data, client)
+        pass
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.__dict__})"

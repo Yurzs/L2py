@@ -2,7 +2,7 @@ import logging
 
 from common.datatypes.integer import Int32, Int8, Int64
 from .base import LoginClientPacket
-from common.utils.checksum import verify_checksum
+from loginserver.checksum import verify_checksum
 
 log = logging.getLogger("loginserver." + __name__)
 

@@ -1,7 +1,7 @@
 from common.datatypes import Int32, Int8
 from common.packet import add_length, add_padding
-from common.utils.blowfish import blowfish_encrypt
-from common.utils.checksum import verify_checksum
+from loginserver.crypt.blowfish import blowfish_encrypt
+from loginserver.checksum import verify_checksum
 from .base import LoginServerPacket
 
 

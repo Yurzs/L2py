@@ -3,8 +3,8 @@ import typing
 from common.datatypes import Int16, Int32, Int8
 from common.helpers.bytearray import ByteArray
 from common.packet import add_length, add_padding
-from common.utils.blowfish import blowfish_encrypt
-from common.utils.checksum import add_checksum
+from loginserver.crypt.blowfish import blowfish_encrypt
+from loginserver.checksum import add_checksum
 from loginserver.models.game_server import GameServer
 from .base import LoginServerPacket
 

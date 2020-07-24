@@ -1,6 +1,5 @@
 from common.packet import Packet
-from common.utils.xor import xor_encrypt_game
-from common.utils.xor import xor_decrypt_game
+from gameserver.crypt.xor import xor_decrypt_game
 
 
 class GameClientPacket(Packet):
@@ -13,4 +12,7 @@ class GameClientPacket(Packet):
     @classmethod
     @xor_decrypt_game
     def decode(cls, data, client, **kwargs):
-        return super().decode(data, client)
+        packet_type = data[0]
+        packet_cls = cls.mapper.get(packet_type)
+        if packet_cls:
+            return packet_cls.parse(data, client)

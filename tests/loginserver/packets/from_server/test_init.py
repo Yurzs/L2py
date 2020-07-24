@@ -2,12 +2,12 @@ import os
 os.environ["MONGO_URI"] = "localhost"
 
 from loginserver.packets.from_server.base import LoginServerPacket
-from common.utils.xor import xor_encrypt_login, xor_decrypt_login
+from loginserver.crypt.xor import xor_encrypt_login, xor_decrypt_login
 import pytest
 from loginserver.client import LoginClient
 from common.helpers.bytearray import ByteArray
 import copy
-from common.keys.xor import LoginXorKey
+from loginserver.keys.xor import LoginXorKey
 from loginserver.packets.from_server import Init
 
 

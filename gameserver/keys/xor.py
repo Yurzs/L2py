@@ -1,7 +1,7 @@
 import copy
 import os
 
-from common.datatypes import Int32, Int8
+from common.datatypes import Int8
 from common.helpers.bytearray import ByteArray
 
 
@@ -23,11 +23,3 @@ class GameXorKey:
         key.append(Int8(0x31))
         key.append(Int8(0x97))
         return key
-
-
-class LoginXorKey:
-    def __init__(self, key=None):
-        self.key = Int32.random() if not key else Int32(key)
-
-    def __repr__(self):
-        return str(self.key)

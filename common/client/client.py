@@ -4,11 +4,12 @@ import aiohttp
 class ApiClient:
     path: str
 
-    def __init__(self, server_ip):
+    def __init__(self, server_ip, server_port):
         self.server_ip = server_ip
+        self.server_port = server_port
 
     def _format_path(self, endpoint):
-        return f"http://{self.server_ip}:2107/{self.path}/{endpoint}"
+        return f"http://{self.server_ip}:{self.server_port}/{self.path}/{endpoint}"
 
     async def _make_request(self, endpoint, json_data=None):
         url = self._format_path(endpoint)

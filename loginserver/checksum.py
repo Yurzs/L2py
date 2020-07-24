@@ -1,9 +1,8 @@
 import functools
 import logging
 
-from common.datatypes import Int32, Int8, Int64
+from common.datatypes import Int32
 from common.helpers.bytearray import ByteArray
-
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 

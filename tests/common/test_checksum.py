@@ -2,7 +2,7 @@ import pytest
 import os
 
 from common.helpers.bytearray import ByteArray
-from common.utils.checksum import add_checksum, verify_checksum
+from loginserver.checksum import add_checksum, verify_checksum
 
 
 @pytest.mark.parametrize(["data", "result"], [

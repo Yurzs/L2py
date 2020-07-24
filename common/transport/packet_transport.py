@@ -9,8 +9,6 @@ class PacketTransport:
 
     def write(self, packet: Packet):
         result = packet.encode(self.client)
-        # result.reverse()
-        print(f"Sending {result.data}")
         return self._transport.write(bytes(result))
 
     def close(self):

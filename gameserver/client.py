@@ -1,5 +1,5 @@
-from common.keys.xor import GameXorKey
-from common.keys.blowfish import BlowfishKey
+from gameserver.keys.xor import GameXorKey
+from loginserver.keys.blowfish import BlowfishKey
 from gameserver.state import Connected
 
 

@@ -1,8 +1,8 @@
 from common.datatypes import Int32
-from common.keys.blowfish import BlowfishKey
-from common.keys.rsa import L2RsaKey
-from common.keys.xor import LoginXorKey
-from common.keys.session import SessionKey
+from loginserver.keys.blowfish import BlowfishKey
+from loginserver.keys.rsa import L2RsaKey
+from loginserver.keys.xor import LoginXorKey
+from loginserver.keys.session import SessionKey
 from .state import Connected
 
 

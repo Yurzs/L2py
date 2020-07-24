@@ -9,8 +9,9 @@ mongo_client = AsyncIOMotorClient(os.environ["MONGO_URI"])
 database_name = "L2pyGame"
 
 # Login server info
-login_server_ip = "127.0.0.1"
-
+login_server_api_ip = "127.0.0.1"
+login_server_api_port = 2107
 
 # Datapack server info
-data_server_ip = "127.0.0.1"
+data_server_api_ip = "127.0.0.1"
+data_server_api_port = 2108

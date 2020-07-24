@@ -1,7 +1,8 @@
 import functools
 import logging
 
-LOG = logging.getLogger(f"l2py.{__name__}")
+
+LOG = logging.getLogger(f"L2py.{__name__}")
 
 
 def blowfish_encrypt(init=False):

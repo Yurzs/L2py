@@ -1,5 +1,5 @@
 from common.packet import add_length, Packet
-from common.utils.xor import xor_encrypt_game
+from gameserver.crypt.xor import xor_encrypt_game
 
 
 class GameServerPacket(Packet):
@@ -12,4 +12,8 @@ class GameServerPacket(Packet):
 
     @classmethod
     def parse(cls, data, client):
+        pass
+
+    @classmethod
+    def decode(cls, data, client, **kwargs):
         pass

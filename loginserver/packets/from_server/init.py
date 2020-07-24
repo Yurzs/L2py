@@ -1,11 +1,11 @@
 from common.datatypes import Bytes, Int32, Int8
 from common.packet import add_length, add_padding
-from common.utils.blowfish import blowfish_encrypt
-from common.utils.xor import xor_encrypt_login, xor_decrypt_login
+from loginserver.crypt.blowfish import blowfish_encrypt
+from loginserver.crypt.xor import xor_encrypt_login, xor_decrypt_login
 from loginserver.packets.from_server.base import LoginServerPacket
-from common.keys.rsa import L2RsaKey
-from common.keys.blowfish import BlowfishKey
-from common.keys.xor import LoginXorKey
+from loginserver.keys.rsa import L2RsaKey
+from loginserver.keys.blowfish import BlowfishKey
+from loginserver.keys.xor import LoginXorKey
 from common.helpers.bytearray import ByteArray
 
 

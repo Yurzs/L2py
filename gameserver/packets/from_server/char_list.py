@@ -3,7 +3,7 @@ import typing
 from common.datatypes import Int32, Int8
 from common.helpers.bytearray import ByteArray
 from common.packet import add_length
-from common.utils.xor import xor_encrypt_game
+from gameserver.crypt.xor import xor_encrypt_game
 from gameserver.models import Character
 from .base import GameServerPacket
 
