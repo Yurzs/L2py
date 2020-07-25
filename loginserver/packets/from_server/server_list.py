@@ -22,7 +22,7 @@ class ServerList(LoginServerPacket):
     def encode(self, client):
         arr = ByteArray(self.type.encode())
         arr.append(Int8(len(self.servers)))
-        arr.append(Int8(client.account.latest_server))
+        arr.append(Int8(client.account["latest_server"]))
         for server in self.servers:
             arr.extend(Int8(server.id))
             arr.append(Int8(server.ip[0]))
