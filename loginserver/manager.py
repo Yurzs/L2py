@@ -6,7 +6,6 @@ from common.manager import PacketManager
 from mdocument import DocumentDoesntExist
 
 from loginserver.config import data_server_connection_info
-from loginserver.models import GameServer
 from loginserver.session_storage import session_storage
 from .packets.from_server import GGAuth, LoginFail, LoginOk, PlayFail, PlayOk, ServerList
 from .state import Authenticated, Connected, GameServerSelected, GGAuthenticated, \
@@ -45,7 +44,7 @@ class LoginServerPacketManager(PacketManager):
         elif isinstance(client.state, Authenticated):
             if client.session_key.verify_login(packet.login_ok1, packet.login_ok2):
                 try:
-                    game_servers = await GameServer.many(public=True)
+                    game_servers = await self.data_client.get_server_list()
                     reply = ServerList(game_servers)
                     client.state = WaitingGameServerSelect()
                 except DocumentDoesntExist:
@@ -57,15 +56,14 @@ class LoginServerPacketManager(PacketManager):
         elif isinstance(client.state, WaitingGameServerSelect):
             if client.session_key.verify_login(packet.login_ok1, packet.login_ok2):
                 try:
-                    gs = await GameServer.one(id=packet.server_id.value)
+                    gs = await self.data_client.get_server(packet.server_id.value)
                     await self.data_client.set_account_latest_server(client.account["login"],
-                                                                     gs.id)
+                                                                     gs["id"])
                     reply = PlayOk(client.session_key.play_ok1, client.session_key.play_ok2)
                     client.state = GameServerSelected()
                     session_storage[client.account["login"]] = client.session_key.to_dict()
-                except DocumentDoesntExist:
-                    reply = PlayFail(PlayFail.REASON.ACCESS_DENIED)
                 except ApiException as e:
+                    reply = PlayFail(PlayFail.REASON.ACCESS_DENIED)
                     LOG.exception(e.message)
             else:
                 reply = PlayFail(PlayFail.REASON.ACCESS_DENIED)
