@@ -6,6 +6,7 @@ def read_requirements():
     with open("requirements.txt") as requirements:
         for module in requirements.readlines():
             req.append(module.strip())
+    return req
 
 
 setup(name="l2py-server-login",
