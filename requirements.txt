@@ -1,7 +1,8 @@
-l2py-server-common @ git+https://l2py@bitbucket.org/l2py/l2py-server-common.git
-aiojson
-M2Crypto
+M2Crypto~=0.38.0
 PyCryptodomex
-blowfish
-motor
-mdocument
+blowfish~=0.6.1
+motor~=2.5.1
+
+aiojsonapi~=0.3.1617411765
+aiohttp~=3.7.4.post0
+setuptools~=49.2.1
