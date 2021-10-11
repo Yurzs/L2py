@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo
+  data:
+    build:
+      dockerfile: Dockerfile
+      context: data
+    environment:
+      MONGO_URI: mongo
+
+  login:
+    build:
+      dockerfile: Dockerfile
+      context: login
+    environment:
+      DATA_SERVER_HOST: data
+
+  game:
+    build:
+      dockerfile: Dockerfile
+      context: game
+    environment:
+      DATA_SERVER_HOST: data
+      LOGIN_SERVER_API_HOST: login

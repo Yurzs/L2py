@@ -2,3 +2,5 @@
 *.pyo
 *.pyi
 *pycache*
+
+.idea
