@@ -19,4 +19,5 @@ cache = StaticDataCache(lambda key: getattr(structures, key).read_file())
 @routes.post("/api/static_data")
 @JsonTemplate({"classname": str, "__required__": ["classname"]})
 async def static_data(request, validated_data):
+    print()
     return cache[validated_data["classname"]]

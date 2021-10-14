@@ -30,7 +30,6 @@ class MongoAdapter(DataAdapter):
         kwargs = query["kwargs"]
         action_name = query["action"]
 
-        print(query)
         result = getattr(self.collection(database_name, collection_name), action_name)(
             *args, **kwargs
         )

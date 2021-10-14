@@ -1,10 +1,14 @@
 import functools
+import logging
 
 from common.helpers.bytearray import ByteArray
 from common.request import Request
 from common.response import Response
 
 _HANDLERS = {}
+
+
+LOG = logging.getLogger(f"l2py.{__name__}")
 
 
 def parse_data(template, f):
@@ -42,7 +46,7 @@ def l2_request_handler(action, template, states="*"):
 
 async def handle_request(request):
     action_id, request.data = request.data[0], ByteArray(request.data[1:])
-    print(action_id)
+    LOG.debug("Looking for action with ID %s", action_id)
     if action_id in _HANDLERS:
         params = _HANDLERS[action_id]
         if params["states"] == "*" or request.session.state in params["states"]:

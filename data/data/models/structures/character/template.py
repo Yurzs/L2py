@@ -13,31 +13,34 @@ from data.models.structures.object.point3d import Point3D
 
 
 @dataclass
-class LevelUpIncrease:
-    base: common.datatypes.Float = 1
-    add: common.datatypes.Float = 1
-    mod: common.datatypes.Float = 1
+class LevelUpIncrease(BaseDataclass):
+    base: common.datatypes.Float
+    add: common.datatypes.Float
+    mod: common.datatypes.Float
 
 
-# LevelUpIncrease.update_forward_refs()
-
-
-@dataclass
-class LevelUpGain:
-    level: common.datatypes.Int32 = 1
-    hp: LevelUpIncrease = LevelUpIncrease()
-    cp: LevelUpIncrease = LevelUpIncrease()
-    mp: LevelUpIncrease = LevelUpIncrease()
-
-
-# LevelUpGain.update_forward_refs()
+LevelUpIncrease.update_forward_refs()
 
 
 @dataclass
-class ClassInfo:
-    id: common.datatypes.Int8 = 1
-    name: common.datatypes.UTFString = "Human Fighter"
-    base_level: common.datatypes.Int32 = 1
+class LevelUpGain(BaseDataclass):
+    level: common.datatypes.Int32
+    hp: LevelUpIncrease
+    cp: LevelUpIncrease
+    mp: LevelUpIncrease
+
+
+LevelUpGain.update_forward_refs()
+
+
+@dataclass
+class ClassInfo(BaseDataclass):
+    id: common.datatypes.Int8
+    name: common.datatypes.UTFString
+    base_level: common.datatypes.Int32
+
+
+ClassInfo.update_forward_refs()
 
 
 @dataclass

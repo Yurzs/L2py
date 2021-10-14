@@ -48,5 +48,5 @@ class Stats(BaseDataclass):
     resists: Resists = Resists()
     exp: common.datatypes.Int64 = field(default=0)
     sp: common.datatypes.Int32 = field(default=0)
-    level: common.datatypes.Int32 = field(default=0)
+    level: common.datatypes.Int32 = field(default=1)
     evasion: common.datatypes.Int32 = 0

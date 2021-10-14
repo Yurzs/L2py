@@ -1,5 +1,9 @@
+import logging
+
 from common.request import Request
 from common.response import Response
+
+LOG = logging.getLogger(f"l2py.{__name__}")
 
 
 class PacketTransport:
@@ -21,7 +25,7 @@ class PacketTransport:
     def write(self, response: Response):
         for middleware in self.middleware[::-1]:
             middleware.after(self.session, response)
-        print(f"WRITE: {response.packet}")
+        LOG.debug(f"SENDING: %s", response.packet)
         return self._transport.write(bytes(response.data))
 
     def close(self):
