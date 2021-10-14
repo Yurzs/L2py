@@ -33,7 +33,7 @@ class UTFString(String):
         from common.helpers.bytearray import to_bytearray
 
         return to_bytearray(
-            self.value.encode("utf-16")
+            self.value.encode("utf-16-le")
             + int.to_bytes(0, 1, "little")
             + int.to_bytes(0, 1, "little")
         )

@@ -6,22 +6,29 @@ from hashlib import sha3_512
 import pymongo
 
 from common import datatypes
-from common.document import Document
+from common.document import Document, DocumentDefaults
 
 
 @dataclass
-class Account(Document):
-    __collection__: str = field(default="accounts", init=False, repr=False)
-    __database__: str = field(default="l2py", init=False, repr=False)
+class AccountDefaults(DocumentDefaults):
+    last_server: datatypes.Int8 = None
+    last_character: datatypes.Int32 = None
+    salt: datatypes.UTFString = None
+    email: datatypes.UTFString = None
 
-    _id: datatypes.String
+
+@dataclass
+class AccountBase:
+    id: datatypes.UTFString
     username: datatypes.UTFString
-    email: datatypes.UTFString
     password: datatypes.UTFString
-    salt: datatypes.UTFString
-    last_server: datatypes.Int8
-    last_character: datatypes.Int32
-    status: datatypes.Int8 = 1
+    status: datatypes.Int8
+
+
+@dataclass
+class Account(Document, AccountDefaults, AccountBase):
+    __collection__ = "accounts"
+    __database__ = "l2py"
 
     @classmethod
     async def one(cls, document_id=None, username=None, add_query=None):
@@ -44,9 +51,7 @@ class Account(Document):
         """
         salt = base64.b64encode(os.urandom(20)).decode()
         salted_password = password + salt
-        self.password = base64.b64encode(
-            sha3_512(salted_password.encode()).digest()
-        ).decode()
+        self.password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
         self.salt = salt
         await self.commit_changes(fields=["salt", "password"])
 
@@ -58,9 +63,7 @@ class Account(Document):
         """
 
         salted_password = password + self.salt
-        hashed_password = base64.b64encode(
-            sha3_512(salted_password.encode()).digest()
-        ).decode()
+        hashed_password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
         return self.password == hashed_password
 
     @classmethod

@@ -4,6 +4,7 @@ from abc import ABCMeta
 
 class DataType(metaclass=ABCMeta):
     struct_format: str
+    prefix = "!"
 
     def __init__(self, data):
         if isinstance(data, DataType):
@@ -14,7 +15,7 @@ class DataType(metaclass=ABCMeta):
     def encode(self):
         from common.helpers.bytearray import to_bytearray
 
-        return to_bytearray(struct.pack(f"!{self.struct_format}", self.value))
+        return to_bytearray(struct.pack(f"{self.prefix}{self.struct_format}", self.value))
 
     @classmethod
     def decode(cls, data):

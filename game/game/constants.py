@@ -2,9 +2,10 @@ import common.datatypes
 
 GAME_REQUEST_AUTH_LOGIN = common.datatypes.Int8(8)
 GAME_REQUEST_CHARACTER_CREATE = common.datatypes.Int8(11)
-GAME_REQUEST_CHARACTER_DELETE = None
+GAME_REQUEST_CHARACTER_DELETE = common.datatypes.Int8(12)
 GAME_REQUEST_NEW_CHARACTER = common.datatypes.Int8(14)
 GAME_REQUEST_PROTOCOL_VERSION = common.datatypes.Int8(0)
+GAME_REQUEST_CHARACTER_RESTORE = common.datatypes.Int8(98)
 
 GAME_AUTH_LOGIN_FAIL_DEFAULT = common.datatypes.Int8(0)
 GAME_AUTH_LOGIN_FAIL_SYSTEM_ERROR = common.datatypes.Int8(1)

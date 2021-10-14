@@ -8,9 +8,7 @@ from login.protocol import Lineage2LoginProtocol
 
 LOGIN_SERVER_APPLICATION = Application(
     [
-        HTTPServerModule(
-            "login_web", json_encoder=JsonEncoder, json_decoder=JsonDecoder
-        ),
+        HTTPServerModule("login_web", json_encoder=JsonEncoder, json_decoder=JsonDecoder),
         TCPServerModule(
             "login_tcp",
             Lineage2LoginProtocol,

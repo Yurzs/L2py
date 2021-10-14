@@ -7,9 +7,18 @@ from data.models.structures.object.position import Position
 
 
 @dataclass
-class L2Object(BaseDataclass):
+class L2ObjectBase:
     id: common.datatypes.Int32
+    name: common.datatypes.UTFString
+    position: Position
+
+
+@dataclass
+class L2ObjectDefaults:
     is_visible: common.datatypes.Bool = field(default=True)
-    name: common.datatypes.UTFString = field(default="")
     poly: ObjectPolymorph = field(default=ObjectPolymorph())
-    position: Position = field(default=Position())
+
+
+@dataclass
+class L2Object(BaseDataclass, L2ObjectDefaults, L2ObjectBase):
+    pass

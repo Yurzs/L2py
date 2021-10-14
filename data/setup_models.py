@@ -13,9 +13,7 @@ def read_requirements():
 
 setup(
     name="data",
-    packages=[
-        package for package in find_packages() if package.startswith("data.models")
-    ],
+    packages=[package for package in find_packages() if package.startswith("data.models")],
     install_requires=read_requirements(),
     zip_safe=False,
 )

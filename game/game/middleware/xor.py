@@ -10,9 +10,7 @@ class XORGameMiddleware(Middleware):
             temp1 = Int32(0)
             for i in range(0, len(request.data)):
                 temp2 = Int32(request.data[i]) & 0xFF
-                request.data[i] = Int8(
-                    temp2 ^ session.xor_key.incoming_key[i & 15] ^ temp1
-                )
+                request.data[i] = Int8(temp2 ^ session.xor_key.incoming_key[i & 15] ^ temp1)
                 temp1 = temp2
 
             old = Int32(session.xor_key.incoming_key[8]) & 0xFF
@@ -32,9 +30,7 @@ class XORGameMiddleware(Middleware):
 
             for i in range(0, len(response.data)):
                 temp2 = Int32(response.data[i] & 0xFF)
-                response.data[i] = Int8(
-                    temp2 ^ session.xor_key.outgoing_key[i & 15] ^ temp1
-                )
+                response.data[i] = Int8(temp2 ^ session.xor_key.outgoing_key[i & 15] ^ temp1)
                 temp1 = response.data[i]
 
             old = Int32(session.xor_key.outgoing_key[8]) & 0xFF

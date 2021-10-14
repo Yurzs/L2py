@@ -42,9 +42,7 @@ class BlowfishKey:
 
     def encrypt(self, data: ByteArray, static_key=False):
         if static_key:
-            encrypted = ByteArray(
-                b"".join(self.static_encoder.encrypt_ecb(bytes(data)))
-            )
+            encrypted = ByteArray(b"".join(self.static_encoder.encrypt_ecb(bytes(data))))
         else:
             encrypted = ByteArray(b"".join(self.encoder.encrypt_ecb(bytes(data))))
         return encrypted

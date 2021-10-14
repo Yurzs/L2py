@@ -2,8 +2,9 @@ import json
 from typing import Any
 
 import bson
+import pymongo.results
 
-from common.dataclass import _DATACLASS_MAP, BaseDataclass
+from common.dataclass import _DATACLASS_MAP, BaseDataclass, TypedList
 from common.datatypes import Int
 
 
@@ -17,6 +18,22 @@ class JsonEncoder(json.JSONEncoder):
             return int(o)
         elif isinstance(o, bson.ObjectId):
             return {"$oid": str(o)}
+        elif isinstance(o, TypedList):
+            return list(o)
+        elif isinstance(o, pymongo.results.InsertOneResult):
+            return {
+                "__insert_one_result__": {
+                    "inserted_id": o.inserted_id,
+                    "acknowledged": o.acknowledged,
+                }
+            }
+        elif isinstance(o, pymongo.results.UpdateResult):
+            return {
+                "__update_result__": {
+                    "raw_result": o.raw_result,
+                    "acknowledged": o.acknowledged,
+                }
+            }
         return super().default(o)
 
 
@@ -34,4 +51,8 @@ class JsonDecoder(json.JSONDecoder):
                 return _DATACLASS_MAP[data.pop("$model")](**data)
             elif "$oid" in data:
                 return bson.ObjectId(data["$oid"])
+            elif "__insert_one_result__" in data:
+                return pymongo.results.InsertOneResult(**data["__insert_one_result__"])
+            elif "__update_result__" in data:
+                return pymongo.results.UpdateResult(**data["__update_result__"])
         return data

@@ -2,10 +2,10 @@ from dataclasses import dataclass, field
 
 import common.datatypes
 from common.dataclass import BaseDataclass
-from data.models.structures.character.template import CharacterBaseTemplate
+from data.models.structures.character.template import CharacterTemplateBase
 
 
-class NpcTemplate(CharacterBaseTemplate):
+class NpcTemplate(CharacterTemplateBase):
     id: common.datatypes.Int32
     template_id: common.datatypes.Int32
     type: common.datatypes.UTFString

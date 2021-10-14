@@ -1,4 +1,5 @@
 import collections
+import copy
 import dataclasses
 import sys
 import typing
@@ -28,9 +29,11 @@ def post_init_inheritance(dataclass_instance):
 class TypedList(collections.UserList):
     def __init__(self, items_type, iterable=()):
         self.items_type = items_type
-        for item in iterable:
-            if not isinstance(item, self.items_type):
-                raise ValueError("Wrong item type.")
+        for item_n, item in enumerate(copy.copy(iterable)):
+            if isinstance(item, int) and issubclass(self.items_type, common.datatypes.Int):
+                iterable[item_n] = self.items_type(item)
+            elif not isinstance(item, self.items_type):
+                raise ValueError(f"Wrong item type {type(item)}.")
         super().__init__(iterable)
 
     def append(self, item) -> None:

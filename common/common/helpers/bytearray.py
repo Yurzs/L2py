@@ -76,9 +76,7 @@ class ByteArray(UserList):
         return str(bytes(self))
 
     def __bytes__(self):
-        return struct.pack(
-            "!{}".format("b" * len(self.data)), *[int(i) for i in self.data]
-        )
+        return struct.pack("!{}".format("b" * len(self.data)), *[int(i) for i in self.data])
 
     def pad(self, pad_length):
         self[len(self.data) - 1 + pad_length] = 0

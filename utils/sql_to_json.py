@@ -11,9 +11,7 @@ from utils.common import JsonEncoder
 
 
 def convert_sql_to_json(file_path: str):
-    with connect(
-        host="localhost", user="root", password="1234", database="L2py"
-    ) as connection:
+    with connect(host="localhost", user="root", password="1234", database="L2py") as connection:
         with open(file_path) as sql_query_file:
             query = sql_query_file.read()
             table_search = re.findall(
@@ -21,9 +19,10 @@ def convert_sql_to_json(file_path: str):
             )
             table_name = table_search[0]
             with connection.cursor() as cursor:
-                print(table_name, query.count(";") > 1)
-                cursor.execute(query, multi=query.count(";") > 1)
-
+                for statement in query.split(";"):
+                    statement = statement.strip()
+                    if len(statement) > 0:
+                        cursor.execute(statement + ";")
             with connection.cursor() as cursor:
                 cursor.execute(f"SELECT * FROM {table_name};")
                 row_headers = [x[0] for x in cursor.description]

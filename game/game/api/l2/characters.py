@@ -1,20 +1,33 @@
+import logging
+
+import common.datatypes
 import game.constants
 import game.packets
 import game.states
 from common.api_handlers import l2_request_handler
 from common.datatypes import Int32, String
+from common.response import Response
 from common.template import Parameter, Template
 from data.models.character import Character
-from data.models.structures import CharacterTemplate
+from data.models.structures.character.template import CharacterTemplate
+from data.models.structures.static.character_template import StaticCharacterTemplate
 from game import clients
+
+LOG = logging.getLogger(f"l2py.{__name__}")
+
+
+async def _char_list(session):
+    account = session.get_data()["account"]
+    session.set_state(game.states.WaitingCharacterSelect)
+    return game.packets.CharList(await Character.all(account_username=account.username))
 
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_CHARACTER_CREATE,
     Template(
         [
-            Parameter("nickname", start=0, type=String, func=String.read),
-            Parameter("race", start="$nickname.stop", length=4, type=Int32),
+            Parameter("name", start=0, type=String, func=String.read),
+            Parameter("race", start="$name.stop", length=4, type=Int32),
             Parameter("sex", start="$race.stop", length=4, type=Int32),
             Parameter("class_id", start="$sex.stop", length=4, type=Int32),
             Parameter("INT", start="$class_id.stop", length=4, type=Int32),
@@ -23,9 +36,9 @@ from game import clients
             Parameter("MEN", start="$CON.stop", length=4, type=Int32),
             Parameter("DEX", start="$MEN.stop", length=4, type=Int32),
             Parameter("WIT", start="$DEX.stop", length=4, type=Int32),
-            Parameter("hair_id", start="$WIT.stop", length=4, type=Int32),
-            Parameter("hair_color", start="$hair_id.stop", length=4, type=Int32),
-            Parameter("face_id", start="$hair_color.stop", length=4, type=Int32),
+            Parameter("hair_style", start="$WIT.stop", length=4, type=Int32),
+            Parameter("hair_color", start="$hair_style.stop", length=4, type=Int32),
+            Parameter("face", start="$hair_color.stop", length=4, type=Int32),
         ]
     ),
     states=[game.states.CreatingCharacter],
@@ -34,37 +47,39 @@ async def character_create(request):
 
     templates = {
         template.class_id: template
-        for template in await game.clients.DATA_CLIENT.get_static(CharacterTemplate)
+        for template in await game.clients.DATA_CLIENT.get_static(StaticCharacterTemplate)
     }
     class_template = templates[request.validated_data["class_id"]]
     account = request.session.get_data()["account"]
 
-    # new_char = Character(
-    #     Int32.random(),
-    #     account.primary_key,
-    #     request.validated_data["nickname"],
-    #     request.validated_data["sex"],
-    #     request.validated_data["race"],
-    #     request.validated_data["class_id"],
-    #     100,
-    #     100,
-    #     100,
-    #     100,
-    #     100,
-    #     100,
-    #     face_id=request.validated_data["face_id"],
-    #     hair_id=request.validated_data["hair_id"],
-    #     hair_color=request.validated_data["hair_color"],
-    # )
+    char_template = CharacterTemplate.from_static_template(
+        class_template, request.validated_data["sex"]
+    )
 
-    result = None
+    new_char = Character.from_template(
+        char_template,
+        request.validated_data["name"],
+        account,
+        request.validated_data["sex"],
+        request.validated_data["race"],
+        request.validated_data["face"],
+        request.validated_data["hair_style"],
+        request.validated_data["hair_color"],
+    )
 
-    if result:
-        request.session.set_state(game.states.WaitingCharacterSelect)
-        return game.packets.CharCreateOk()
-    else:
+    try:
+        await new_char.insert()
+    except Exception as e:
+        LOG.exception(e)
         request.session.set_state(game.states.CreatingCharacter)
         return game.packets.CharCreateFail(1)
+    else:
+        request.session.set_state(game.states.WaitingCharacterSelect)
+        return Response(
+            game.packets.CharCreateOk(),
+            request.session,
+            actions_after=[_char_list(request.session)],
+        )
 
 
 @l2_request_handler(
@@ -73,6 +88,40 @@ async def character_create(request):
     states=[game.states.WaitingCharacterSelect, game.states.CreatingCharacter],
 )
 async def new_character(request):
-    templates = await game.clients.DATA_CLIENT.get_static(CharacterTemplate)
+    templates = await game.clients.DATA_CLIENT.get_static(StaticCharacterTemplate)
     request.session.set_state(game.states.CreatingCharacter)
     return game.packets.CharTemplates(templates)
+
+
+@l2_request_handler(
+    game.constants.GAME_REQUEST_CHARACTER_DELETE,
+    Template([Parameter("character_slot", start=0, length=4, type=common.datatypes.Int32)]),
+    states=[game.states.WaitingCharacterSelect],
+)
+async def character_delete(request):
+    account = request.session.get_data()["account"]
+
+    for slot_id, character in enumerate(await Character.all(account_username=account.username)):
+        if slot_id == request.validated_data["character_slot"]:
+            await character.mark_deleted()
+            return Response(
+                game.packets.CharDeleteOk(),
+                request.session,
+                actions_after=[_char_list(request.session)],
+            )
+    else:
+        return game.packets.CharDeleteFail()
+
+
+@l2_request_handler(
+    game.constants.GAME_REQUEST_CHARACTER_RESTORE,
+    Template([Parameter("character_slot", start=0, length=4, type=common.datatypes.Int32)]),
+    states=[game.states.WaitingCharacterSelect],
+)
+async def character_restore(request):
+    account = request.session.get_data()["account"]
+
+    for slot_id, character in enumerate(await Character.all(account_username=account.username)):
+        if slot_id == request.validated_data["character_slot"]:
+            await character.remove_deleted_mark()
+            return await _char_list(request.session)

@@ -1,6 +1,8 @@
 import logging
 
 from common.api_handlers import handle_request
+from common.packet import Packet
+from common.response import Response
 from common.transport.protocol import TCPProtocol
 from game.session import GameSession
 from game.states import Connected
@@ -31,4 +33,6 @@ class Lineage2GameProtocol(TCPProtocol):
             )
             self.transport.write(response)
             for action in response.actions_after:
-                await action
+                action_result = await action
+                if isinstance(action_result, Packet):
+                    self.transport.write(Response(action_result, self.session))

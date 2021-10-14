@@ -1,1 +1,1 @@
-from data.models.structures.static.character_template import CharacterTemplate
+from data.models.structures.static.character_template import StaticCharacterTemplate

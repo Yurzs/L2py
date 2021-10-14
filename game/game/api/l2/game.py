@@ -70,8 +70,6 @@ async def auth_login(request):
         request.session.set_data({"account": account})
         request.session.set_state(game.states.WaitingCharacterSelect)
 
-        return game.packets.CharList(
-            await Character.all(account_username=account.username)
-        )
+        return game.packets.CharList(await Character.all(account_username=account.username))
 
     return game.packets.AuthLoginFail(game.constants.GAME_AUTH_LOGIN_FAIL_DEFAULT)

@@ -12,3 +12,4 @@ class Float(DataType):
 class Double(Float):
     length = 8
     struct_format = "d"
+    prefix = ""

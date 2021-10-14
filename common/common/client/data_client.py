@@ -64,9 +64,7 @@ class DataClient(ApiClient):
         return await self.post(f"api/static_data", {"classname": static_cls.__name__})
 
     async def create_character(self, character):
-        return await self.post(
-            "api/character.create", {"character": character}, keep_none=True
-        )
+        return await self.post("api/character.create", {"character": character}, keep_none=True)
 
     async def model_action(self, query):
         return await self.post(

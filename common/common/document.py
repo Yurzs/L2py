@@ -1,5 +1,4 @@
 import dataclasses
-import os
 import typing
 
 import bson
@@ -16,13 +15,13 @@ def register_adapter(adapter):
 
 
 @dataclasses.dataclass
-class Document(BaseDataclass):
-    __collection__: str
-    __database__: str
+class DocumentDefaults:
+    _id: bson.ObjectId = dataclasses.field(default_factory=bson.ObjectId)
 
+
+@dataclasses.dataclass
+class Document(BaseDataclass, DocumentDefaults):
     __primary_key__ = "_id"
-
-    _id: bson.ObjectId
 
     NotFoundError = exceptions.DocumentNotFound
 
@@ -79,7 +78,6 @@ class Document(BaseDataclass):
                 documents.append(cls(**document))
         else:
             for document in cursor:
-                print(document)
                 documents.append(cls(**document))
         return documents
 
@@ -97,13 +95,9 @@ class Document(BaseDataclass):
         update_query = {"$set": {}}
         updated_document_dict = self.to_dict()
         if fields is not None:
-            update_query["$set"].update(
-                {field: updated_document_dict[field] for field in fields}
-            )
+            update_query["$set"].update({field: updated_document_dict[field] for field in fields})
         else:
-            update_query["$set"] = {
-                field: updated_document_dict[field] for field in self._fields
-            }
+            update_query["$set"] = {field: updated_document_dict[field] for field in self._fields}
 
         return self.collection().update_one(search_query, update_query)
 

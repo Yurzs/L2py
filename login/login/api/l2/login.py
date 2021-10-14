@@ -50,9 +50,7 @@ async def auth_login(request):
     request.session.set_state(Authenticated)
     request.session.set_data({"account": account})
 
-    return LoginOk(
-        request.session.session_key.login_ok1, request.session.session_key.login_ok2
-    )
+    return LoginOk(request.session.session_key.login_ok1, request.session.session_key.login_ok2)
 
 
 @l2_request_handler(login.constants.REQUEST_GG_AUTH, Template([]), states=[Connected])
@@ -113,6 +111,4 @@ async def server_login(request):
     if game_server.is_full:
         return PlayFail(login.constants.PLAY_FAIL_TOO_MANY_USERS)
 
-    return PlayOk(
-        request.session.session_key.play_ok1, request.session.session_key.play_ok2
-    )
+    return PlayOk(request.session.session_key.play_ok1, request.session.session_key.play_ok2)

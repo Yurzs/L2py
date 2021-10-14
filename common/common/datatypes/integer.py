@@ -14,9 +14,7 @@ class Int:
         if isinstance(value, (Int, DataType)):
             super(self.ctype, self).__init__(value.value)
         elif isinstance(value, list):
-            super(self.ctype, self).__init__(
-                int.from_bytes(bytes(ByteArray(value)), "little")
-            )
+            super(self.ctype, self).__init__(int.from_bytes(bytes(ByteArray(value)), "little"))
         else:
             super(self.ctype, self).__init__(int(value))
 

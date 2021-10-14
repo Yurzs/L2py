@@ -24,9 +24,7 @@ class Parameter:
 
 class Template:
     def __init__(self, parameters: typing.List[Parameter]):
-        self.template = {
-            f"${parameter.id}": parameter for parameter in parameters.copy()
-        }
+        self.template = {f"${parameter.id}": parameter for parameter in parameters.copy()}
         self.parameters = parameters
 
     def get_start(self, parameter_id):

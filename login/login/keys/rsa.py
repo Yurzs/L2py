@@ -77,8 +77,6 @@ class L2RsaKey(RSA.RsaKey):
 
     @property
     def scrambled_key(self):
-        scrambled_key = RSA.construct(
-            (int.from_bytes(self.scramble_mod(), "big"), self.e)
-        )
+        scrambled_key = RSA.construct((int.from_bytes(self.scramble_mod(), "big"), self.e))
         key_bio = BIO.MemoryBuffer(scrambled_key.export_key())
         return M2RSA.load_key_bio(key_bio)

@@ -20,9 +20,7 @@ class ApiClient:
         url = self._format_path(endpoint)
         async with aiohttp.ClientSession() as session:
             _method = getattr(session, method)
-            async with _method(
-                url, json=self._delete_none(json_data or {})
-            ) as response:
+            async with _method(url, json=self._delete_none(json_data or {})) as response:
                 result = await response.json()
                 if result["error"]:
                     if isinstance(result["reason"], dict):

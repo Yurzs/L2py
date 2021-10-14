@@ -27,26 +27,26 @@ class PaperDoll(BaseDataclass):
     hair_all_id = common.datatypes.Int32(16)
     total_slots_count = common.datatypes.Int32(17)
 
-    under: Item
-    left_ear: Item
-    right_ear: Item
-    neck: Item
-    left_finger: Item
-    right_finger: Item
-    head: Item
-    right_hand: Item
-    left_hand: Item
-    gloves: Item
-    chest: Item
-    legs: Item
-    feet: Item
-    back: Item
-    face: Item
-    hair: Item
-    hair_all: Item
+    under: common.datatypes.Int32 = 0
+    left_ear: common.datatypes.Int32 = 0
+    right_ear: common.datatypes.Int32 = 0
+    neck: common.datatypes.Int32 = 0
+    left_finger: common.datatypes.Int32 = 0
+    right_finger: common.datatypes.Int32 = 0
+    head: common.datatypes.Int32 = 0
+    right_hand: common.datatypes.Int32 = 0
+    left_hand: common.datatypes.Int32 = 0
+    gloves: common.datatypes.Int32 = 0
+    chest: common.datatypes.Int32 = 0
+    legs: common.datatypes.Int32 = 0
+    feet: common.datatypes.Int32 = 0
+    back: common.datatypes.Int32 = 0
+    face: common.datatypes.Int32 = 0
+    hair: common.datatypes.Int32 = 0
+    hair_all: common.datatypes.Int32 = 0
 
 
 @dataclass
 class Inventory(BaseDataclass):
-    equipped_items: PaperDoll
-    items: typing.List[None]
+    equipped_items: PaperDoll = PaperDoll()
+    items: typing.List[Item] = field(default_factory=list)

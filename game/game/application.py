@@ -1,4 +1,5 @@
 import common
+import common.middleware
 from common.application import Application
 from common.application_modules.http import HTTPServerModule
 from common.application_modules.scheduler import ScheduleModule
