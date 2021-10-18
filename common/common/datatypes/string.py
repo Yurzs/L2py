@@ -1,3 +1,5 @@
+import common.datatypes
+
 from .base import DataType
 
 
@@ -29,11 +31,24 @@ class String(DataType, str):
 
 
 class UTFString(String):
+    short_separator = int.to_bytes(0, 1, "little")
+    separator = short_separator + int.to_bytes(0, 1, "little")
+    full_separator = separator + int.to_bytes(0, 1, "little")
+
     def encode(self):
         from common.helpers.bytearray import to_bytearray
 
-        return to_bytearray(
-            self.value.encode("utf-16-le")
-            + int.to_bytes(0, 1, "little")
-            + int.to_bytes(0, 1, "little")
-        )
+        return to_bytearray(self.value.encode("utf-16-le") + self.separator)
+
+    @classmethod
+    def read(cls, data):
+
+        data = bytes(data)
+        splitted = data.split(cls.full_separator)
+        try:
+            return (
+                cls((splitted[0] + cls.short_separator).decode("utf-16-le")),
+                len(splitted[0]) + 3,
+            )
+        except UnicodeDecodeError:
+            return cls((splitted[0] + cls.separator).decode("utf-16-le")), len(splitted[0]) + 4

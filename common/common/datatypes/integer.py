@@ -147,6 +147,11 @@ class Int:
     def __hash__(self):
         return hash(self.value)
 
+    def __mul__(self, other):
+        if isinstance(other, Int):
+            return self.value * other.value
+        return self.value * other
+
 
 class UInt(Int):
     ctype = ctypes.c_uint
