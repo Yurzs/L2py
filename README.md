@@ -52,3 +52,13 @@ TCPServerModule Middlewares
 
 Middlewares are used in L2 protocol handler for convenient way for not caring
 about all those complicated protocol specific encryption.
+
+Data types
+----------
+
+Most of the custom data types derive from ctypes (At least numeric ones.)
+
+For readability improvement they've been added to globals (builtins). 
+
+So to fix warnings in your IDE please add all datata types from `common.datatypes` 
+to your ignore unresolved list.
