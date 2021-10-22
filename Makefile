@@ -1,6 +1,6 @@
 
 PROJECT_NAME = l2py
-
+PYTHON_VERSION = 3.10
 
 lint:
 	black --check .
@@ -14,6 +14,10 @@ format:
 test:
 	pytest .
 
+create_venv:
+	python$(PYTHON_VERSION) -m venv .venv
+
+venv: create_venv install_requirements
 
 install_lint:
 	pip install black isort
