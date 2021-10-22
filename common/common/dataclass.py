@@ -3,8 +3,7 @@ import copy
 import dataclasses
 import sys
 import typing
-
-import common.datatypes
+from typing import get_args, get_origin
 
 _DATACLASS_MAP = {}
 
@@ -30,7 +29,7 @@ class TypedList(collections.UserList):
     def __init__(self, items_type, iterable=()):
         self.items_type = items_type
         for item_n, item in enumerate(copy.copy(iterable)):
-            if isinstance(item, int) and issubclass(self.items_type, common.datatypes.Int):
+            if isinstance(item, int) and issubclass(self.items_type, Int):
                 iterable[item_n] = self.items_type(item)
             elif not isinstance(item, self.items_type):
                 raise ValueError(f"Wrong item type {type(item)}.")
@@ -82,11 +81,11 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
         ):
             return field.type(**field_value)
         elif isinstance(field.type, typing._GenericAlias):
-            if field.type.__origin__ in [list, set, frozenset]:
+            if get_origin(field.type) in [list, set, frozenset]:
                 if not isinstance(field_value, (list, set, TypedList)):
                     raise ValueError(f"Wrong value type for {field.name}.")
                 items_type = field.type.__args__[0]
-                if issubclass(field.type.__origin__, typing.List):
+                if issubclass(items_type, typing.List):
                     field_value = TypedList(items_type, field_value)
                 else:
                     for item_n, item in enumerate(field_value.copy()):
@@ -95,7 +94,7 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
                         else:
                             field_value[item_n] = items_type(item)
                 return field_value
-            elif field.type.__origin__ is dict:
+            elif get_origin(field.type) is dict:
                 if not isinstance(field_value, dict):
                     raise ValueError(f"Wrong value type for {field.name}.")
                 k_type, v_type = field.type.__args__
@@ -103,6 +102,10 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
                 for key, value in field_value.items():
                     new_dict[k_type(key)] = v_type(value)
                 return new_dict
+            elif get_origin(field.type) is typing.Union:
+                if not isinstance(field_value, get_args(field.type)):
+                    raise ValueError(f"Wrong value type for {field.name}.")
+                return field_value
         if isinstance(field_value, field.type):
             return field_value
         return field.type(field_value)
@@ -129,13 +132,13 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
             for key, value in key_value_tuple:
                 if key.startswith("__"):
                     continue
-                if isinstance(value, common.datatypes.Int):
+                if isinstance(value, Int):
                     result[key] = int(value)
-                elif isinstance(value, common.datatypes.String):
+                elif isinstance(value, String):
                     result[key] = str(value)
-                elif isinstance(value, common.datatypes.Bytes):
+                elif isinstance(value, Bytes):
                     result[key] = bytes(value)
-                elif isinstance(value, common.datatypes.Float):
+                elif isinstance(value, Float):
                     result[key] = float(value)
                 else:
                     result[key] = value

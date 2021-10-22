@@ -1,4 +1,3 @@
-from common.datatypes import Int32
 from common.helpers.bytearray import ByteArray
 from common.middleware.middleware import Middleware
 from login.packets.init import Init

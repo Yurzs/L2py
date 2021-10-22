@@ -1,6 +1,3 @@
-from common.datatypes import Int32
-
-
 class SessionKey:
     def __init__(self, login_ok1=None, login_ok2=None, play_ok1=None, play_ok2=None):
         self.login_ok1 = Int32.random() if login_ok1 is None else login_ok1

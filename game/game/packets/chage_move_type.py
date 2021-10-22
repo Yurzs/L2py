@@ -1,13 +1,12 @@
-from common.datatypes import Int8, Int32
+from dataclasses import dataclass, field
 
 from .base import GameServerPacket
 
 
+@dataclass
 class ChangeMoveType(GameServerPacket):
-    type = Int8(62)
-    arg_order = ["character_id", "move_type", "constant"]
+    type: Int8 = field(default=46, init=False, repr=False)
 
-    def __init__(self, character_id, move_type):
-        self.character_id = Int32(character_id)
-        self.move_type = Int32(move_type)
-        self.constant = Int32(0)
+    character_id: Int32
+    move_type: Int32
+    constant: Int32 = field(default=0, init=False, repr=False)

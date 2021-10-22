@@ -3,7 +3,6 @@ import asyncio
 from aiojsonapi import JsonTemplate
 from aiojsonapi.routes import post
 
-from common.datatypes import Int32, String
 from login.session import LoginSession
 
 

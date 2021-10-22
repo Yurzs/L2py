@@ -2,7 +2,6 @@ import typing
 from dataclasses import dataclass, field
 
 from common.dataclass import BaseDataclass
-from common.datatypes import Int8, Int16, String
 
 
 @dataclass

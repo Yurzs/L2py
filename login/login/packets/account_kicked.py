@@ -1,5 +1,3 @@
-from common.datatypes import Int8, Int32
-
 from .base import LoginServerPacket
 
 

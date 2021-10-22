@@ -5,7 +5,6 @@ from abc import ABCMeta, abstractmethod
 from asyncio import transports
 
 from common import exceptions
-from common.datatypes import Int16
 from common.helpers.bytearray import ByteArray
 from common.request import Request
 from common.response import Response

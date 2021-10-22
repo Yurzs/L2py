@@ -1,4 +1,3 @@
-from common.datatypes import Int32
 from common.session import Session
 from login.keys.blowfish import BlowfishKey
 from login.keys.rsa import L2RsaKey

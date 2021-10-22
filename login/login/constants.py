@@ -1,5 +1,3 @@
-from common.datatypes import Int8
-
 REQUEST_GG_AUTH = Int8(7)
 REQUEST_SERVER_LIST = Int8(5)
 REQUEST_AUTH_LOGIN = Int8(0)

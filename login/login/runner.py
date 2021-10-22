@@ -1,9 +1,11 @@
 import logging
 
+import common  # noqa: F401
 import login.api.http  # noqa: F401
 import login.api.l2  # noqa: F401
 import login.clients
 from common.document import register_adapter
+from data.models.adapters.http import HttpAdapter
 from login.application import LOGIN_SERVER_APPLICATION
 from login.config import (
     LOGIN_SERVER_API_HOST,
@@ -18,7 +20,7 @@ LOG = logging.getLogger(f"L2py.login")
 
 
 def main():
-    register_adapter(login.clients.DATA_CLIENT)
+    register_adapter(HttpAdapter(login.clients.DATA_CLIENT))
     LoginSession.start()
     LOGIN_SERVER_APPLICATION.run(
         {

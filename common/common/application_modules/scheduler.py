@@ -13,9 +13,20 @@ scheduler = apscheduler.schedulers.asyncio.AsyncIOScheduler(
 
 
 class ScheduleModule(ApplicationModule):
-    def __init__(self):
+    def __init__(self, name):
+        super().__init__(name)
         self.scheduler = scheduler
 
+    def add_jobs(self):
+        from game.models.world import CLOCK
+
+        self.scheduler.add_job(
+            CLOCK.tick,
+            "interval",
+            minutes=1,
+        )
+
     def start(self, config, loop):
-        self.scheduler._eventloop = loop
+        self.scheduler.configure(event_loop=loop)
         self.scheduler.start()
+        self.add_jobs()

@@ -5,7 +5,6 @@ import bson
 import pymongo.results
 
 from common.dataclass import _DATACLASS_MAP, BaseDataclass, TypedList
-from common.datatypes import Int
 
 
 class JsonEncoder(json.JSONEncoder):
@@ -47,10 +46,10 @@ class JsonDecoder(json.JSONDecoder):
         from data.models.login_server import LoginServer  # noqa: F401
 
         if isinstance(data, dict):
-            if "$model" in data:
-                return _DATACLASS_MAP[data.pop("$model")](**data)
-            elif "$oid" in data:
+            if "$oid" in data:
                 return bson.ObjectId(data["$oid"])
+            elif "$model" in data:
+                return _DATACLASS_MAP[data.pop("$model")](**data)
             elif "__insert_one_result__" in data:
                 return pymongo.results.InsertOneResult(**data["__insert_one_result__"])
             elif "__update_result__" in data:

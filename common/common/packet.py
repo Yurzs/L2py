@@ -2,7 +2,6 @@ import dataclasses
 from abc import abstractmethod
 
 from common.dataclass import BaseDataclass
-from common.datatypes import Int8
 from common.helpers.bytearray import ByteArray
 
 

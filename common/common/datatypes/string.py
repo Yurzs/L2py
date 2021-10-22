@@ -1,5 +1,3 @@
-import common.datatypes
-
 from .base import DataType
 
 
@@ -15,7 +13,6 @@ class String(DataType, str):
 
     @classmethod
     def read(cls, data):
-        from common.datatypes.integer import UInt16
         from common.helpers.bytearray import ByteArray
 
         string = ByteArray(b"")

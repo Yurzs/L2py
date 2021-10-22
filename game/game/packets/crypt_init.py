@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 
-from common.datatypes import Bytes, Int8, Int32
 from game.packets.base import GameServerPacket
 
 

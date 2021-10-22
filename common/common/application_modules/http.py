@@ -16,7 +16,7 @@ class HTTPServerModule(ApplicationModule):
         json_encoder=json.JSONEncoder,
         json_decoder=json.JSONDecoder,
     ):
-        self.name = name
+        super().__init__(name)
         self.middleware = middleware
         self.json_encoder = json_encoder
         self.json_decoder = json_decoder

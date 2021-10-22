@@ -15,6 +15,7 @@ class Parameter:
 
     def parse(self, data):
         if self.func is not None:
+            print(data)
             return self.func(data)
         elif self.length is not None:
             if hasattr(self.type, "decode"):

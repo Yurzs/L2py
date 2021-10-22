@@ -1,8 +1,8 @@
-from common.datatypes import Int8
+from dataclasses import dataclass, field
 
 from .base import GameServerPacket
 
 
+@dataclass
 class ActionFailed(GameServerPacket):
-    type = Int8(37)
-    arg_order = ["type"]
+    type: Int8 = field(default=37, init=False, repr=False)

@@ -3,7 +3,6 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass, field
 
-import common.datatypes
 from common.dataclass import BaseDataclass
 
 # import data.models.structures.object.object
@@ -14,9 +13,9 @@ class WorldRegion(BaseDataclass):
     playable_objects: typing.List["L2Object"]
     visible_objects: typing.List["data.models.structures.object.object.L2Object"]
     neighbours: typing.List["WorldRegion"]
-    tile_x: common.datatypes.Int32
-    tile_y: common.datatypes.Int32
-    active: common.datatypes.Bool
+    tile_x: Int32
+    tile_y: Int32
+    active: Bool
     zone_manager: None
 
 

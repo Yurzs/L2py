@@ -1,0 +1,5750 @@
+[
+    {
+        "can_craft": 0,
+        "class_id": 0,
+        "class_name": "Human Fighter",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 4.73,
+                "base": 32,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 11.83,
+                "base": 80,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 5.46,
+                "base": 30,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 1,
+        "class_name": "Warrior",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 26.4,
+                "base": 261.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 33,
+                "base": 327,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.9,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 2,
+        "class_name": "Gladiator",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 44.46,
+                "base": 939.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 49.4,
+                "base": 1044,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 3,
+        "class_name": "Warlord",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 43.68,
+                "base": 835.2,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 54.6,
+                "base": 1044,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 4,
+        "class_name": "Human Knight",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 17.82,
+                "base": 196.2,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 29.7,
+                "base": 327,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.9,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 5,
+        "class_name": "Paladin",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 28.08,
+                "base": 583.3,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 46.8,
+                "base": 972.3,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 6,
+        "class_name": "Dark Avenger",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 28.08,
+                "base": 583.3,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 46.8,
+                "base": 972.3,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 7,
+        "class_name": "Rogue",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 11,
+                "base": 130.8,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 27.5,
+                "base": 327,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.9,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 8,
+        "class_name": "Treasure Hunter",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 16.64,
+                "base": 369.8,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 41.6,
+                "base": 924.5,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 9,
+        "class_name": "Hawkeye",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 30.94,
+                "base": 647.1,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 44.2,
+                "base": 924.5,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 10,
+        "class_name": "Human Mage",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 7.84,
+                "base": 50.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 15.57,
+                "base": 101,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 7.38,
+                "base": 40,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 11,
+        "class_name": "Human Wizard",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 13.85,
+                "base": 212,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 27.6,
+                "base": 424,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 13.3,
+                "base": 192,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 12,
+        "class_name": "Sorcerer",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 22.85,
+                "base": 510.7,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 45.6,
+                "base": 1021.5,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 13,
+        "class_name": "Necromancer",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 22.85,
+                "base": 510.7,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 45.6,
+                "base": 1021.5,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 14,
+        "class_name": "Warlock",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 29.74,
+                "base": 612.9,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 49.5,
+                "base": 1021.5,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 15,
+        "class_name": "Cleric",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 17.15,
+                "base": 212,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 34.2,
+                "base": 424,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 13.3,
+                "base": 192,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 16,
+        "class_name": "Bishop",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 34.68,
+                "base": 815.4,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 49.5,
+                "base": 1164.9,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 17,
+        "class_name": "Human Prophet",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 26.75,
+                "base": 582.4,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 53.4,
+                "base": 1164.9,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 18,
+        "class_name": "Elf Fighter",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 5,
+                "base": 35.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 12.74,
+                "base": 89,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 5.46,
+                "base": 30,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 19,
+        "class_name": "Elf Knight",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 16.5,
+                "base": 177.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 33,
+                "base": 355,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.9,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 20,
+        "class_name": "Temple Knight",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 31.2,
+                "base": 643.2,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 52,
+                "base": 1072,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 21,
+        "class_name": "Swordsinger",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 27.3,
+                "base": 536,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 54.6,
+                "base": 1072,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 22,
+        "class_name": "Scout",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 12.32,
+                "base": 142,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 30.8,
+                "base": 355,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.9,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 23,
+        "class_name": "Plains Walker",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 18.72,
+                "base": 409.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 46.8,
+                "base": 1024.2,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 24,
+        "class_name": "Silver Ranger",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 24.7,
+                "base": 512.1,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 49.4,
+                "base": 1024.2,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 25,
+        "class_name": "Elf Mage",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 7.84,
+                "base": 52,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 15.57,
+                "base": 104,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 7.38,
+                "base": 40,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 26,
+        "class_name": "Elf Wizard",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 14.4,
+                "base": 213.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 28.7,
+                "base": 427,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 13.3,
+                "base": 192,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 27,
+        "class_name": "Spellsinger",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 24.15,
+                "base": 524.2,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 48.2,
+                "base": 1048.4,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 28,
+        "class_name": "Elemental Summoner",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 30.52,
+                "base": 629,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 50.8,
+                "base": 1048.4,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 29,
+        "class_name": "Oracle",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 17.7,
+                "base": 213.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 35.3,
+                "base": 427,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 13.3,
+                "base": 192,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 30,
+        "class_name": "Elder",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 27.4,
+                "base": 595.9,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 54.7,
+                "base": 1191.8,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 31,
+        "class_name": "DE Fighter",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 5.46,
+                "base": 37.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 13.65,
+                "base": 94,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 5.46,
+                "base": 30,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 32,
+        "class_name": "Palus Knight",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 17.6,
+                "base": 189.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 35.2,
+                "base": 379,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.9,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 33,
+        "class_name": "Shillien Knight",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 32.76,
+                "base": 686.2,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 54.6,
+                "base": 1143.8,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 34,
+        "class_name": "Bladedancer",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 29.25,
+                "base": 571.9,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 58.5,
+                "base": 1143.8,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 35,
+        "class_name": "Assassin",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 13.2,
+                "base": 151.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 33,
+                "base": 379,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.9,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 36,
+        "class_name": "Abyss Walker",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 19.76,
+                "base": 438.4,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 49.4,
+                "base": 1096,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 37,
+        "class_name": "Phantom Ranger",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 26,
+                "base": 548,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 52,
+                "base": 1096,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.5,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 38,
+        "class_name": "DE Mage",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 7.84,
+                "base": 53,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 15.57,
+                "base": 106,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 7.38,
+                "base": 40,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 39,
+        "class_name": "DE Wizard",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 14.95,
+                "base": 214.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 29.8,
+                "base": 429,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 13.3,
+                "base": 192,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 40,
+        "class_name": "Spell Howler",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 24.15,
+                "base": 537.1,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 48.2,
+                "base": 1074.3,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 41,
+        "class_name": "Phantom Summoner",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 31.3,
+                "base": 644.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 52.1,
+                "base": 1074.3,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 42,
+        "class_name": "Shillien Oracle",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 18.25,
+                "base": 214.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 36.4,
+                "base": 429,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 13.3,
+                "base": 192,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 43,
+        "class_name": "Shillien Elder",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 27.4,
+                "base": 608.8,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 54.7,
+                "base": 1217.7,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26.1,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 44,
+        "class_name": "Orc Fighter",
+        "female_collision_height": 27,
+        "female_collision_radius": 7,
+        "female_unk1": 1.06,
+        "female_unk2": 1.1448,
+        "items": [
+            1147,
+            1146,
+            2368,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 6.27,
+                "base": 40,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 12.64,
+                "base": 80,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 5.36,
+                "base": 30,
+                "mod": 0.14
+            }
+        },
+        "load": 87000,
+        "male_collision_height": 28,
+        "male_collision_radius": 11,
+        "male_unk1": 1.06,
+        "male_unk2": 1.1448,
+        "race_id": 3,
+        "spawn": {
+            "x": -56693,
+            "y": -113610,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 31,
+            "base": {
+                "con": 47,
+                "dex": 26,
+                "int": 18,
+                "men": 27,
+                "str": 40,
+                "wit": 12
+            },
+            "critical_damage": 42,
+            "evasion": 31,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 117
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 45,
+        "class_name": "Raider",
+        "female_collision_height": 27,
+        "female_collision_radius": 7,
+        "female_unk1": 1.06,
+        "female_unk2": 1.1448,
+        "items": [
+            1147,
+            1146,
+            2368,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 24.54,
+                "base": 242.2,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 35.1,
+                "base": 346,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.8,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 87000,
+        "male_collision_height": 28,
+        "male_collision_radius": 11,
+        "male_unk1": 1.06,
+        "male_unk2": 1.1448,
+        "race_id": 3,
+        "spawn": {
+            "x": -56693,
+            "y": -113610,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 31,
+            "base": {
+                "con": 47,
+                "dex": 26,
+                "int": 18,
+                "men": 27,
+                "str": 40,
+                "wit": 12
+            },
+            "critical_damage": 42,
+            "evasion": 31,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 117
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 46,
+        "class_name": "Destroyer",
+        "female_collision_height": 27,
+        "female_collision_radius": 7,
+        "female_unk1": 1.06,
+        "female_unk2": 1.1448,
+        "items": [
+            1147,
+            1146,
+            2368,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 39.94,
+                "base": 777.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 57.1,
+                "base": 1110.8,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.4,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 87000,
+        "male_collision_height": 28,
+        "male_collision_radius": 11,
+        "male_unk1": 1.06,
+        "male_unk2": 1.1448,
+        "race_id": 3,
+        "spawn": {
+            "x": -56693,
+            "y": -113610,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 31,
+            "base": {
+                "con": 47,
+                "dex": 26,
+                "int": 18,
+                "men": 27,
+                "str": 40,
+                "wit": 12
+            },
+            "critical_damage": 42,
+            "evasion": 31,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 117
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 47,
+        "class_name": "Monk",
+        "female_collision_height": 27,
+        "female_collision_radius": 7,
+        "female_unk1": 1.06,
+        "female_unk2": 1.1448,
+        "items": [
+            1147,
+            1146,
+            2368,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 16.4,
+                "base": 173,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 32.9,
+                "base": 346,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.8,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 87000,
+        "male_collision_height": 28,
+        "male_collision_radius": 11,
+        "male_unk1": 1.06,
+        "male_unk2": 1.1448,
+        "race_id": 3,
+        "spawn": {
+            "x": -56682,
+            "y": -113610,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 31,
+            "base": {
+                "con": 47,
+                "dex": 26,
+                "int": 18,
+                "men": 27,
+                "str": 40,
+                "wit": 12
+            },
+            "critical_damage": 42,
+            "evasion": 31,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 117
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 48,
+        "class_name": "Tyrant",
+        "female_collision_height": 27,
+        "female_collision_radius": 7,
+        "female_unk1": 1.06,
+        "female_unk2": 1.1448,
+        "items": [
+            1147,
+            1146,
+            2368,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 27.2,
+                "base": 531.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 54.5,
+                "base": 1063,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.4,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 87000,
+        "male_collision_height": 28,
+        "male_collision_radius": 11,
+        "male_unk1": 1.06,
+        "male_unk2": 1.1448,
+        "race_id": 3,
+        "spawn": {
+            "x": -56693,
+            "y": -113610,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 31,
+            "base": {
+                "con": 47,
+                "dex": 26,
+                "int": 18,
+                "men": 27,
+                "str": 40,
+                "wit": 12
+            },
+            "critical_damage": 42,
+            "evasion": 31,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 117
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 49,
+        "class_name": "Orc Mage",
+        "female_collision_height": 25.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            2368,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 7.74,
+                "base": 47.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 15.47,
+                "base": 95,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 7.28,
+                "base": 40,
+                "mod": 0.14
+            }
+        },
+        "load": 68000,
+        "male_collision_height": 27.5,
+        "male_collision_radius": 7,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 3,
+        "spawn": {
+            "x": -56682,
+            "y": -113730,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 31,
+                "dex": 24,
+                "int": 31,
+                "men": 42,
+                "str": 27,
+                "wit": 15
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 121
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 50,
+        "class_name": "Shaman",
+        "female_collision_height": 25.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            2368,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 17.6,
+                "base": 209,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 35.2,
+                "base": 418,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 13.2,
+                "base": 192,
+                "mod": 0.14
+            }
+        },
+        "load": 68000,
+        "male_collision_height": 27.5,
+        "male_collision_radius": 7,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 3,
+        "spawn": {
+            "x": -56682,
+            "y": -113730,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 31,
+                "dex": 24,
+                "int": 31,
+                "men": 42,
+                "str": 27,
+                "wit": 15
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 121
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 51,
+        "class_name": "Overlord",
+        "female_collision_height": 25.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            2368,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 42.64,
+                "base": 946.2,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 53.3,
+                "base": 1182.8,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 68000,
+        "male_collision_height": 27.5,
+        "male_collision_radius": 7,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 3,
+        "spawn": {
+            "x": -56682,
+            "y": -113730,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 31,
+                "dex": 24,
+                "int": 31,
+                "men": 42,
+                "str": 27,
+                "wit": 15
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 121
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 52,
+        "class_name": "Warcryer",
+        "female_collision_height": 25.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            2368,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 26.65,
+                "base": 591.4,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 53.3,
+                "base": 1182.8,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 26,
+                "base": 478.8,
+                "mod": 0.14
+            }
+        },
+        "load": 68000,
+        "male_collision_height": 27.5,
+        "male_collision_radius": 7,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 3,
+        "spawn": {
+            "x": -56682,
+            "y": -113730,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 31,
+                "dex": 24,
+                "int": 31,
+                "men": 42,
+                "str": 27,
+                "wit": 15
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 121
+        }
+    },
+    {
+        "can_craft": 1,
+        "class_id": 53,
+        "class_name": "Dwarf Fighter",
+        "female_collision_height": 19,
+        "female_collision_radius": 5,
+        "female_unk1": 1.09,
+        "female_unk2": 1.487196,
+        "items": [
+            1147,
+            1146,
+            10,
+            2370,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 8.82,
+                "base": 56,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 12.64,
+                "base": 80,
+                "mod": 0.37
+            },
+            "level": 1,
+            "mp": {
+                "add": 5.36,
+                "base": 30,
+                "mod": 0.14
+            }
+        },
+        "load": 83000,
+        "male_collision_height": 18,
+        "male_collision_radius": 9,
+        "male_unk1": 1.09,
+        "male_unk2": 1.487196,
+        "race_id": 4,
+        "spawn": {
+            "x": 108512,
+            "y": -174026,
+            "z": -400
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 45,
+                "dex": 29,
+                "int": 20,
+                "men": 27,
+                "str": 39,
+                "wit": 10
+            },
+            "critical_damage": 43,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 1,
+        "class_id": 54,
+        "class_name": "Scavenger",
+        "female_collision_height": 19,
+        "female_collision_radius": 5,
+        "female_unk1": 1.09,
+        "female_unk2": 1.487196,
+        "items": [
+            1147,
+            1146,
+            10,
+            2370,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 24.54,
+                "base": 242.2,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 35.1,
+                "base": 346,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.8,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 83000,
+        "male_collision_height": 18,
+        "male_collision_radius": 9,
+        "male_unk1": 1.09,
+        "male_unk2": 1.487196,
+        "race_id": 4,
+        "spawn": {
+            "x": 108512,
+            "y": -174026,
+            "z": -400
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 45,
+                "dex": 29,
+                "int": 20,
+                "men": 27,
+                "str": 39,
+                "wit": 10
+            },
+            "critical_damage": 43,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 1,
+        "class_id": 55,
+        "class_name": "Bounty Hunter",
+        "female_collision_height": 19,
+        "female_collision_radius": 5,
+        "female_unk1": 1.09,
+        "female_unk2": 1.487196,
+        "items": [
+            1147,
+            1146,
+            10,
+            2370,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 39.94,
+                "base": 777.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 57.1,
+                "base": 1110.8,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.4,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 83000,
+        "male_collision_height": 18,
+        "male_collision_radius": 9,
+        "male_unk1": 1.09,
+        "male_unk2": 1.487196,
+        "race_id": 4,
+        "spawn": {
+            "x": 108512,
+            "y": -174026,
+            "z": -400
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 45,
+                "dex": 29,
+                "int": 20,
+                "men": 27,
+                "str": 39,
+                "wit": 10
+            },
+            "critical_damage": 43,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 1,
+        "class_id": 56,
+        "class_name": "Artisan",
+        "female_collision_height": 19,
+        "female_collision_radius": 5,
+        "female_unk1": 1.09,
+        "female_unk2": 1.487196,
+        "items": [
+            1147,
+            1146,
+            10,
+            2370,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 26.3,
+                "base": 276.8,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 32.9,
+                "base": 346,
+                "mod": 0.37
+            },
+            "level": 20,
+            "mp": {
+                "add": 9.8,
+                "base": 144,
+                "mod": 0.14
+            }
+        },
+        "load": 83000,
+        "male_collision_height": 18,
+        "male_collision_radius": 9,
+        "male_unk1": 1.09,
+        "male_unk2": 1.487196,
+        "race_id": 4,
+        "spawn": {
+            "x": 108512,
+            "y": -174026,
+            "z": -400
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 45,
+                "dex": 29,
+                "int": 20,
+                "men": 27,
+                "str": 39,
+                "wit": 10
+            },
+            "critical_damage": 43,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 1,
+        "class_id": 57,
+        "class_name": "Warsmith",
+        "female_collision_height": 19,
+        "female_collision_radius": 5,
+        "female_unk1": 1.09,
+        "female_unk2": 1.487196,
+        "items": [
+            1147,
+            1146,
+            10,
+            2370,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 43.58,
+                "base": 850.4,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 54.5,
+                "base": 1063,
+                "mod": 0.37
+            },
+            "level": 40,
+            "mp": {
+                "add": 19.4,
+                "base": 359.1,
+                "mod": 0.14
+            }
+        },
+        "load": 83000,
+        "male_collision_height": 18,
+        "male_collision_radius": 9,
+        "male_unk1": 1.09,
+        "male_unk2": 1.487196,
+        "race_id": 4,
+        "spawn": {
+            "x": 108512,
+            "y": -174026,
+            "z": -400
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 45,
+                "dex": 29,
+                "int": 20,
+                "men": 27,
+                "str": 39,
+                "wit": 10
+            },
+            "critical_damage": 43,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 88,
+        "class_name": "Duelist",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 56.77,
+                "base": 2755.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 63.08,
+                "base": 3061.8,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 89,
+        "class_name": "DreadNought",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 55.78,
+                "base": 2619.3,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 69.72,
+                "base": 3274.2,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 90,
+        "class_name": "Phoenix Knight",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 35.86,
+                "base": 1730.3,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 59.76,
+                "base": 2883.9,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 91,
+        "class_name": "Hell Knight",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 35.86,
+                "base": 1730.3,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 59.76,
+                "base": 2883.9,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 92,
+        "class_name": "Sagittarius",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 39.51,
+                "base": 1910.9,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 56.44,
+                "base": 2729.9,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 93,
+        "class_name": "Adventurer",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.1,
+        "female_unk2": 1.188,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 21.25,
+                "base": 1049.4,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 53.12,
+                "base": 2623.7,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 81900,
+        "male_collision_height": 23,
+        "male_collision_radius": 9,
+        "male_unk1": 1.1,
+        "male_unk2": 1.188,
+        "race_id": 0,
+        "spawn": {
+            "x": -71338,
+            "y": 258271,
+            "z": -3104
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 43,
+                "dex": 30,
+                "int": 21,
+                "men": 25,
+                "str": 40,
+                "wit": 11
+            },
+            "critical_damage": 44,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 94,
+        "class_name": "Archmage",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 29.05,
+                "base": 1440,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 58.1,
+                "base": 2880,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 95,
+        "class_name": "Soultaker",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 29.05,
+                "base": 1440,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 58.1,
+                "base": 2880,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 96,
+        "class_name": "Arcana Lord",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 37.85,
+                "base": 1823.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 63.08,
+                "base": 3039.3,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 97,
+        "class_name": "Cardinal",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 44.16,
+                "base": 2227.8,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 63.08,
+                "base": 3182.7,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 98,
+        "class_name": "Hierophant",
+        "female_collision_height": 22.5,
+        "female_collision_radius": 6.5,
+        "female_unk1": 1.01,
+        "female_unk2": 0.87264,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 34.03,
+                "base": 1671,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 68.06,
+                "base": 3342,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62500,
+        "male_collision_height": 22.8,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.01,
+        "male_unk2": 0.87264,
+        "race_id": 0,
+        "spawn": {
+            "x": -90890,
+            "y": 248027,
+            "z": -3570
+        },
+        "stats": {
+            "accuracy": 28,
+            "base": {
+                "con": 27,
+                "dex": 21,
+                "int": 41,
+                "men": 39,
+                "str": 22,
+                "wit": 20
+            },
+            "critical_damage": 40,
+            "evasion": 28,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 120
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 99,
+        "class_name": "Eva Templar",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 39.84,
+                "base": 1917.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 66.4,
+                "base": 3196,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 100,
+        "class_name": "Sword Muse",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 34.86,
+                "base": 1651.1,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 69.72,
+                "base": 3302.2,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 101,
+        "class_name": "Wind Rider",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 23.9,
+                "base": 1174.3,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 59.76,
+                "base": 2935.8,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 102,
+        "class_name": "Moonlight Sentinel",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.15,
+        "female_unk2": 1.242,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 31.54,
+                "base": 1521,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 63.08,
+                "base": 3042,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 73000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.15,
+        "male_unk2": 1.242,
+        "race_id": 1,
+        "spawn": {
+            "x": 45978,
+            "y": 41196,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 36,
+            "base": {
+                "con": 36,
+                "dex": 35,
+                "int": 23,
+                "men": 26,
+                "str": 36,
+                "wit": 14
+            },
+            "critical_damage": 46,
+            "evasion": 36,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 125
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 103,
+        "class_name": "Mystic Muse",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 30.71,
+                "base": 1506.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 61.42,
+                "base": 3013.1,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 104,
+        "class_name": "Elemental Master",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 38.84,
+                "base": 1871.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 64.74,
+                "base": 3119.3,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 105,
+        "class_name": "Eva Saint",
+        "female_collision_height": 23,
+        "female_collision_radius": 7.5,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 34.86,
+                "base": 1711,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 69.72,
+                "base": 3422,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 62400,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 1,
+        "spawn": {
+            "x": 46182,
+            "y": 41198,
+            "z": -3440
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 25,
+                "dex": 24,
+                "int": 37,
+                "men": 40,
+                "str": 21,
+                "wit": 23
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 106,
+        "class_name": "Shillien Templar",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 41.83,
+                "base": 2024.4,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 69.72,
+                "base": 3374,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 107,
+        "class_name": "Spectral Dancer",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 37.35,
+                "base": 1766.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 74.7,
+                "base": 3533.3,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 108,
+        "class_name": "Ghost Hunter",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 25.23,
+                "base": 1245.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 63.08,
+                "base": 3113.8,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 109,
+        "class_name": "Ghost Sentinel",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.14,
+        "female_unk2": 1.2312,
+        "items": [
+            1147,
+            1146,
+            10,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 33.2,
+                "base": 1610,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 66.4,
+                "base": 3220,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.9,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 69000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28377,
+            "y": 10916,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 35,
+            "base": {
+                "con": 32,
+                "dex": 34,
+                "int": 25,
+                "men": 26,
+                "str": 41,
+                "wit": 12
+            },
+            "critical_damage": 45,
+            "evasion": 35,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 110,
+        "class_name": "Storm Screamer",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 30.71,
+                "base": 1519.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 61.42,
+                "base": 3039,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 111,
+        "class_name": "Spectral Master",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 39.84,
+                "base": 1918.9,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 66.4,
+                "base": 3198.3,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 112,
+        "class_name": "Shillen Saint",
+        "female_collision_height": 23.5,
+        "female_collision_radius": 7,
+        "female_unk1": 1.03,
+        "female_unk2": 0.88992,
+        "items": [
+            425,
+            461,
+            6,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 34.86,
+                "base": 1723.9,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 69.72,
+                "base": 3447.9,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.2,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 61000,
+        "male_collision_height": 24,
+        "male_collision_radius": 7.5,
+        "male_unk1": 1.14,
+        "male_unk2": 1.2312,
+        "race_id": 2,
+        "spawn": {
+            "x": 28295,
+            "y": 11063,
+            "z": -4224
+        },
+        "stats": {
+            "accuracy": 29,
+            "base": {
+                "con": 24,
+                "dex": 23,
+                "int": 44,
+                "men": 37,
+                "str": 23,
+                "wit": 19
+            },
+            "critical_damage": 41,
+            "evasion": 29,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 122
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 113,
+        "class_name": "Titan",
+        "female_collision_height": 27,
+        "female_collision_radius": 7,
+        "female_unk1": 1.06,
+        "female_unk2": 1.1448,
+        "items": [
+            1147,
+            1146,
+            2368,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 51.03,
+                "base": 2413,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 72.94,
+                "base": 3447.2,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.8,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 87000,
+        "male_collision_height": 28,
+        "male_collision_radius": 11,
+        "male_unk1": 1.06,
+        "male_unk2": 1.1448,
+        "race_id": 3,
+        "spawn": {
+            "x": -56693,
+            "y": -113610,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 31,
+            "base": {
+                "con": 47,
+                "dex": 26,
+                "int": 18,
+                "men": 27,
+                "str": 40,
+                "wit": 12
+            },
+            "critical_damage": 42,
+            "evasion": 31,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 117
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 114,
+        "class_name": "Grand Khauatari",
+        "female_collision_height": 27,
+        "female_collision_radius": 7,
+        "female_unk1": 1.06,
+        "female_unk2": 1.1448,
+        "items": [
+            1147,
+            1146,
+            2368,
+            2369,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 34.76,
+                "base": 1646.6,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 69.62,
+                "base": 3293.2,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.8,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 87000,
+        "male_collision_height": 28,
+        "male_collision_radius": 11,
+        "male_unk1": 1.06,
+        "male_unk2": 1.1448,
+        "race_id": 3,
+        "spawn": {
+            "x": -56693,
+            "y": -113610,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 31,
+            "base": {
+                "con": 47,
+                "dex": 26,
+                "int": 18,
+                "men": 27,
+                "str": 40,
+                "wit": 12
+            },
+            "critical_damage": 42,
+            "evasion": 31,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 117
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 115,
+        "class_name": "Dominator",
+        "female_collision_height": 25.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            2368,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 54.35,
+                "base": 2687.9,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 67.96,
+                "base": 3359.9,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.1,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 68000,
+        "male_collision_height": 27.5,
+        "male_collision_radius": 7,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 3,
+        "spawn": {
+            "x": -56682,
+            "y": -113730,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 31,
+                "dex": 24,
+                "int": 31,
+                "men": 42,
+                "str": 27,
+                "wit": 15
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 121
+        }
+    },
+    {
+        "can_craft": 0,
+        "class_id": 116,
+        "class_name": "Doomcryer",
+        "female_collision_height": 25.5,
+        "female_collision_radius": 8,
+        "female_unk1": 1.04,
+        "female_unk2": 0.89856,
+        "items": [
+            425,
+            461,
+            2368,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 33.93,
+                "base": 1679.9,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 67.96,
+                "base": 3359.9,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 33.1,
+                "base": 1540.8,
+                "mod": 0.14
+            }
+        },
+        "load": 68000,
+        "male_collision_height": 27.5,
+        "male_collision_radius": 7,
+        "male_unk1": 1.04,
+        "male_unk2": 0.89856,
+        "race_id": 3,
+        "spawn": {
+            "x": -56682,
+            "y": -113730,
+            "z": -690
+        },
+        "stats": {
+            "accuracy": 30,
+            "base": {
+                "con": 31,
+                "dex": 24,
+                "int": 31,
+                "men": 42,
+                "str": 27,
+                "wit": 15
+            },
+            "critical_damage": 41,
+            "evasion": 30,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 3,
+            "physical_attack_speed": 300,
+            "physical_defense": 54,
+            "walk_speed": 121
+        }
+    },
+    {
+        "can_craft": 1,
+        "class_id": 117,
+        "class_name": "Fortune Seeker",
+        "female_collision_height": 19,
+        "female_collision_radius": 5,
+        "female_unk1": 1.09,
+        "female_unk2": 1.487196,
+        "items": [
+            1147,
+            1146,
+            10,
+            2370,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 51.03,
+                "base": 2413,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 72.94,
+                "base": 3447.2,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.8,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 83000,
+        "male_collision_height": 18,
+        "male_collision_radius": 9,
+        "male_unk1": 1.09,
+        "male_unk2": 1.487196,
+        "race_id": 4,
+        "spawn": {
+            "x": 108512,
+            "y": -174026,
+            "z": -400
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 45,
+                "dex": 29,
+                "int": 20,
+                "men": 27,
+                "str": 39,
+                "wit": 10
+            },
+            "critical_damage": 43,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    },
+    {
+        "can_craft": 1,
+        "class_id": 118,
+        "class_name": "Maestro",
+        "female_collision_height": 19,
+        "female_collision_radius": 5,
+        "female_unk1": 1.09,
+        "female_unk2": 1.487196,
+        "items": [
+            1147,
+            1146,
+            10,
+            2370,
+            5588
+        ],
+        "level_up_gain": {
+            "cp": {
+                "add": 55.68,
+                "base": 2634.5,
+                "mod": 0.22
+            },
+            "hp": {
+                "add": 69.62,
+                "base": 3293.2,
+                "mod": 0.37
+            },
+            "level": 76,
+            "mp": {
+                "add": 24.8,
+                "base": 1155.6,
+                "mod": 0.14
+            }
+        },
+        "load": 83000,
+        "male_collision_height": 18,
+        "male_collision_radius": 9,
+        "male_unk1": 1.09,
+        "male_unk2": 1.487196,
+        "race_id": 4,
+        "spawn": {
+            "x": 108512,
+            "y": -174026,
+            "z": -400
+        },
+        "stats": {
+            "accuracy": 33,
+            "base": {
+                "con": 45,
+                "dex": 29,
+                "int": 20,
+                "men": 27,
+                "str": 39,
+                "wit": 10
+            },
+            "critical_damage": 43,
+            "evasion": 33,
+            "magic_attack": 6,
+            "magic_attack_speed": 333,
+            "magic_defense": 41,
+            "physical_attack": 4,
+            "physical_attack_speed": 300,
+            "physical_defense": 80,
+            "walk_speed": 115
+        }
+    }
+]

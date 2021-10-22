@@ -11,18 +11,18 @@ from common.document import Document, DocumentDefaults
 
 @dataclass
 class AccountDefaults(DocumentDefaults):
-    last_server: datatypes.Int8 = None
-    last_character: datatypes.Int32 = None
-    salt: datatypes.UTFString = None
-    email: datatypes.UTFString = None
+    last_server: Int8 = None
+    last_character: Int32 = None
+    salt: UTFString = None
+    email: UTFString = None
 
 
 @dataclass
 class AccountBase:
-    id: datatypes.UTFString
-    username: datatypes.UTFString
-    password: datatypes.UTFString
-    status: datatypes.Int8
+    id: UTFString
+    username: UTFString
+    password: UTFString
+    status: Int8
 
 
 @dataclass
@@ -31,7 +31,7 @@ class Account(Document, AccountDefaults, AccountBase):
     __database__ = "l2py"
 
     @classmethod
-    async def one(cls, document_id=None, username=None, add_query=None):
+    async def one(cls, document_id=None, username=None, add_query=None, **kwargs):
         """Finds one account."""
 
         query = {}
@@ -42,7 +42,7 @@ class Account(Document, AccountDefaults, AccountBase):
 
         query.update(add_query or {})
 
-        return await super().one(add_query=query)
+        return await super().one(add_query=query, **kwargs)
 
     async def set_new_password(self, password: str):
         """Sets new password for user.

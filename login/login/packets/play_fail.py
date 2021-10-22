@@ -1,7 +1,5 @@
 from dataclasses import dataclass, field
 
-from common.datatypes import Int8
-
 from .base import LoginServerPacket
 
 

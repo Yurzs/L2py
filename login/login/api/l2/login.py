@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 from M2Crypto import RSA
@@ -5,9 +6,9 @@ from M2Crypto import RSA
 import login.constants
 from common.api_handlers import l2_request_handler
 from common.client.exceptions import ApiException, WrongCredentials
-from common.datatypes import Int8, String
 from common.helpers.bytearray import ByteArray
 from common.template import Parameter, Template
+from data.models.account import Account
 from login.api.l2.handlers import verify_secrets
 from login.clients import DATA_CLIENT
 from login.packets import GGAuth, LoginFail, LoginOk, PlayFail, PlayOk, ServerList
@@ -35,10 +36,15 @@ async def auth_login(request):
         return LoginFail(login.constants.LOGIN_FAIL_WRONG_LOGIN_OR_PASSWORD)
 
     try:
-        response = await DATA_CLIENT.authenticate(username, password)
-        if not response["authenticated"]:
+        account = await Account.one(username=username, required=False)
+        if account is None:
+            account = Account(username, username, "none", 1)
+            print(account)
+            await account.insert()
+            await account.set_new_password(password)
+        print(account)
+        if not account.authenticate(password):
             raise WrongCredentials("Wrong Password")
-        account = response["account"]
     except WrongCredentials:
         return LoginFail(login.constants.LOGIN_FAIL_WRONG_LOGIN_OR_PASSWORD)
     except ApiException:
@@ -111,4 +117,8 @@ async def server_login(request):
     if game_server.is_full:
         return PlayFail(login.constants.PLAY_FAIL_TOO_MANY_USERS)
 
-    return PlayOk(request.session.session_key.play_ok1, request.session.session_key.play_ok2)
+    request.session.send_packet(
+        PlayOk(request.session.session_key.play_ok1, request.session.session_key.play_ok2)
+    )
+    await asyncio.sleep(5)
+    request.session.delete()

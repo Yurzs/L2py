@@ -16,6 +16,8 @@ services:
       context: login
     environment:
       DATA_SERVER_HOST: data
+    ports:
+      - "2106:2106"
 
   game:
     build:
@@ -24,3 +26,5 @@ services:
     environment:
       DATA_SERVER_HOST: data
       LOGIN_SERVER_API_HOST: login
+    ports:
+      - "7777:7777"

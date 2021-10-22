@@ -42,7 +42,7 @@ class Document(BaseDataclass, DocumentDefaults):
         return _ADAPTER["adapter"].collection(cls.__database__, cls.__collection__)
 
     @classmethod
-    async def one(cls, document_id=None, add_query=None):
+    async def one(cls, document_id=None, add_query=None, required=True, **kwargs):
         """Finds one document by ID."""
 
         query = {}
@@ -51,12 +51,15 @@ class Document(BaseDataclass, DocumentDefaults):
         if add_query is not None:
             query.update(add_query)
 
-        result = await cls.collection().find_one(query)
+        print(required)
+        result = await cls.collection().find_one(query, **kwargs)
         if result is not None:
             return cls(**result)
+        elif required:
+            raise cls.NotFoundError()
 
     @classmethod
-    async def all(cls, document_ids=None, add_query=None):
+    async def all(cls, document_ids=None, add_query=None, **kwargs):
         """Finds all documents based in IDs."""
 
         query = {}
@@ -68,7 +71,7 @@ class Document(BaseDataclass, DocumentDefaults):
         documents = []
         async_for = True
 
-        cursor = cls.collection().find(query)
+        cursor = cls.collection().find(query, **kwargs)
         if isinstance(cursor, typing.Coroutine):
             cursor = await cursor
             async_for = False
@@ -93,11 +96,17 @@ class Document(BaseDataclass, DocumentDefaults):
 
         search_query = {self.__primary_key__: getattr(self, self.__primary_key__)}
         update_query = {"$set": {}}
-        updated_document_dict = self.to_dict()
-        if fields is not None:
-            update_query["$set"].update({field: updated_document_dict[field] for field in fields})
-        else:
-            update_query["$set"] = {field: updated_document_dict[field] for field in self._fields}
+        fields = (
+            fields
+            if fields is not None
+            else [field for field in self._fields if not field.startswith("__")]
+        )
+
+        for field in fields:
+            value = getattr(self, field)
+            update_query["$set"].update(
+                {field: value.to_dict() if isinstance(value, BaseDataclass) else value}
+            )
 
         return self.collection().update_one(search_query, update_query)
 

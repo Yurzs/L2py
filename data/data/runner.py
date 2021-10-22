@@ -1,3 +1,4 @@
+import common  # noqa: F401
 import data.api  # noqa: F401
 from common.document import register_adapter
 from data import config

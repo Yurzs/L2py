@@ -8,7 +8,7 @@ LOG = logging.getLogger(f"L2py.{__name__}")
 
 class TCPServerModule(ApplicationModule):
     def __init__(self, name, protocol, middleware=None):
-        self.name = name
+        super().__init__(name)
         self.protocol = protocol
         self.middleware = middleware or []
         self.loop = None
@@ -32,4 +32,4 @@ class TCPServerModule(ApplicationModule):
                 while True:
                     await asyncio.sleep(3600)
 
-        return loop.run_until_complete(inner_start())
+        return loop.create_task(inner_start())

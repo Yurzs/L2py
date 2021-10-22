@@ -4,17 +4,11 @@ import game.clients
 import game.constants
 import game.packets
 from common.api_handlers import l2_request_handler
-from common.datatypes import Int32, String
-from common.response import Response
 from common.template import Parameter, Template
 from data.models.character import Character
 from game.states import Connected, WaitingAuthentication
 
 LOG = logging.getLogger(f"l2py.{__name__}")
-
-
-async def enable_encryption(session):
-    session.encryption_enabled = True
 
 
 @l2_request_handler(
@@ -35,11 +29,10 @@ async def protocol_version(request):
 
     else:
         request.session.set_state(WaitingAuthentication)
-        return Response(
-            game.packets.CryptInit(True, request.session.xor_key.outgoing_key),
-            request.session,
-            actions_after=[enable_encryption(request.session)],
+        request.session.send_packet(
+            game.packets.CryptInit(True, request.session.xor_key.outgoing_key)
         )
+        request.session.encryption_enabled = True
 
 
 @l2_request_handler(
@@ -69,7 +62,6 @@ async def auth_login(request):
         account = auth_result["account"]
         request.session.set_data({"account": account})
         request.session.set_state(game.states.WaitingCharacterSelect)
-
         return game.packets.CharList(await Character.all(account_username=account.username))
 
     return game.packets.AuthLoginFail(game.constants.GAME_AUTH_LOGIN_FAIL_DEFAULT)

@@ -1,3 +1,4 @@
+import copy
 import functools
 import logging
 
@@ -11,8 +12,9 @@ _HANDLERS = {}
 LOG = logging.getLogger(f"l2py.{__name__}")
 
 
-def parse_data(template, f):
+def parse_data(request_template, f):
     async def wrap(request: Request):
+        template = copy.deepcopy(request_template)
         for parameter in template.parameters:
             start = template.get_start(parameter.id)
             if parameter.length is not None:
@@ -51,6 +53,8 @@ async def handle_request(request):
         params = _HANDLERS[action_id]
         if params["states"] == "*" or request.session.state in params["states"]:
             result = await params["handler"](request)
+            if result is None:
+                return
             if isinstance(result, Response):
                 return result
             return Response(result, request.session)

@@ -1,15 +1,14 @@
 from dataclasses import dataclass, field
 
-import common.datatypes
 from common.dataclass import BaseDataclass
 
 
 @dataclass
 class Limits(BaseDataclass):
-    inventory: common.datatypes.Int32
-    warehouse: common.datatypes.Int32
-    freight: common.datatypes.Int32
-    sell: common.datatypes.Int32
-    buy: common.datatypes.Int32
-    dwarf_recipe: common.datatypes.Int32
-    common_recipe: common.datatypes.Int32
+    inventory: Int32
+    warehouse: Int32
+    freight: Int32
+    sell: Int32
+    buy: Int32
+    dwarf_recipe: Int32
+    common_recipe: Int32

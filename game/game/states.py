@@ -24,3 +24,7 @@ class CreatingCharacter(State):
 
 class CreatingCharacterWait(State):
     pass
+
+
+class CharacterSelected(State):
+    pass

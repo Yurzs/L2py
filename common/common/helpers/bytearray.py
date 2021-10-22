@@ -4,8 +4,6 @@ import struct
 import typing
 from collections import UserList
 
-from common.datatypes import Int8
-
 
 def to_bytearray_deco(func):
     @functools.wraps(func)
@@ -98,3 +96,7 @@ class ByteArray(UserList):
     @classmethod
     def from_hex(cls, hex_data):
         return cls(bytes.fromhex(hex_data))
+
+    def extend(self, other) -> None:
+        for item in other:
+            self.append(item)

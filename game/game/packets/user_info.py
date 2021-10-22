@@ -1,138 +1,128 @@
-from common.datatypes import Int8
+import typing
+from dataclasses import dataclass, field
+
+from data.models.character import Character
+
+if typing.TYPE_CHECKING:
+    from game.session import GameSession
 
 from .base import GameServerPacket
 
 
+@dataclass
 class UserInfo(GameServerPacket):
-    type = Int8(4)
-    arg_order = [
-        "type",
-        "position_x",
-        "position_y",
-        "position_z",
-        "head_tilt_angle",
-        "character_id",
-        "character_name",
-        "race",
-        "sex",
-        "class_id",
-        "level",
-        "exp",
-        "STR",
-        "DEX",
-        "CON",
-        "INT",
-        "WIT",
-        "MEN",
-        "max_hp",
-        "current_hp",
-        "max_mp",
-        "current_mp",
-        "sp",
-        "inventory_weight",
-        "max_inventory_weight",
-        "unknown1",
-        "underwear_id",
-        "rear_id",
-        "left_rear_id",
-        "necklace_id",
-        "right_ring_id",
-        "left_ring_id",
-        "helmet_id",
-        "left_hand_id",
-        "right_hand_id",
-        "gloves_id",
-        "main_armor_id",
-        "leggings_id",
-        "boots_id",
-        "back_id",
-        "left_right_hand_id",
-        "hair_id",
-        "face_id",
-        "underwear_item_id",
-        "rear_item_id",
-        "left_rear_item_id",
-        "necklace_item_id",
-        "right_ring_item_id",
-        "left_ring_item_id",
-        "helmet_item_id",
-        "left_hand_item_id",
-        "right_hand_item_id",
-        "gloves_item_id",
-        "main_armor_item_id",
-        "leggings_item_id",
-        "boots_item_id",
-        "back_item_id",
-        "left_right_hand_item_id",
-        "hair_item_id",
-        "face_item_id",
-        "unknown2",
-        "patk",
-        "patk_speed",
-        "pdef",
-        "evasion",
-        "accuracy",
-        "critical",
-        "matk",
-        "cast_speed",
-        "attack_speed",
-        "mdef",
-        "is_in_pvp",
-        "karma",
-        "run_speed",
-        "walk_speed",
-        "run_swim_speed",
-        "walk_swim_speed",
-        "fl_run_speed",
-        "fl_walk_speed",
-        "run_fly_speed",
-        "walk_fly_speed",
-        "move_x",
-        "atk_speed_x",
-        "character_radius",
-        "character_height",
-        "haircut_type",
-        "haircut_color",
-        "face_type",
-        "access_level",
-        "title",
-        "clan_id",
-        "clan_icon_id",
-        "alliance_id",
-        "alliance_icon_id",
-        "siege_flag",
-        "is_riding",
-        "private_store_type",
-        "can_craft",
-        "pvp_count",
-        "pk_count",
-        "cubes_summoned",
-        "cubes",
-        "find_party_members",
-        "abnormal_effect",
-        "unknown3",
-        "clan_privileges",
-        "recommends_left",
-        "recommended",
-        "unknown4",
-        "max_inventory_items_count",
-        "character_class_id",
-        "effect_around_player",
-        "max_cp",
-        "current_cp",
-        "enchant_state",
-        "event_command_id",
-        "big_clan_icon_id",
-        "is_nobles",
-        "is_hero",
-        "is_fishing",
-        "fish_x",
-        "fish_y",
-        "fish_z",
-        "name_rgb",
-        "walk_is_on",
-        "clan_class",
-        "unknown5",
-        "title_rgb",
-        "cursed_weapon_level",
-    ]
+    type: Int8 = field(default=4, init=False, repr=False)
+    character: Character
+
+    def encode(self, session: "GameSession"):
+        encoded = self.type.encode()
+
+        ordered_data = [
+            self.character.position.point3d.x,
+            self.character.position.point3d.y,
+            self.character.position.point3d.z,
+            self.character.position.heading_angle,
+            self.character.id,
+            self.character.name,
+            self.character.race,
+            self.character.sex,
+            self.character.active_class,
+            self.character.stats.level,
+            self.character.stats.exp,
+            self.character.stats.base.str,
+            self.character.stats.base.dex,
+            self.character.stats.base.con,
+            self.character.stats.base.int,
+            self.character.stats.base.wit,
+            self.character.stats.base.men,
+            self.character.stats.max_hp,
+            self.character.status.hp,
+            self.character.stats.max_mp,
+            self.character.status.mp,
+            self.character.stats.sp,
+            Int32(0x28),  # TODO current load
+            self.character.template.load,
+            *self.character.inventory.encode(),
+            *[Int16(0) for _ in range(14)],
+            # right hand augment
+            self.character.inventory.equipped_items.right_hand.augmentation
+            if self.character.inventory.equipped_items.right_hand is not None
+            else Int32(0),
+            *[Int16(0) for _ in range(12)],
+            # left hand augment
+            self.character.inventory.equipped_items.left_hand.augmentation
+            if self.character.inventory.equipped_items.left_hand is not None
+            else Int32(0),
+            *[Int16(0) for _ in range(6)],
+            self.character.stats.physical_attack,
+            self.character.stats.physical_attack_speed,
+            self.character.stats.physical_defense,
+            self.character.stats.evasion,
+            self.character.stats.accuracy,
+            self.character.stats.critical_damage,
+            self.character.stats.magic_attack,
+            self.character.stats.magic_attack_speed,
+            self.character.stats.physical_attack_speed,
+            self.character.stats.magic_defense,
+            Int32(self.character.status.is_pvp),
+            self.character.karma,
+            self.character.stats.run_speed,
+            self.character.stats.walk_speed,
+            self.character.stats.run_speed,  # TODO SWIM SPEED
+            self.character.stats.walk_speed,  # TODO SWIM SPEED
+            self.character.stats.run_speed,  # TODO FL SPEED
+            self.character.stats.walk_speed,  # TODO FL SPEED
+            self.character.stats.run_speed,  # TODO FLY SPEED
+            self.character.stats.walk_speed,  # TODO FLY SPEED
+            self.character.stats.move_multiplier,  # TODO Move multiplier
+            self.character.stats.attack_speed_multiplier,  # TODO Attack speed multiplier
+            self.character.template.collision_radius,
+            self.character.template.collision_height,
+            self.character.hair_style,
+            self.character.hair_color,
+            self.character.face,
+            Int32(0),  # TODO Access level
+            self.character.title if self.character.is_visible else UTFString("Invisible"),
+            Int32(0),  # TODO clan id
+            Int32(0),  # TODO clan crest id
+            Int32(0),  # TODO ally id
+            Int32(0),  # TODO ally crest id
+            Int32(0),  # TODO clan leader
+            self.character.status.is_mounted,
+            self.character.status.is_private_store,
+            self.character.status.is_dwarf_craft_store,
+            self.character.pk_kills,
+            self.character.pvp_kills,
+            Int16(0),  # TODO cubics
+            Bool(0),  # 1 - to find party members
+            Int32(0),  # TODO abnormal effect
+            Int8(0),
+            Int32(0),  # TODO clan privileges
+            Int16(self.character.stats.recommends_left),  # TODO character recommends remaining
+            Int16(self.character.stats.recommends_received),  # TODO character recommends received
+            Int32(0),
+            self.character.inventory_max,
+            self.character.base_class,
+            Int32(0),
+            self.character.stats.max_cp,
+            self.character.status.cp,
+            self.character.status.is_mounted,  # TODO Mounted status
+            # TODO circles
+            Int8(0),
+            Int32(0),  # TODO clan large crest id
+            self.character.status.is_noble,  # TODO is noble
+            self.character.status.is_hero,  # TODO is hero
+            self.character.status.is_fishing,  # TODO is fishing
+            Int32(0),  # TODO fish x
+            Int32(0),  # TODO fish y
+            Int32(0),  # TODO fish z
+            self.character.name_color,  # TODO name color
+            self.character.status.is_running,  # TODO is running
+            Int32(0),  # TODO pledge class
+            Int32(0),
+            # TODO cursed weapons
+            Int32(0),
+        ]
+        for item in ordered_data:
+            encoded.append(item)
+        return encoded

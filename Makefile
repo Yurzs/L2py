@@ -47,4 +47,7 @@ docker-build-game: docker-build-data-models
 docker-build: docker-build-game docker-build-login docker-build-data
 
 compose-build: docker-build-data-models
-	docker-compose build .
+	docker-compose build
+
+python:
+	PYTHONSTARTUP=.pythonrc python

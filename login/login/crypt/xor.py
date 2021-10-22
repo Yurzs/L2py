@@ -1,6 +1,5 @@
 import functools
 
-from common.datatypes import Int32
 from common.helpers.bytearray import ByteArray
 
 

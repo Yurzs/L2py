@@ -1,7 +1,6 @@
 import copy
 import random
 
-from common.datatypes import Int8
 from common.helpers.bytearray import ByteArray
 
 

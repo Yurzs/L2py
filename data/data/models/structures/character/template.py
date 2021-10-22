@@ -3,7 +3,6 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass, field
 
-import common.datatypes
 import data.models.structures.static.character_template
 from common.dataclass import BaseDataclass
 from data.models.structures.character.stats import Stats
@@ -14,9 +13,9 @@ from data.models.structures.object.point3d import Point3D
 
 @dataclass
 class LevelUpIncrease(BaseDataclass):
-    base: common.datatypes.Float
-    add: common.datatypes.Float
-    mod: common.datatypes.Float
+    base: Float
+    add: Float
+    mod: Float
 
 
 LevelUpIncrease.update_forward_refs()
@@ -24,7 +23,7 @@ LevelUpIncrease.update_forward_refs()
 
 @dataclass
 class LevelUpGain(BaseDataclass):
-    level: common.datatypes.Int32
+    level: Int32
     hp: LevelUpIncrease
     cp: LevelUpIncrease
     mp: LevelUpIncrease
@@ -35,9 +34,9 @@ LevelUpGain.update_forward_refs()
 
 @dataclass
 class ClassInfo(BaseDataclass):
-    id: common.datatypes.Int8
-    name: common.datatypes.UTFString
-    base_level: common.datatypes.Int32
+    id: Int8
+    name: UTFString
+    base_level: Int32
 
 
 ClassInfo.update_forward_refs()
@@ -47,20 +46,21 @@ ClassInfo.update_forward_refs()
 class CharacterTemplateBase:
     class_info: ClassInfo
     stats: Stats
-    race: common.datatypes.Int8
+    race: Int8
     level_up_gain: LevelUpGain
     spawn: Point3D
 
-    collision_radius: common.datatypes.Float
-    collision_height: common.datatypes.Float
+    collision_radius: Double
+    collision_height: Double
+    load: Int32
 
 
 @dataclass
 class CharacterTemplateDefaults:
-    mp_consume_rate: common.datatypes.Int32 = 0
-    hp_consume_rate: common.datatypes.Int32 = 0
+    mp_consume_rate: Int32 = 0
+    hp_consume_rate: Int32 = 0
 
-    items: typing.List[common.datatypes.Int32] = field(default_factory=list)
+    items: typing.List[Int32] = field(default_factory=list)
 
 
 @dataclass
@@ -69,7 +69,7 @@ class CharacterTemplate(BaseDataclass, CharacterTemplateDefaults, CharacterTempl
     def from_static_template(
         cls,
         template: data.models.structures.static.character_template.StaticCharacterTemplate,
-        sex: common.datatypes.Int,
+        sex: Int,
     ):
 
         class_info = ClassInfo(
@@ -82,9 +82,9 @@ class CharacterTemplate(BaseDataclass, CharacterTemplateDefaults, CharacterTempl
             collision_radius = template.female_collision_radius
             collision_height = template.female_collision_height
 
-        template.stats.max_hp = template.level_up_gain.hp.base
-        template.stats.max_mp = template.level_up_gain.mp.base
-        template.stats.max_cp = template.level_up_gain.cp.base
+        template.stats.max_hp = Int32(template.level_up_gain.hp.base.value)
+        template.stats.max_mp = Int32(template.level_up_gain.mp.base.value)
+        template.stats.max_cp = Int32(template.level_up_gain.cp.base.value)
 
         return cls(
             class_info=class_info,
@@ -95,6 +95,7 @@ class CharacterTemplate(BaseDataclass, CharacterTemplateDefaults, CharacterTempl
             collision_radius=collision_radius,
             collision_height=collision_height,
             items=template.items,
+            load=template.load,
         )
 
 

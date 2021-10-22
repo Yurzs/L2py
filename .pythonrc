@@ -1,0 +1,6 @@
+# This file is used in `make python` command for interactive mode.
+import sys
+
+sys.path.extend(['game', 'login', 'common', 'data'])
+
+import common.datatypes

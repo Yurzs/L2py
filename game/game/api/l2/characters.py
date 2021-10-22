@@ -1,17 +1,16 @@
 import logging
 
-import common.datatypes
 import game.constants
 import game.packets
 import game.states
 from common.api_handlers import l2_request_handler
-from common.datatypes import Int32, String
 from common.response import Response
 from common.template import Parameter, Template
 from data.models.character import Character
 from data.models.structures.character.template import CharacterTemplate
 from data.models.structures.static.character_template import StaticCharacterTemplate
 from game import clients
+from game.models.world import WORLD
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 
@@ -95,7 +94,7 @@ async def new_character(request):
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_CHARACTER_DELETE,
-    Template([Parameter("character_slot", start=0, length=4, type=common.datatypes.Int32)]),
+    Template([Parameter("character_slot", start=0, length=4, type=Int32)]),
     states=[game.states.WaitingCharacterSelect],
 )
 async def character_delete(request):
@@ -115,7 +114,7 @@ async def character_delete(request):
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_CHARACTER_RESTORE,
-    Template([Parameter("character_slot", start=0, length=4, type=common.datatypes.Int32)]),
+    Template([Parameter("character_slot", start=0, length=4, type=Int32)]),
     states=[game.states.WaitingCharacterSelect],
 )
 async def character_restore(request):
@@ -125,3 +124,39 @@ async def character_restore(request):
         if slot_id == request.validated_data["character_slot"]:
             await character.remove_deleted_mark()
             return await _char_list(request.session)
+
+
+@l2_request_handler(
+    game.constants.GAME_REQUEST_CHARACTER_SELECTED,
+    Template([Parameter("character_slot", start=0, length=4, type=Int32)]),
+    states=[game.states.WaitingCharacterSelect],
+)
+async def character_selected(request):
+    account = request.session.get_data()["account"]
+
+    for slot_id, character in enumerate(await Character.all(account_username=account.username)):
+        if slot_id == request.validated_data["character_slot"]:
+            await character.remove_deleted_mark()
+            request.session.set_state(game.states.CharacterSelected)
+            request.session.set_character(character)
+            WORLD.enter(request.session, character)
+            return game.packets.CharSelected(character)
+
+
+@l2_request_handler(
+    game.constants.GAME_REQUEST_RESTART,
+    Template([]),
+    states="*",
+)
+async def restart(request):
+
+    account = request.session.get_data()["account"]
+
+    request.session.send_packet(game.packets.RestartResponse("Good bye!"))
+
+    request.session.set_state(game.states.WaitingCharacterSelect)
+    request.session.logout_character()
+
+    request.session.send_packet(
+        game.packets.CharList(await Character.all(account_username=account.username))
+    )

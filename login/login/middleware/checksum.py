@@ -1,5 +1,4 @@
 from common import exceptions
-from common.datatypes import Int32
 from common.middleware.middleware import Middleware
 from login.packets.init import Init
 

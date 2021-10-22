@@ -8,6 +8,7 @@ MANAGER = SyncManager()
 class Session:
     state: type
     STORAGE: dict
+    protocol: "common.transport.protocol.TCPProtocol"
 
     def __init__(self):
         self.uuid = uuid.uuid4()
@@ -49,7 +50,10 @@ class Session:
 
     def delete(self):
         data = self.STORAGE.get(self.__class__.__name__, {})
-        data.pop(self.uuid, None)
+        try:
+            data.pop(self.uuid)
+        except KeyError:
+            return
         self.STORAGE[self.__class__.__name__] = data
 
     @classmethod
@@ -57,3 +61,9 @@ class Session:
         data = cls.STORAGE.get(cls.__name__, {})
         data.pop(session_uuid, None)
         cls.STORAGE[cls.__name__] = data
+
+    def send_packet(self, packet):
+        from common.response import Response
+
+        response = Response(packet, self)
+        return self.protocol.transport.write(response)
