@@ -1,8 +1,14 @@
-l2py
+L2py
 ====
+
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+<a href="https://discord.gg/hgdFQYxtvm"><img src="https://img.shields.io/discord/897633223608250388?logo=discord" alt="chat on Discord"></a>
+
 Lineage2 Interlude+ server emulator written in python3
 
 Stage: Alpha
+
 
 What currently works
 --------------------
@@ -16,6 +22,7 @@ Contribute
 Feel free to join developing our server:
 * If you have some suggestions - please [open an Issue](https://github.com/Yurzs/L2py/issues/new/choose).
 * If you want to implement some features - check [Project page](https://github.com/Yurzs/L2py/projects/1).
+* Or join our [Discord server](https://discord.gg/AwV3yQKR)
 
 How to start developing
 -----------------------
