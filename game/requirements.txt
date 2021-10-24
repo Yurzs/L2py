@@ -2,6 +2,4 @@ M2Crypto~=0.38.0
 PyCryptodomex~=3.11
 blowfish~=0.6.1
 aiojsonapi~=0.3
-data
-common
 apscheduler~=3.8.0

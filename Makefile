@@ -1,6 +1,7 @@
 
 PROJECT_NAME = l2py
 PYTHON_VERSION = 3.10
+UNAME = $(shell uname)
 
 lint:
 	black --check .
@@ -17,13 +18,26 @@ test:
 create_venv:
 	python$(PYTHON_VERSION) -m venv .venv
 
-venv: create_venv install_requirements
+activate:
+	. .venv/bin/activate; \
+	bin/activate
+
+
+venv: create_venv activate install_requirements
 
 install_lint:
 	pip install black isort
 
 
 install_requirements:
+ifeq ($(UNAME),Darwin)
+	brew install openssl; \
+	brew install swig; \
+	export LDFLAGS="-L$(brew --prefix openssl)/lib" \
+	CFLAGS="-I$(brew --prefix openssl)/include" \
+	SWIG_FEATURES="-cpperraswarn -includeall -I$(brew --prefix openssl)/include"
+endif
+
 	for module in common data game login ; do \
 		cd $$module; \
 		pip install -r requirements.txt; \

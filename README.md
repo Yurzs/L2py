@@ -7,7 +7,7 @@ Stage: Alpha
 What currently works
 --------------------
 - [x] Login Server
-- [ ] Game Server
+- [x] Game Server
 
 
 Contribute
@@ -20,10 +20,14 @@ Feel free to join developing our server:
 How to start developing
 -----------------------
 
-- Run mongo on localhost
-- Create account in mongo according to Login Account structure
-- Start runner with env variable `MONGO_URI=localhost`
-- Login using l2 client
+- Create python environment `make venv`
+- Activate python environment `. .venv/bin/activate`
+- Install requirements `make install_requirements` (Note: on macOS homebrew is required)
+- Run mongo on localhost (`docker run -d -p 27017:27017 mongo`)
+- Copy `.evn.example` to `.env`
+- Set environment variables using `. bin/activate`
+- Create game server using `bin/register_game_server`
+- Start data, login, game services `python <service>/<service>/runner.py`
 
 Emulator server architecture
 ----------------
