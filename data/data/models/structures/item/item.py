@@ -139,7 +139,7 @@ class ItemBases(BaseDataclass):
 
 
 @dataclass
-class ItemDefaults(BaseDataclass):
+class ItemDefaults:
     skills: typing.List[Skill] = field(default_factory=list)
     object_id: Int32 = field(default_factory=Int32.random)
 
