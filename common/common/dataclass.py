@@ -1,6 +1,7 @@
 import collections
 import copy
 import dataclasses
+import functools
 import sys
 import typing
 from typing import get_args, get_origin
@@ -61,6 +62,8 @@ class MetaBaseDataclass(type):
 
 @dataclasses.dataclass
 class BaseDataclass(metaclass=MetaBaseDataclass):
+    __post_init_checks = collections.defaultdict(list)
+
     @property
     def _fields(self):
         return {field.name: field for field in dataclasses.fields(self)}
@@ -117,6 +120,15 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
                 field_name,
                 self.ensure_field_value(field, getattr(self, field_name)),
             )
+        for cls, checks in self.__post_init_checks.items():
+            if issubclass(self.__class__, cls):
+                for check in checks:
+                    check(self)
+
+    @classmethod
+    def post_init_check(cls, f):
+        cls.__post_init_checks[cls].append(f)
+        return f
 
     def __setattr__(self, key, value):
         if key in self._fields:
