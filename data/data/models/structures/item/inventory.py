@@ -21,9 +21,10 @@ class PaperDoll(BaseDataclass):
     legs_id = Int32(11)
     feet_id = Int32(12)
     back_id = Int32(13)
-    face_id = Int32(14)
-    hair_id = Int32(15)
-    hair_all_id = Int32(16)
+    double_handed_id = Int32(14)
+    face_id = Int32(15)
+    hair_id = Int32(16)
+    double_hair_id = Int32(17)
     total_slots_count = Int32(17)
 
     all_items_ids = [
@@ -41,9 +42,10 @@ class PaperDoll(BaseDataclass):
         legs_id,
         feet_id,
         back_id,
+        double_handed_id,
         face_id,
         hair_id,
-        hair_all_id,
+        double_hair_id,
     ]
 
     under: Item = None
@@ -85,8 +87,12 @@ class PaperDoll(BaseDataclass):
             self.back_id: self.back,
             self.face_id: self.face,
             self.hair_id: self.hair,
-            self.hair_all_id: self.hair_all,
+            self.double_hair_id: self.hair_all,
         }[item_slot_id]
+
+    def set_item(self, slot_id, item):
+        if hasattr(self, slot_id):
+            setattr(self, slot_id, item)
 
     def by_body_part_name(self, body_part_name):
         return {
@@ -106,7 +112,7 @@ class PaperDoll(BaseDataclass):
             self.back_id: self.back,
             self.face_id: self.face,
             self.hair_id: self.hair,
-            self.hair_all_id: self.hair_all,
+            self.double_hair_id: self.hair_all,
         }[body_part_name]
 
 
@@ -114,6 +120,13 @@ class PaperDoll(BaseDataclass):
 class Inventory(BaseDataclass):
     equipped_items: PaperDoll = PaperDoll()
     items: typing.List[Item] = field(default_factory=list)
+
+    @property
+    def total_weight(self):
+        weight = 0
+        for item in [*self.equipped_items, *self.items]:
+            weight += item.weight
+        return weight
 
     def encode(self):
         object_ids = []
@@ -132,7 +145,11 @@ class Inventory(BaseDataclass):
         """Equips item."""
 
         if slot_id is not None:
-            current_item = self.equipped_items
+            current_item = self.equipped_items.by_id(slot_id)
+            self.items.append(current_item)
+            self.equipped_items.set_item(slot_id, item)
+            self.items.pop(item)
+            item.is_equipped = True
 
     def encode_other(self):
         """Encodes inventory as other character."""
