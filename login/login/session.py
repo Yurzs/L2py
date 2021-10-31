@@ -17,6 +17,7 @@ class LoginSession(Session):
         self.xor_key = LoginXorKey()
         self.protocol_version = 50721
         self.blowfish_enabled = False
+        self.account = None
 
     @classmethod
     def by_username(cls, username):

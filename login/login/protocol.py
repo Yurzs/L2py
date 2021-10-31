@@ -36,14 +36,14 @@ class Lineage2LoginProtocol(TCPProtocol):
 
     @TCPProtocol.make_async
     async def data_received(self, data: bytes):
-        request = self.transport.read(data)
-        response = await handle_request(request)
-        if response:
-            LOG.debug(
-                "Sending packet to %s:%s",
-                *self.transport.peer,
-            )
-            self.transport.write(response)
+        for request in self.transport.read(data):
+            response = await handle_request(request)
+            if response:
+                LOG.debug(
+                    "Sending packet to %s:%s",
+                    *self.transport.peer,
+                )
+                self.transport.write(response)
 
     def connection_lost(self, exc) -> None:
         super().connection_lost(exc)

@@ -1,5 +1,6 @@
 import logging
 
+from common.helpers.bytearray import ByteArray
 from common.request import Request
 from common.response import Response
 
@@ -17,10 +18,19 @@ class PacketTransport:
         return self._transport.get_extra_info("peername")
 
     def read(self, data):
-        request = Request(data, self.session)
-        for middleware in self.middleware:
-            middleware.before(self.session, request)
-        return request
+        data = ByteArray(data)
+        requests = []
+        while True:
+            if data:
+                packet_len = int(Int16(data[0:2]))
+                request = Request(data[:packet_len], self.session)
+                requests.append(request)
+                data = data[packet_len:]
+                for middleware in self.middleware:
+                    middleware.before(self.session, request)
+            else:
+                break
+        return requests
 
     def write(self, response: Response):
         for middleware in self.middleware[::-1]:
