@@ -13,7 +13,6 @@ LOG = logging.getLogger(f"L2py.game")
 
 
 def main():
-    GameSession.start()
     GAME_SERVER_APPLICATION.run(
         {
             "game_web": {

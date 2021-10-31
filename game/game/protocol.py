@@ -1,10 +1,7 @@
 import logging
 
 from common.api_handlers import handle_request
-from common.packet import Packet
-from common.response import Response
 from common.transport.protocol import TCPProtocol
-from game.models.world import WORLD
 from game.session import GameSession
 from game.states import Connected
 
@@ -25,18 +22,14 @@ class Lineage2GameProtocol(TCPProtocol):
 
     @TCPProtocol.make_async
     async def data_received(self, data: bytes):
-        request = self.transport.read(data)
-        response = await handle_request(request)
-        if response:
-            LOG.debug(
-                "Sending packet to %s:%s",
-                *self.transport.peer,
-            )
-            self.transport.write(response)
-            for action in response.actions_after:
-                action_result = await action
-                if isinstance(action_result, Packet):
-                    self.transport.write(Response(action_result, self.session))
+        for request in self.transport.read(data):
+            response = await handle_request(request)
+            if response:
+                LOG.debug(
+                    "Sending packet to %s:%s",
+                    *self.transport.peer,
+                )
+                self.transport.write(response)
 
     def connection_lost(self, exc) -> None:
         self.session.logout_character()
