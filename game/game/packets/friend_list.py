@@ -1,6 +1,7 @@
+import typing
 from dataclasses import dataclass, field
 
-from data.models.character import Character
+from game.models.character import Character
 from game.packets.base import GameServerPacket
 
 if typing.TYPE_CHECKING:

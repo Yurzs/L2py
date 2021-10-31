@@ -20,4 +20,4 @@ async def enter_world(request):
     WORLD.notify_spawn(character)
     WORLD.notify_me_about_others_nearby(request.session, character)
 
-    # TODO
+    request.session.send_packet(game.packets.ItemList(character.inventory.items))

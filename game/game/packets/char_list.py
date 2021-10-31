@@ -2,7 +2,7 @@ import typing
 from dataclasses import dataclass, field
 
 from common.helpers.bytearray import ByteArray
-from data.models.character import Character
+from game.models.character import Character
 
 from .base import GameServerPacket
 
@@ -13,7 +13,7 @@ class CharList(GameServerPacket):
     characters: typing.List[Character] = ()
 
     def encode(self, session):
-        account = session.get_data()["account"]
+        account = session.account
 
         encoded = self.type.encode()
 

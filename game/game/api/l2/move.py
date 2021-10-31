@@ -3,9 +3,9 @@ import game.packets
 import game.states
 from common.api_handlers import l2_request_handler
 from common.template import Parameter, Template
-from data.models.character import Character
-from data.models.structures.object.point3d import Point3D
-from data.models.structures.object.position import Position
+from game.models.character import Character
+from game.models.structures.object.point3d import Point3D
+from game.models.structures.object.position import Position
 from game.models.world import WORLD
 
 
@@ -38,13 +38,14 @@ async def move_back_to_location(request):
     diff_x = Double(to_x - character.position.point3d.x)
     diff_y = Double(to_y - character.position.point3d.y)
 
+    print(diff_x, diff_y)
     if (diff_x * diff_x + diff_y * diff_y) > 98010000:
         return game.packets.ActionFailed()
 
     new_position = Position(
         0,
         Point3D(
-            to_x,  # TODO why?!
+            to_x,
             to_y,
             to_z,
         ),
@@ -55,3 +56,20 @@ async def move_back_to_location(request):
     WORLD.notify_move(character, new_position)
     character.position = new_position
     request.session.set_data({"character": character})
+
+
+@l2_request_handler(
+    game.constants.GAME_REQUEST_VALIDATE_POSITION,
+    Template(
+        [
+            Parameter("x", start=0, length=4, type=Int32),
+            Parameter("y", start="$x.stop", length=4, type=Int32),
+            Parameter("z", start="$y.stop", length=4, type=Int32),
+            Parameter("heading", start="$z.stop", length=4, type=Int32),
+            Parameter("data", start="$heading.stop", length=4, type=Int32),
+        ]
+    ),
+    states="*",  # TODO
+)
+async def validate_position(request):
+    pass

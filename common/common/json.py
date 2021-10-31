@@ -41,9 +41,8 @@ class JsonDecoder(json.JSONDecoder):
         super().__init__(object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, data):
-        from data.models.account import Account  # noqa: F401
-        from data.models.game_server import GameServer  # noqa: F401
-        from data.models.login_server import LoginServer  # noqa: F401
+        from common.models.account import Account  # noqa: F401
+        from common.models.game_server import GameServer  # noqa: F401
 
         if isinstance(data, dict):
             if "$oid" in data:

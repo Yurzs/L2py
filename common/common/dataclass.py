@@ -62,7 +62,9 @@ class MetaBaseDataclass(type):
 
 @dataclasses.dataclass
 class BaseDataclass(metaclass=MetaBaseDataclass):
-    __post_init_checks = collections.defaultdict(list)
+    HOOK_VALIDATE = "validate"
+    ALL_HOOKS = [HOOK_VALIDATE]
+    __hooks = collections.defaultdict(lambda: collections.defaultdict(list))
 
     @property
     def _fields(self):
@@ -120,15 +122,17 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
                 field_name,
                 self.ensure_field_value(field, getattr(self, field_name)),
             )
-        for cls, checks in self.__post_init_checks.items():
+        for cls, hooks in self.__hooks.items():
             if issubclass(self.__class__, cls):
-                for check in checks:
-                    check(self)
+                for func in hooks[self.HOOK_VALIDATE]:
+                    func(self)
 
     @classmethod
-    def post_init_check(cls, f):
-        cls.__post_init_checks[cls].append(f)
-        return f
+    def hooks_parser(cls):
+        for key, value in cls.__dict__.items():
+            if any(map(lambda hook_name: key.startswith(hook_name), cls.ALL_HOOKS)):
+                hook_name = key.split("_")[0]
+                cls.__hooks[cls][hook_name] = value
 
     def __setattr__(self, key, value):
         if key in self._fields:
@@ -160,6 +164,7 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
 
     def __init_subclass__(cls, **kwargs):
         _DATACLASS_MAP[cls.__name__.lower()] = cls
+        cls.hooks_parser()
 
     @classmethod
     def update_forward_refs(cls, **localns):

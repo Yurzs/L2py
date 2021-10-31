@@ -19,6 +19,6 @@ GAME_SERVER_APPLICATION = Application(
             ],
         ),
         HTTPServerModule("game_web", json_encoder=JsonEncoder),
-        ScheduleModule("game_schedule"),
+        ScheduleModule(),
     ]
 )

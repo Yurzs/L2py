@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from data.models.structures.object.position import Position
+from game.models.structures.object.position import Position
 
 from .base import GameServerPacket
 

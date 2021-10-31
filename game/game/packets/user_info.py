@@ -1,7 +1,7 @@
 import typing
 from dataclasses import dataclass, field
 
-from data.models.character import Character
+from game.models.character import Character
 
 if typing.TYPE_CHECKING:
     from game.session import GameSession

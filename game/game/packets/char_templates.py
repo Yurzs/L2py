@@ -2,8 +2,8 @@ import typing
 from dataclasses import dataclass, field
 
 from common.helpers.bytearray import ByteArray
-from data.models.character import Character
-from data.models.structures.static.character_template import StaticCharacterTemplate
+from game.models.character import Character
+from game.static.character_template import StaticCharacterTemplate
 
 from .base import GameServerPacket
 

@@ -4,7 +4,7 @@
 *pycache*
 
 .idea
-data/data/static
+game/game/data/static
 .env
 .venv
 .vscode
