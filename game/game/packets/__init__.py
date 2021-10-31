@@ -18,6 +18,7 @@ from .crypt_init import CryptInit
 from .etc_status_update import EtcStatusUpdate
 from .ex_send_manor_list import ExSendManorList
 from .ex_storage_max_count import ExStorageMaxCount
+from .item_list import ItemList
 from .leave_world import LeaveWorld
 from .logout_ok import LogoutOk
 from .move_to_location import MoveToLocation

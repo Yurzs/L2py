@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from data.models.crest import Crest
+from game.models.crest import Crest
 
 from .base import GameServerPacket
 

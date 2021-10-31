@@ -1,8 +1,8 @@
 import typing
 from dataclasses import dataclass, field
 
-from data.models.structures.object.object import L2Object
-from data.models.structures.object.position import Position
+from game.models.structures.object.object import L2Object
+from game.models.structures.object.position import Position
 from game.packets.base import GameServerPacket
 
 if typing.TYPE_CHECKING:

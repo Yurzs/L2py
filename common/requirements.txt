@@ -1,2 +1,4 @@
 aiojsonapi~=0.3.1633554756
 aiohttp~=3.7
+motor~=2.5.1
+apscheduler~=3.8.0

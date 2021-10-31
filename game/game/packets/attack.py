@@ -1,7 +1,7 @@
 import typing
 from dataclasses import dataclass, field
 
-import data.models.structures.object.position
+import game.models.structures.object.position
 from common.dataclass import BaseDataclass
 
 from .base import GameServerPacket
@@ -20,7 +20,7 @@ class Attack(GameServerPacket):
     attacker_id: Int32
     soulshot: Bool
     grade: Int32
-    position: data.models.structures.object.position.Position
+    position: game.models.structures.object.position.Position
     hit: Hit
     hits: typing.List[Hit] = field(default_factory=list, init=False)
     Hit = Hit

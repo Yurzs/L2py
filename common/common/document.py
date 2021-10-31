@@ -1,26 +1,30 @@
-import dataclasses
+import json
 import typing
+from dataclasses import dataclass, field
 
 import bson
+import pymongo
+from motor.motor_asyncio import AsyncIOMotorClient
 
 from common import exceptions
-from common.adapter import DataAdapter
+from common.config import Config
 from common.dataclass import BaseDataclass
-
-_ADAPTER = {"adapter": DataAdapter}
-
-
-def register_adapter(adapter):
-    _ADAPTER["adapter"] = adapter
+from common.json import JsonEncoder
 
 
-@dataclasses.dataclass
+@dataclass
+class DocumentBases:
+    __collection__: String = field(init=False, repr=False)
+    __database__: String = field(init=False, repr=False)
+
+
+@dataclass
 class DocumentDefaults:
-    _id: bson.ObjectId = dataclasses.field(default_factory=bson.ObjectId)
+    _id: String = field(default_factory=lambda: String(bson.ObjectId()))
 
 
-@dataclasses.dataclass
-class Document(BaseDataclass, DocumentDefaults):
+@dataclass
+class Document(BaseDataclass, DocumentDefaults, DocumentBases):
     __primary_key__ = "_id"
 
     NotFoundError = exceptions.DocumentNotFound
@@ -31,15 +35,19 @@ class Document(BaseDataclass, DocumentDefaults):
 
     @classmethod
     def client(cls):
-        return _ADAPTER["adapter"].client()
+        return AsyncIOMotorClient(Config().MONGO_URI)
+
+    @classmethod
+    def sync_client(cls):
+        return pymongo.MongoClient(Config().MONGO_URI)
 
     @classmethod
     def database(cls):
-        return _ADAPTER["adapter"].database(cls.__database__)
+        return cls.client()[cls.__database__]
 
     @classmethod
     def collection(cls):
-        return _ADAPTER["adapter"].collection(cls.__database__, cls.__collection__)
+        return cls.database()[cls.__collection__]
 
     @classmethod
     async def one(cls, document_id=None, add_query=None, required=True, **kwargs):
@@ -51,7 +59,6 @@ class Document(BaseDataclass, DocumentDefaults):
         if add_query is not None:
             query.update(add_query)
 
-        print(required)
         result = await cls.collection().find_one(query, **kwargs)
         if result is not None:
             return cls(**result)
@@ -105,7 +112,11 @@ class Document(BaseDataclass, DocumentDefaults):
         for field in fields:
             value = getattr(self, field)
             update_query["$set"].update(
-                {field: value.to_dict() if isinstance(value, BaseDataclass) else value}
+                {
+                    field: value.to_dict()
+                    if isinstance(value, BaseDataclass)
+                    else json.dumps(value, cls=JsonEncoder)
+                }
             )
 
         return self.collection().update_one(search_query, update_query)

@@ -6,19 +6,17 @@ import game.states
 from common.api_handlers import l2_request_handler
 from common.response import Response
 from common.template import Parameter, Template
-from data.models.character import Character
-from data.models.structures.character.template import CharacterTemplate
-from data.models.structures.static.character_template import StaticCharacterTemplate
-from game import clients
+from game.models.character import Character
+from game.models.structures.character.template import CharacterTemplate
 from game.models.world import WORLD
+from game.static.character_template import StaticCharacterTemplate
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 
 
 async def _char_list(session):
-    account = session.get_data()["account"]
     session.set_state(game.states.WaitingCharacterSelect)
-    return game.packets.CharList(await Character.all(account_username=account.username))
+    return game.packets.CharList(await Character.all(account_username=session.account.username))
 
 
 @l2_request_handler(
@@ -44,12 +42,9 @@ async def _char_list(session):
 )
 async def character_create(request):
 
-    templates = {
-        template.class_id: template
-        for template in await game.clients.DATA_CLIENT.get_static(StaticCharacterTemplate)
-    }
+    templates = {template.class_id: template for template in StaticCharacterTemplate.read_file()}
     class_template = templates[request.validated_data["class_id"]]
-    account = request.session.get_data()["account"]
+    account = request.session.account
 
     char_template = CharacterTemplate.from_static_template(
         class_template, request.validated_data["sex"]
@@ -87,7 +82,7 @@ async def character_create(request):
     states=[game.states.WaitingCharacterSelect, game.states.CreatingCharacter],
 )
 async def new_character(request):
-    templates = await game.clients.DATA_CLIENT.get_static(StaticCharacterTemplate)
+    templates = {template.class_id: template for template in StaticCharacterTemplate.read_file()}
     request.session.set_state(game.states.CreatingCharacter)
     return game.packets.CharTemplates(templates)
 
@@ -98,9 +93,10 @@ async def new_character(request):
     states=[game.states.WaitingCharacterSelect],
 )
 async def character_delete(request):
-    account = request.session.get_data()["account"]
 
-    for slot_id, character in enumerate(await Character.all(account_username=account.username)):
+    for slot_id, character in enumerate(
+        await Character.all(account_username=request.session.account.username)
+    ):
         if slot_id == request.validated_data["character_slot"]:
             await character.mark_deleted()
             return Response(
@@ -118,9 +114,10 @@ async def character_delete(request):
     states=[game.states.WaitingCharacterSelect],
 )
 async def character_restore(request):
-    account = request.session.get_data()["account"]
 
-    for slot_id, character in enumerate(await Character.all(account_username=account.username)):
+    for slot_id, character in enumerate(
+        await Character.all(account_username=request.session.account.username)
+    ):
         if slot_id == request.validated_data["character_slot"]:
             await character.remove_deleted_mark()
             return await _char_list(request.session)
@@ -132,7 +129,7 @@ async def character_restore(request):
     states=[game.states.WaitingCharacterSelect],
 )
 async def character_selected(request):
-    account = request.session.get_data()["account"]
+    account = request.session.account
 
     for slot_id, character in enumerate(await Character.all(account_username=account.username)):
         if slot_id == request.validated_data["character_slot"]:
@@ -140,7 +137,9 @@ async def character_selected(request):
             request.session.set_state(game.states.CharacterSelected)
             request.session.set_character(character)
             WORLD.enter(request.session, character)
-            return game.packets.CharSelected(character)
+            request.session.send_packet(game.packets.CharSelected(character))
+            account.last_character = character.name
+            await account.commit_changes(fields=["last_character"])
 
 
 @l2_request_handler(
@@ -150,7 +149,7 @@ async def character_selected(request):
 )
 async def restart(request):
 
-    account = request.session.get_data()["account"]
+    account = request.session.account
 
     request.session.send_packet(game.packets.RestartResponse("Good bye!"))
 
