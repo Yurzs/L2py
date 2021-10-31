@@ -7,10 +7,9 @@ import login.constants
 from common.api_handlers import l2_request_handler
 from common.client.exceptions import ApiException, WrongCredentials
 from common.helpers.bytearray import ByteArray
+from common.models import Account, GameServer
 from common.template import Parameter, Template
-from data.models.account import Account
 from login.api.l2.handlers import verify_secrets
-from login.clients import DATA_CLIENT
 from login.packets import GGAuth, LoginFail, LoginOk, PlayFail, PlayOk, ServerList
 from login.state import Authenticated, Connected, GGAuthenticated, WaitingGameServerSelect
 
@@ -54,7 +53,7 @@ async def auth_login(request):
         return LoginFail(login.constants.LOGIN_FAIL_WRONG_PASSWORD)
 
     request.session.set_state(Authenticated)
-    request.session.set_data({"account": account})
+    request.session.account = account
 
     return LoginOk(request.session.session_key.login_ok1, request.session.session_key.login_ok2)
 
@@ -77,16 +76,8 @@ async def gg_authenticated(request):
 )
 @verify_secrets
 async def server_list(request):
-    game_servers = await DATA_CLIENT.get_game_server_list()
+    game_servers = await GameServer.all()
     request.session.set_state(WaitingGameServerSelect)
-    request.session.set_data(
-        {
-            "login_ok1": request.session.session_key.login_ok1,
-            "login_ok2": request.session.session_key.login_ok2,
-            "play_ok1": request.session.session_key.play_ok1,
-            "play_ok2": request.session.session_key.play_ok2,
-        }
-    )
     return ServerList(game_servers)
 
 
@@ -103,11 +94,11 @@ async def server_list(request):
 )
 @verify_secrets
 async def server_login(request):
-    game_servers = await DATA_CLIENT.get_game_server_list()
+    game_servers = await GameServer.all()
     game_server = None
 
     for server in game_servers:
-        if server._id == request.validated_data["server_id"]:
+        if server.id == request.validated_data["server_id"]:
             game_server = server
             break
 
@@ -120,5 +111,10 @@ async def server_login(request):
     request.session.send_packet(
         PlayOk(request.session.session_key.play_ok1, request.session.session_key.play_ok2)
     )
-    await asyncio.sleep(5)
-    request.session.delete()
+    await request.session.account.login_authenticated(
+        game_server.id,
+        request.session.session_key.play_ok1,
+        request.session.session_key.play_ok2,
+        request.session.session_key.login_ok1,
+        request.session.session_key.login_ok2,
+    )
