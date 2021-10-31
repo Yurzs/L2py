@@ -98,7 +98,7 @@ class Document(BaseDataclass, DocumentDefaults, DocumentBases):
             {self.__primary_key__: getattr(self, self.__primary_key__)}
         )
 
-    def commit_changes(self, fields=None):
+    async def commit_changes(self, fields=None):
         """Saves changed document to collection."""
 
         search_query = {self.__primary_key__: getattr(self, self.__primary_key__)}
@@ -119,7 +119,7 @@ class Document(BaseDataclass, DocumentDefaults, DocumentBases):
                 }
             )
 
-        return self.collection().update_one(search_query, update_query)
+        return await self.collection().update_one(search_query, update_query)
 
     async def insert(self):
         """Inserts document into collection."""
