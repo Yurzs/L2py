@@ -4,7 +4,6 @@ import game.constants
 import game.packets
 import game.states
 from common.api_handlers import l2_request_handler
-from common.response import Response
 from common.template import Parameter, Template
 from game.models.character import Character
 from game.models.structures.character.template import CharacterTemplate
@@ -16,7 +15,9 @@ LOG = logging.getLogger(f"l2py.{__name__}")
 
 async def _char_list(session):
     session.set_state(game.states.WaitingCharacterSelect)
-    return game.packets.CharList(await Character.all(account_username=session.account.username))
+    session.send_packet(
+        game.packets.CharList(await Character.all(account_username=session.account.username))
+    )
 
 
 @l2_request_handler(
@@ -50,7 +51,7 @@ async def character_create(request):
         class_template, request.validated_data["sex"]
     )
 
-    new_char = Character.from_template(
+    new_char = await Character.from_template(
         char_template,
         request.validated_data["name"],
         account,
@@ -69,11 +70,8 @@ async def character_create(request):
         return game.packets.CharCreateFail(1)
     else:
         request.session.set_state(game.states.WaitingCharacterSelect)
-        return Response(
-            game.packets.CharCreateOk(),
-            request.session,
-            actions_after=[_char_list(request.session)],
-        )
+        request.session.send_packet(game.packets.CharCreateOk())
+        request.session.send_packet(await _char_list(request.session))
 
 
 @l2_request_handler(
@@ -82,7 +80,7 @@ async def character_create(request):
     states=[game.states.WaitingCharacterSelect, game.states.CreatingCharacter],
 )
 async def new_character(request):
-    templates = {template.class_id: template for template in StaticCharacterTemplate.read_file()}
+    templates = StaticCharacterTemplate.read_file()
     request.session.set_state(game.states.CreatingCharacter)
     return game.packets.CharTemplates(templates)
 
@@ -99,11 +97,8 @@ async def character_delete(request):
     ):
         if slot_id == request.validated_data["character_slot"]:
             await character.mark_deleted()
-            return Response(
-                game.packets.CharDeleteOk(),
-                request.session,
-                actions_after=[_char_list(request.session)],
-            )
+            request.session.send_packet(game.packets.CharDeleteOk())
+            request.session.send_packet(await _char_list(request.session))
     else:
         return game.packets.CharDeleteFail()
 
@@ -120,7 +115,7 @@ async def character_restore(request):
     ):
         if slot_id == request.validated_data["character_slot"]:
             await character.remove_deleted_mark()
-            return await _char_list(request.session)
+            await _char_list(request.session)
 
 
 @l2_request_handler(

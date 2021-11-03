@@ -58,7 +58,6 @@ async def auth_login(request):
             and account.game_auth.play_ok1 == request.validated_data["play_ok1"]
             and account.game_auth.play_ok2 == request.validated_data["play_ok2"]
         ):
-            print(account.game_auth, request.validated_data)
             request.session.account = account
             request.session.set_state(game.states.WaitingCharacterSelect)
             return game.packets.CharList(await Character.all(account_username=account.username))

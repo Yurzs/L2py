@@ -55,7 +55,6 @@ async def move_back_to_location(request):
     request.session.send_packet(game.packets.CharMoveToLocation(character, new_position))
     WORLD.notify_move(character, new_position)
     character.position = new_position
-    request.session.set_data({"character": character})
 
 
 @l2_request_handler(
