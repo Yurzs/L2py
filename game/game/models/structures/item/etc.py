@@ -1,9 +1,6 @@
-import typing
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
-from game.models.structures.skill.skill import Skill
-
-from .item import Item, ItemTemplateBases, ItemTemplateDefaults
+from .item import Item
 
 
 class EtcItemType:
@@ -27,9 +24,7 @@ class EtcItem(Item):
     @property
     def is_consumable(self):
         match self.type:
-            case EtcItemType.SHOT:
-                return True
-            case EtcItemType.POTION:
+            case EtcItemType.SHOT | EtcItemType.POTION:
                 return True
             case _:
                 return False

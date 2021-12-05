@@ -9,6 +9,8 @@ class Status(BaseDataclass):
     hp: Int32 = 0
     mp: Int32 = 0
 
+    weight_load: Int32 = 0
+
     is_faking_death: Bool = field(default=False)
     is_in_combat: Bool = field(default=False)
     is_pvp: Bool = field(default=False)

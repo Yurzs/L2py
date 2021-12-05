@@ -1,3 +1,28 @@
+[tool.poetry]
+name = "l2py"
+version = "0.1.0"
+description = "Lineage2 Interlude server emulator"
+authors = ["Yury Sokov <yury@yurzs.dev>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pycryptodomex = "^3.12.0"
+M2Crypto = "^0.38.0"
+aiojsonapi = "^0.3.1633554756"
+APScheduler = "^3.8.1"
+motor = "^2.5.1"
+
+[tool.poetry.dev-dependencies]
+black = "^21.11b1"
+isort = "^5.10.1"
+pylint = "^2.12.2"
+pytest = "^6.2.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.isort]
 profile = "black"
 multi_line_output = 3
@@ -5,3 +30,6 @@ line_length = 99
 
 [tool.black]
 line_length = 99
+target_versions = ["py310"]
+
+[tool.pylint]

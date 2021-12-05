@@ -46,8 +46,16 @@ class Document(BaseDataclass, DocumentDefaults, DocumentBases):
         return cls.client()[cls.__database__]
 
     @classmethod
+    def sync_database(cls):
+        return cls.sync_client()[cls.__database__]
+
+    @classmethod
     def collection(cls):
         return cls.database()[cls.__collection__]
+
+    @classmethod
+    def sync_collection(cls):
+        return cls.sync_database()[cls.__collection__]
 
     @classmethod
     async def one(cls, document_id=None, add_query=None, required=True, **kwargs):

@@ -71,7 +71,7 @@ async def character_create(request):
     else:
         request.session.set_state(game.states.WaitingCharacterSelect)
         request.session.send_packet(game.packets.CharCreateOk())
-        request.session.send_packet(await _char_list(request.session))
+        await _char_list(request.session)
 
 
 @l2_request_handler(
@@ -98,7 +98,7 @@ async def character_delete(request):
         if slot_id == request.validated_data["character_slot"]:
             await character.mark_deleted()
             request.session.send_packet(game.packets.CharDeleteOk())
-            request.session.send_packet(await _char_list(request.session))
+            await _char_list(request.session)
     else:
         return game.packets.CharDeleteFail()
 
@@ -128,7 +128,6 @@ async def character_selected(request):
 
     for slot_id, character in enumerate(await Character.all(account_username=account.username)):
         if slot_id == request.validated_data["character_slot"]:
-            await character.remove_deleted_mark()
             request.session.set_state(game.states.CharacterSelected)
             request.session.set_character(character)
             WORLD.enter(request.session, character)

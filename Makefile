@@ -3,13 +3,14 @@ PROJECT_NAME = l2py
 PYTHON_VERSION = 3.10
 UNAME = $(shell uname)
 
-lint:
+format-check:
 	black --check .
-	isort -c --profile=black .
+	isort -c .
 
 format:
 	black .
-	isort --profile=black .
+	isort .
+
 
 
 test:
@@ -49,22 +50,15 @@ install: install_requirements install_lint
 docker-build-common:
 	cd common && docker build -t $(PROJECT_NAME)_common .
 
-docker-build-data-models: docker-build-common
-	cd data && docker build -f models.Dockerfile -t $(PROJECT_NAME)_data_models .
-
-docker-build-data: docker-build-common
-	cd data && docker build -t $(PROJECT_NAME)_data .
-
-docker-build-login: docker-build-data-models
+docker-build-login: docker-build-common
 	cd login && docker build -t $(PROJECT_NAME)_login .
 
-docker-build-game: docker-build-data-models
+docker-build-game: docker-build-common
 	cd game && docker build -t $(PROJECT_NAME)_game .
 
+docker-build: docker-build-game docker-build-login
 
-docker-build: docker-build-game docker-build-login docker-build-data
-
-compose-build: docker-build-data-models
+compose-build: docker-build-common
 	docker-compose build
 
 python:
