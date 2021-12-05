@@ -6,3 +6,5 @@
 .idea
 data/data/static
 .env
+.venv
+.vscode
