@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 import game.static.character_template
 from common.dataclass import BaseDataclass
 from game.models.structures.character.stats import Stats
-
 # from game.models.structures.item.item import Item
 from game.models.structures.object.point3d import Point3D
 

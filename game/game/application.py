@@ -5,6 +5,7 @@ from common.application_modules.http import HTTPServerModule
 from common.application_modules.scheduler import ScheduleModule
 from common.application_modules.tcp import TCPServerModule
 from common.json import JsonEncoder
+
 from game.middleware.xor import XORGameMiddleware
 from game.protocol import Lineage2GameProtocol
 

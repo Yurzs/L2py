@@ -1,9 +1,10 @@
 import common
-import login.middleware
 from common.application import Application
 from common.application_modules.http import HTTPServerModule
 from common.application_modules.tcp import TCPServerModule
 from common.json import JsonDecoder, JsonEncoder
+
+import login.middleware
 from login.protocol import Lineage2LoginProtocol
 
 LOGIN_SERVER_APPLICATION = Application(

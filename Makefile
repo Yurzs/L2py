@@ -14,7 +14,6 @@ lint:
 	- poetry run black . --check
 	- poetry run isort -c --profile=black .
 
-
 format:
 	poetry run black .
 	poetry run isort --profile=black .

@@ -10,3 +10,5 @@ game/game/data/static
 .vscode
 .dockerignore
 .DS_Store
+poetry.lock
+*venv*

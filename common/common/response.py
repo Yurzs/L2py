@@ -1,4 +1,3 @@
-import typing
 from dataclasses import dataclass
 
 from common.helpers.bytearray import ByteArray

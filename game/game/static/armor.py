@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 
 from common.dataclass import BaseDataclass
+from game.models.structures.item.item import (Item, ItemProperties,
+                                              ItemPropertiesBases)
 
 
 @dataclass
@@ -20,31 +22,6 @@ class ArmorPropertiesBases(ItemPropertiesBases):
 @dataclass
 class ArmorProperties(ItemProperties, ArmorPropertiesDefaults, ArmorPropertiesBases):
     pass
-
-
-example = {
-    "item_id": 9208,
-    "name": "Phantom Mask (Event)",
-    "bodypart": "dhair",
-    "crystallizable": false,
-    "armor_type": null,
-    "weight": 10,
-    "material": "wood",
-    "crystal_type": null,
-    "avoid_modify": 0,
-    "duration": -1,
-    "p_def": 0,
-    "m_def": 0,
-    "mp_bonus": 0,
-    "price": 0,
-    "crystal_count": 0,
-    "sellable": false,
-    "dropable": false,
-    "destroyable": true,
-    "tradable": false,
-    "item_skill_id": 0,
-    "item_skill_lvl": 0,
-}
 
 
 class Armor(Item):

@@ -1,13 +1,12 @@
 import logging
 
 import common  # noqa: F401
-import game.api.http  # noqa: F401
-import game.api.l2  # noqa: F401
+
+import game.api  # noqa: F401
 import game.periodic_tasks  # noqa: F401
 from game.application import GAME_SERVER_APPLICATION
 from game.config import GameConfig
 from game.models.world import WORLD
-from game.session import GameSession
 
 LOG = logging.getLogger(f"L2py.game")
 

@@ -1,16 +1,12 @@
 import logging
 
 import common  # noqa: F401
+
 import login.api.http  # noqa: F401
 import login.api.l2  # noqa: F401
 from login.application import LOGIN_SERVER_APPLICATION
-from login.config import (
-    LOGIN_SERVER_API_HOST,
-    LOGIN_SERVER_API_PORT,
-    LOGIN_SERVER_HOST,
-    LOGIN_SERVER_PORT,
-    loop,
-)
+from login.config import (LOGIN_SERVER_API_HOST, LOGIN_SERVER_API_PORT,
+                          LOGIN_SERVER_HOST, LOGIN_SERVER_PORT, loop)
 from login.session import LoginSession
 
 LOG = logging.getLogger(f"L2py.login")

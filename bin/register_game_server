@@ -2,11 +2,8 @@
 
 import argparse
 import asyncio
-import os
 
-from common.document import register_adapter
-from data.models.adapters.mongo import MongoAdapter
-from data.models.game_server import GameServer
+from common.models.game_server import GameServer
 
 
 async def create_server(args):
@@ -40,5 +37,4 @@ def main():
 
 
 if __name__ == "__main__":
-    register_adapter(MongoAdapter(os.environ["MONGO_URI"]))
     main()

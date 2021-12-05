@@ -1,8 +1,9 @@
+from common.api_handlers import l2_request_handler
+from common.template import Parameter, Template
+
 import game.constants
 import game.packets
 import game.states
-from common.api_handlers import l2_request_handler
-from common.template import Parameter, Template
 from game.models.character import Character
 from game.models.structures.object.point3d import Point3D
 from game.models.structures.object.position import Position

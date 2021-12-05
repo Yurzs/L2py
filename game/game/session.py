@@ -1,4 +1,5 @@
 from common.session import Session
+
 from game.keys.xor_key import GameXorKey
 from game.models.character import Character
 from game.models.world import WORLD
@@ -16,7 +17,6 @@ class GameSession(Session):
         self.session_id = None
         self.blowfish_enabled = False
         self.character = None
-        self.account = None
 
     def set_character(self, character: Character):
         self.character = character
