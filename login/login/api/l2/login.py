@@ -5,7 +5,6 @@ from M2Crypto import RSA
 
 import login.constants
 from common.api_handlers import l2_request_handler
-from common.client.exceptions import ApiException, WrongCredentials
 from common.helpers.bytearray import ByteArray
 from common.models import Account, GameServer
 from common.template import Parameter, Template
@@ -14,6 +13,13 @@ from login.packets import GGAuth, LoginFail, LoginOk, PlayFail, PlayOk, ServerLi
 from login.state import Authenticated, Connected, GGAuthenticated, WaitingGameServerSelect
 
 LOG = logging.getLogger(f"l2py.{__name__}")
+
+class WrongCredentials(Exception):
+    pass
+
+
+class DocumentDoesntExist(Exception):
+    pass
 
 
 @l2_request_handler(
@@ -31,13 +37,14 @@ async def auth_login(request):
     try:
         username = String.decode(decrypted[94:107])
         password = String.decode(decrypted[108:124])
+        print(username, password)
     except UnicodeDecodeError:
         return LoginFail(login.constants.LOGIN_FAIL_WRONG_LOGIN_OR_PASSWORD)
 
     try:
         account = await Account.one(username=username, required=False)
         if account is None:
-            account = Account(username, username, "none", 1)
+            account = Account(username, username, "None", 1)
             print(account)
             await account.insert()
             await account.set_new_password(password)
@@ -46,8 +53,6 @@ async def auth_login(request):
             raise WrongCredentials("Wrong Password")
     except WrongCredentials:
         return LoginFail(login.constants.LOGIN_FAIL_WRONG_LOGIN_OR_PASSWORD)
-    except ApiException:
-        return LoginFail(login.constants.LOGIN_FAIL_DATABASE_ERROR)
     except Exception as e:
         LOG.exception(e)
         return LoginFail(login.constants.LOGIN_FAIL_WRONG_PASSWORD)
