@@ -2,7 +2,7 @@
 *.pyo
 *.pyi
 *pycache*
-
+.venv
 .idea
 game/game/data/static
 .env

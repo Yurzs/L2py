@@ -1,0 +1,32 @@
+{
+    "python.pythonPath": ".venv/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintPath": ".venv/bin/pylint",
+    "python.analysis.extraPaths": [
+        "/home/mao/L2py/common",
+        "/home/mao/L2py/game",
+        "/home/mao/L2py/login",
+        "/home/mao/L2py/data"
+        
+    ],
+    "python.autoComplete.extraPaths": [
+        "/home/mao/L2py/common",
+        "/home/mao/L2py/game",
+        "/home/mao/L2py/login",
+    ],
+    "python.linting.pylintArgs": [
+        "--init-hook",
+        "import sys; sys.path.insert(0, '/home/mao/L2py/common')"
+    ],
+    "terminal.integrated.env.osx": {
+        "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/common:${workspaceFolder}/login:${workspaceFolder}/game",
+    },
+    "terminal.integrated.env.linux": {
+       "PYTHONPATH": "${env:PYTHONPATH}:${workspaceFolder}/common:${workspaceFolder}/login:${workspaceFolder}/game",
+    },
+    "terminal.integrated.env.windows": {
+       "PYTHONPATH":"${env:PYTHONPATH}:${workspaceFolder}/common:${workspaceFolder}/login:${workspaceFolder}/game",
+    },
+    "python.envFile": "${env:PYTHONPATH}:${workspaceFolder}/common:${workspaceFolder}/login:${workspaceFolder}/game"
+}
