@@ -6,3 +6,7 @@
 .idea
 data/data/static
 .env
+.venv
+.vscode
+.dockerignore
+.DS_Store
