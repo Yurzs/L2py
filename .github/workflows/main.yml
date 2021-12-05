@@ -1,0 +1,33 @@
+name: PR lint check
+
+on: [pull_request]
+
+jobs:
+  lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10.0'
+    # - name: Lint with pylint
+    #   run: |
+    #     pip install pylint
+    #     pylint ./game/game
+    #     pylint ./login/login
+    #     pylint ./common/common 
+        
+
+    - name: Lint with black
+      run: |
+        pip install black
+        black . --check --target-version py310 -v
+        
+
+    - name: Lint with isort
+      run: |
+        pip install isort
+        isort . --profile=black --check-only -v
