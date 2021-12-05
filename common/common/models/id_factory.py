@@ -1,40 +1,32 @@
 import asyncio
 from dataclasses import dataclass, field
 
-from common.document import Document
+from common.document import Document, DocumentBases
 
 
 @dataclass
-class IDFactoryDocument(Document):
+class IDFactoryBases(DocumentBases):
+    name: UTFString
+
+
+@dataclass
+class IDFactory(Document, IDFactoryBases):
     __collection__: String = field(default="id_factory", repr=False, init=False)
     __database__: String = field(default="l2py", repr=False, init=False)
 
-    counter: Int32 = 0
+    NAME_ITEMS = "items"
+    NAME_CHARACTERS = "characters"
 
+    counter: Int32 = 1
 
-class IdFactory:
-    def __init__(self):
-        self.document = asyncio.run(self.get_counter_document())
+    @classmethod
+    async def get_new_id(cls, object_type_name: str):
+        item_id_factory = await cls.one(add_query={"name": object_type_name}, required=False)
+        if item_id_factory is None:
+            item_id_factory = cls(cls.NAME_ITEMS)
+            await item_id_factory.insert()
+        asyncio.Task(item_id_factory.increment())
+        return item_id_factory.counter
 
-    @property
-    def counter(self):
-        return self.document.counter
-
-    async def get_counter_document(self):
-        document = await IDFactoryDocument.one()
-        if document is None:
-            document = IDFactoryDocument()
-            await document.insert()
-        return document
-
-    async def update_counter(self):
-        IDFactoryDocument.collection().update_one(
-            {"_id": self.document._id}, {"$inc": {"counter": 1}}
-        )
-
-    def acquire_id(self):
-        self.document.counter += 1
-        asyncio.create_task(self.update_counter())
-
-
-ID_FACTORY = IdFactory()
+    async def increment(self):
+        self.collection().update_one({"_id": self._id}, {"$inc": {"counter": 1}})

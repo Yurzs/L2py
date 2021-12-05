@@ -16,7 +16,6 @@ class GameSession(Session):
         self.session_id = None
         self.blowfish_enabled = False
         self.character = None
-        self.account = None
 
     def set_character(self, character: Character):
         self.character = character

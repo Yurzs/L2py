@@ -31,15 +31,15 @@ class Materials:
     blood_steel = Int32(2)
     bronze = Int32(3)
     silver = Int32(4)
-    golD = Int32(5)
+    gold = Int32(5)
     mithril = Int32(6)
     oriharukon = Int32(7)
     paper = Int32(8)
-    wooD = Int32(9)
+    wood = Int32(9)
     cloth = Int32(10)
     leather = Int32(11)
     bone = Int32(12)
-    damascuS = Int32(13)
+    damascus = Int32(13)
     adamantaite = Int32(14)
     chrysolite = Int32(15)
     crystal = Int32(16)
@@ -167,6 +167,10 @@ class ItemDefaults(ItemTemplateDefaults):
 
     last_change: Int32 = 2
 
+    is_equipped: Bool = False
+    enchant_level: Int32 = 0
+    crystal_type: Int8 = 0
+
 
 @dataclass
 class ItemBases(ItemTemplateBases):
@@ -174,7 +178,7 @@ class ItemBases(ItemTemplateBases):
     count: Int32
     initial_count: Int32
     usage_time: Int32
-    item: ItemTemplate
+    item_template: ItemTemplate
     location: Int32
     slot: Int32
     enchant: Int32

@@ -5,6 +5,6 @@ import sys
 for module in ["common", "data", "game", "login"]:
     sys.path.append(str(pathlib.Path(module).resolve()))
 
-import common.datatypes
+import common.datatypes  # pylint: disable=unused-import
 
 print("Common data types imported\n")

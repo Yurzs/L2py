@@ -1,4 +1,3 @@
-import asyncio
 import logging
 import time
 import typing
@@ -8,6 +7,7 @@ import game.constants
 import game.packets
 from common.application_modules.scheduler import ScheduleModule
 from common.dataclass import BaseDataclass
+from game.config import GameConfig
 from game.models.character import Character
 from game.models.structures.object.object import L2Object
 from game.models.structures.object.position import Position
@@ -17,7 +17,6 @@ LOG = logging.getLogger(f"l2py.{__name__}")
 
 @dataclass
 class Clock:
-    ticks: int = 0
     start_time: int = field(default=int(time.time()))
     _is_night = False
     TICKS_PER_SECOND = 10
@@ -31,16 +30,17 @@ class Clock:
     def hours(self):
         return (self.get_time() / 60) % 24
 
+    @property
+    def ticks(self):
+        return int(int(time.time()) - self.start_time / self.MSEC_IN_TICK)
+
     @staticmethod
-    @ScheduleModule.job("interval", minutes=1)
-    async def tick():
-        CLOCK.ticks = int(int(time.time()) - CLOCK.start_time / CLOCK.MSEC_IN_TICK)
+    @ScheduleModule.job("interval", hours=3)
+    async def daytime_change():
+        CLOCK.toggle_is_night()
 
     def get_time(self):
         return Int32(self.ticks / (self.TICKS_PER_SECOND * 10))
-
-    def set_ticks(self, ticks):
-        self.ticks = ticks
 
     def is_daytime_changed(self):
         return self._is_night != self.is_night
@@ -91,7 +91,7 @@ class World(BaseDataclass):
         self._characters.pop(character)
         self._char_ids.pop(character.id)
         self._objects.pop(character.id)
-        asyncio.create_task(
+        GameConfig().loop.create_task(
             character.commit_changes(
                 fields=[
                     "position",

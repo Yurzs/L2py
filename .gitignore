@@ -6,3 +6,5 @@
 .idea
 game/game/data/static
 .env
+poetry.lock
+*venv*

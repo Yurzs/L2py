@@ -13,9 +13,4 @@ class StaticData(BaseDataclass):
 
     @classmethod
     def read_file(cls) -> typing.List["StaticData"]:
-        result = []
-        cache = StaticDataCache()
-        print(pathlib.Path(os.curdir).resolve())
-        for item in json.loads(cache.read(cls.__filepath__)):
-            result.append(cls(**item))
-        return result
+        return StaticDataCache().read(cls.__filepath__, cls)

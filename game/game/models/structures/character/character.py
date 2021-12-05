@@ -57,7 +57,7 @@ class Character(Playable, CharacterDefaults, CharacterBase):
 
     @property
     def inventory_max(self):
-        return Int16(80)
+        return Int32(80)
 
     @property
     def warehouse_max(self):

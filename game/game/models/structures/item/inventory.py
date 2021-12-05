@@ -2,7 +2,7 @@ import typing
 from dataclasses import dataclass, field
 
 from common.dataclass import BaseDataclass
-from game.models.structures.item.item import Item
+from game.models.structures.item import Armor, EtcItem, Item, Weapon
 
 
 @dataclass
@@ -48,24 +48,24 @@ class PaperDoll(BaseDataclass):
         double_hair_id,
     ]
 
-    under: Item = None
-    left_ear: Item = None
-    right_ear: Item = None
-    neck: Item = None
-    left_finger: Item = None
-    right_finger: Item = None
-    head: Item = None
-    right_hand: Item = None
-    left_hand: Item = None
-    gloves: Item = None
-    chest: Item = None
-    legs: Item = None
-    feet: Item = None
-    back: Item = None
-    face: Item = None
-    hair: Item = None
-    hair_all: Item = None
-    double_handed: Item = None
+    under: Armor = None
+    left_ear: Armor = None
+    right_ear: Armor = None
+    neck: Armor = None
+    left_finger: Armor = None
+    right_finger: Armor = None
+    head: Armor = None
+    right_hand: Weapon = None
+    left_hand: Weapon = None
+    gloves: Armor = None
+    chest: Armor = None
+    legs: Armor = None
+    feet: Armor = None
+    back: Armor = None
+    face: Armor = None
+    hair: Armor = None
+    hair_all: Armor = None
+    double_handed: Weapon = None
 
     def by_id(self, item_slot_id: Int32):
         """Finds item by its slot ID."""

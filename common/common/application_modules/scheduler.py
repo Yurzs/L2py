@@ -1,3 +1,5 @@
+import logging
+
 import apscheduler.executors.asyncio
 import apscheduler.jobstores.base
 import apscheduler.jobstores.mongodb
@@ -29,6 +31,7 @@ class ScheduleModule(ApplicationModule):
         self.scheduler._eventloop = loop
         self.scheduler.start()
         self._add_jobs()
+        logging.getLogger("apscheduler.executors.default").setLevel(logging.WARNING)
 
     def _add_jobs(self):
         for job in self._jobs:

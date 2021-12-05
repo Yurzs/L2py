@@ -1,4 +1,3 @@
-import multiprocessing
 import uuid
 from threading import Lock
 
@@ -12,6 +11,8 @@ class Session:
         self.uuid = uuid.uuid4()
         self.lock_before = Lock()
         self.lock_after = Lock()
+
+        self.account: "Account" = None
 
     def set_state(self, new_state):
         """Sets new session state.
