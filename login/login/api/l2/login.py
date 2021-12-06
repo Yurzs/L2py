@@ -1,19 +1,17 @@
 import asyncio
 import logging
 
+from M2Crypto import RSA
+
+import login.constants
 from common.api_handlers import l2_request_handler
 from common.client.exceptions import ApiException, WrongCredentials
 from common.helpers.bytearray import ByteArray
 from common.models import Account, GameServer
 from common.template import Parameter, Template
-from M2Crypto import RSA
-
-import login.constants
 from login.api.l2.handlers import verify_secrets
-from login.packets import (GGAuth, LoginFail, LoginOk, PlayFail, PlayOk,
-                           ServerList)
-from login.state import (Authenticated, Connected, GGAuthenticated,
-                         WaitingGameServerSelect)
+from login.packets import GGAuth, LoginFail, LoginOk, PlayFail, PlayOk, ServerList
+from login.state import Authenticated, Connected, GGAuthenticated, WaitingGameServerSelect
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 

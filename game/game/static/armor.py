@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
 
 from common.dataclass import BaseDataclass
-from game.models.structures.item.item import (Item, ItemProperties,
-                                              ItemPropertiesBases)
+from game.models.structures.item.item import Item, ItemProperties, ItemPropertiesBases
 
 
 @dataclass

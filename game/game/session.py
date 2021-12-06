@@ -1,5 +1,4 @@
 from common.session import Session
-
 from game.keys.xor_key import GameXorKey
 from game.models.character import Character
 from game.models.world import WORLD

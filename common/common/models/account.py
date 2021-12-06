@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from hashlib import sha3_512
 
 import pymongo
+
 from common.dataclass import BaseDataclass
 from common.document import Document, DocumentDefaults
 

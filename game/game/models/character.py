@@ -5,12 +5,11 @@ from dataclasses import dataclass, field
 from common.dataclass import BaseDataclass
 from common.document import Document, DocumentDefaults
 from common.models import IDFactory
-from game.models.structures.character.character import \
-    Character as CharacterStructure
-from game.models.structures.character.character import \
-    CharacterBase as CharacterBaseStructure
-from game.models.structures.character.character import \
-    CharacterDefaults as CharacterDefaultsStructure
+from game.models.structures.character.character import Character as CharacterStructure
+from game.models.structures.character.character import CharacterBase as CharacterBaseStructure
+from game.models.structures.character.character import (
+    CharacterDefaults as CharacterDefaultsStructure,
+)
 from game.models.structures.character.status import Status
 from game.models.structures.character.template import CharacterTemplate
 from game.models.structures.item.inventory import Inventory

@@ -1,7 +1,6 @@
 import logging
 
 import common  # noqa: F401
-
 import game.api  # noqa: F401
 import game.periodic_tasks  # noqa: F401
 from game.application import GAME_SERVER_APPLICATION

@@ -2,7 +2,6 @@ import logging
 
 from common.api_handlers import handle_request
 from common.transport.protocol import TCPProtocol
-
 from game.config import GameConfig
 from game.session import GameSession
 from game.states import Connected

@@ -1,11 +1,10 @@
 import logging
 
+import game.constants
+import game.packets
 from common.api_handlers import l2_request_handler
 from common.models import Account
 from common.template import Parameter, Template
-
-import game.constants
-import game.packets
 from game.models.character import Character
 from game.states import Connected, WaitingAuthentication
 

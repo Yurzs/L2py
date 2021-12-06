@@ -1,9 +1,8 @@
-from common.api_handlers import l2_request_handler
-from common.template import Parameter, Template
-
 import game.constants
 import game.packets
 import game.states
+from common.api_handlers import l2_request_handler
+from common.template import Parameter, Template
 from game.models.world import WORLD
 
 

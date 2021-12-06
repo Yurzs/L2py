@@ -2,8 +2,7 @@ import typing
 from dataclasses import dataclass, field
 
 from common.dataclass import BaseDataclass
-from game.models.structures.object.object import (L2Object, L2ObjectBases,
-                                                  L2ObjectDefaults)
+from game.models.structures.object.object import L2Object, L2ObjectBases, L2ObjectDefaults
 from game.models.structures.skill.skill import Skill
 
 

@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 
 import pymongo
+
 from common.document import Document, DocumentBases, DocumentDefaults
 
 
