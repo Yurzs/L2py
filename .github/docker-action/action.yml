@@ -1,0 +1,9 @@
+name: Docker Linter
+description: "None"
+
+runs: 
+  using: docker
+  image: 'Dockerfile'
+
+
+
