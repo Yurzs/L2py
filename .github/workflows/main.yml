@@ -1,6 +1,6 @@
-name: Python application
+name: Pull request isort and black check
 
-on: [push]
+on: [pull_request]
 
 jobs:
   lint:
