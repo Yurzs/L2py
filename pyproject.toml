@@ -30,6 +30,6 @@ line_length = 99
 
 [tool.black]
 line_length = 99
-target_versions = ["py310"]
+target_version = ["py310"]
 
 [tool.pylint]
