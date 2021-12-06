@@ -40,6 +40,14 @@ class Account(Document, AccountDefaults, AccountBase):
     __database__ = "l2py"
 
     @classmethod
+    async def create_index(cls):
+        return await cls.collection().create_index(
+            [
+                ("username", pymongo.ASCENDING),
+            ]
+        )
+
+    @classmethod
     async def one(cls, document_id=None, username=None, add_query=None, **kwargs) -> "Account":
         """Finds one account."""
 

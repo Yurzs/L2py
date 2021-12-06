@@ -8,7 +8,7 @@ from common.dataclass import _DATACLASS_MAP, BaseDataclass, TypedList
 
 
 class JsonEncoder(json.JSONEncoder):
-    def default(self, o: Any):
+    def encode(self, o: Any):
         if isinstance(o, BaseDataclass):
             result = o.to_dict()
             result["$model"] = o.__class__.__name__.lower()

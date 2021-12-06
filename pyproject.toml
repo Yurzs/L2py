@@ -36,3 +36,4 @@ target_version = ["py310"]
 target_versions = ["py310"]
 
 [tool.pylint]
+max-line-length = 99
