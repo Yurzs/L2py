@@ -1,12 +1,17 @@
-FROM l2py_data_models
+FROM python:3.10.0
 
-ADD game /code/game
-ADD requirements.txt /code
-ADD setup.py /code
+ADD game/game /code/game
+ADD common /code/common
+ADD data /code/data
+ADD game/pyproject.toml /code/
+ADD sitecustomize.py /code
 
-WORKDIR /code
-RUN apt install -y build-essential swig
-RUN pip install --upgrade pip wheel
-RUN python setup.py install
+WORKDIR /code/
+RUN apt-get update
+RUN apt-get install -y build-essential swig
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:$PATH"
+RUN export PATH
+RUN poetry install
 
-CMD ["python", "/code/game/runner.py"]
+CMD ["poetry", "run", "python", "/code/game/runner.py"]

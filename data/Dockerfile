@@ -1,12 +1,16 @@
-FROM l2py_common
+FROM python:3.10.0
 
-ADD data /code/data
-ADD requirements.txt /code
-ADD setup.py /code
+ADD data/data /code/data
+ADD common /code/common
+ADD data/pyproject.toml /code/
+ADD sitecustomize.py /code
 
-WORKDIR /code
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN python setup.py install
+WORKDIR /code/
+RUN apt-get update
+RUN apt-get install -y build-essential swig
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:$PATH"
+RUN export PATH
+RUN poetry install
 
-CMD ["python", "/code/data/runner.py"]
+CMD ["poetry", "run", "python", "/code/data/runner.py"]
