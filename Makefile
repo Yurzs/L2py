@@ -7,7 +7,7 @@ REQUIRED_PACKAGES := swig openssl
 lint:
 	- poetry run black . --check
 	- poetry run isort -c --profile=black .
-	
+
 
 format:
 	poetry run black .
@@ -37,7 +37,7 @@ endif
 check_requirements:
 	$(info Checking requirements:)
 	$(foreach bin,$(REQUIRED_PACKAGES),\
-    	$(if $(shell command -v $(bin) 2> /dev/null),$(info $(bin) is installed),$(error $(bin) not found, please install)))
+		$(if $(shell command -v $(bin) 2> /dev/null),$(info $(bin) is installed),$(error $(bin) not found, please install)))
 	@:
 
 
@@ -47,7 +47,8 @@ install: install_requirements
 	@PATH="/root/.local/bin:$(PATH)"
 	@export PATH
 	poetry install
-	
+	echo 'export $$(grep -v "^#" .env | xargs -0)' >> ./.venv/bin/activate
+
 
 docker-build-data:
 	docker build -t $(PROJECT_NAME)_data . -f ./data/Dockerfile
@@ -61,7 +62,23 @@ docker-build-game:
 docker-build: docker-build-game docker-build-login docker-build-data
 
 compose-build:
-	docker-compose build 
+	docker-compose build
 
 python:
 	PYTHONSTARTUP=.pythonrc python
+
+help:
+	$(info check_requirements)
+	$(info compose-build)
+	$(info docker-build-data)
+	$(info docker-build-game)
+	$(info docker-build-login)
+	$(info docker-build)
+	$(info format)
+	$(info help)
+	$(info install_requirements)
+	$(info install)
+	$(info lint)
+	$(info python)
+	$(info test)
+	@:
