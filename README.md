@@ -5,7 +5,7 @@ L2py
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 <a href="https://discord.gg/hgdFQYxtvm"><img src="https://img.shields.io/discord/897633223608250388?logo=discord" alt="chat on Discord"></a>
 
-Lineage2 Interlude+ server emulator written in python3
+Lineage II Interlude+ server emulator written in python3
 
 Stage: Alpha
 
@@ -27,19 +27,23 @@ Feel free to join developing our server:
 How to start developing
 -----------------------
 
-- Create python environment `make venv`
-- Activate python environment `. .venv/bin/activate`
-- Install requirements `make install_requirements` (Note: on macOS homebrew is required)
-- Run mongo on localhost (`docker run -d -p 27017:27017 mongo`)
-- Copy `.evn.example` to `.env`
-- Set environment variables using `. bin/activate`
-- Create game server using `bin/register_game_server`
-- Start data, login, game services `python <service>/<service>/runner.py`
+Without `docker`:
+- Install requirements with `make install_requirements` (Note: on macOS [`homebrew`](https://brew.sh/) is required)
+- Install and start [`mongodb`](https://www.mongodb.com/) on localhost
+- Copy `.env.example` to `.env`, change environment variables as needed
+- Set up and activate venv with [`poetry`](https://python-poetry.org/) by `make install`
+- Create a game server using `bin/register_game_server`
+- Start `data`, `login`, `game` services with `poetry run python <service>/<service>/runner.py`
+
+Using [`docker`](https://www.docker.com/):
+- Install `docker` and `docker-compose` by [any preferred method](https://docs.docker.com/engine/install/)
+- Edit `docker-compose.yml` as needed
+- Run `make compose-build`, then `docker-compose up`
 
 Emulator server architecture
 ----------------
 
-Project is split to 3 components:
+Project is split into 3 components:
 
 - `Login Server` - L2 login service + basic HTTP API
 - `Game Server` - L2 game service + basic HTTP API
@@ -71,5 +75,5 @@ Most of the custom data types derive from ctypes (At least numeric ones.)
 
 For readability improvement they've been added to globals (builtins). 
 
-So to fix warnings in your IDE please add all datata types from `common.datatypes` 
+So to fix warnings in your IDE please add all data types from `common.datatypes` 
 to your ignore unresolved list.
