@@ -1,2 +1,0 @@
-aiojsonapi~=0.3.1633554756
-aiohttp~=3.7
