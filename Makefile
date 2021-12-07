@@ -49,7 +49,9 @@ install: install_requirements
 	poetry install
 	echo 'export $$(grep -v "^#" .env | xargs -0)' >> ./.venv/bin/activate
 
-
+docker-build-common:
+	docker build -t $(PROJECT_NAME)_data . -f ./common/Dockerfile
+	
 docker-build-data:
 	docker build -t $(PROJECT_NAME)_data . -f ./data/Dockerfile
 
@@ -59,7 +61,7 @@ docker-build-login:
 docker-build-game:
 	docker build -t $(PROJECT_NAME)_game . -f ./game/Dockerfile
 
-docker-build: docker-build-game docker-build-login docker-build-data
+docker-build: docker-build-common docker-build-data docker-build-login docker-build-game 
 
 compose-build:
 	docker-compose build
@@ -70,6 +72,7 @@ python:
 help:
 	$(info check_requirements)
 	$(info compose-build)
+	$(info docker-build-common)
 	$(info docker-build-data)
 	$(info docker-build-game)
 	$(info docker-build-login)

@@ -3,10 +3,16 @@ version: "3"
 services:
   mongo:
     image: mongo
+  common:
+    image: l2py-common
+    build:
+      dockerfile: ./common/Dockerfile
+      context: .
   data:
     build:
       dockerfile: ./data/Dockerfile
       context: .
+    restart: always
     environment:
       MONGO_URI: mongo
 
@@ -14,6 +20,7 @@ services:
     build:
       dockerfile: ./login/Dockerfile
       context: .
+    restart: always
     environment:
       DATA_SERVER_HOST: data
     ports:
@@ -23,6 +30,7 @@ services:
     build:
       dockerfile: ./game/Dockerfile
       context: .
+    restart: always
     environment:
       DATA_SERVER_HOST: data
       LOGIN_SERVER_API_HOST: login
