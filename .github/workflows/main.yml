@@ -36,9 +36,6 @@ jobs:
         poetry install
       if: steps.cache-venv.outputs.cache-hit != 'true'
 
-    - name: Activate venv
-      run: source .venv/bin/activate
-
     - name: Check formatting with black
       run: |
         poetry run black . --check
