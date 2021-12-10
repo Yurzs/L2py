@@ -21,10 +21,10 @@ jobs:
     
     - name: Check formatting with black
       run: |
-        poetry run black . --check -v
+        poetry run black . --check
         
     - name: Check imports with isort
       run: |
-        poetry run isort -c -v .
+        poetry run isort -c .
 
 ####  TODO: Add pylint
