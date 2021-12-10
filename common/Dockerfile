@@ -1,17 +1,13 @@
-FROM python:3.10
+FROM python:3.10.0 as l2py-common
 
-ENV PYTHONBUFFERED 1
 
-RUN mkdir "/code"
-ADD common /code/common
-ADD requirements.txt /code
-ADD setup.py /code
+ADD common/common /code/common
+ADD common/pyproject.toml /code/
+ADD data/data /code/data
+ADD sitecustomize.py /code
 
-RUN apt update
-RUN apt install -y build-essential
-
-WORKDIR /code
-RUN pip install --upgrade pip wheel
-RUN pip install -r requirements.txt
-RUN python setup.py install --single-version-externally-managed --root=/
-RUN rm -rf /code
+RUN apt-get update && apt-get install -y build-essential swig
+RUN curl -sSL https://install.python-poetry.org | python3 -
+WORKDIR /code/
+RUN /root/.local/bin/poetry install
+CMD ["true"]
