@@ -1,18 +1,13 @@
 name: PR static code check
 
-on: [pull_request_target]
+on: [pull_request]
 
 jobs:
   check:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout to PR
-      uses: actions/checkout@v2
-      with:
-        ref: ${{github.event.pull_request.head.ref}}
-        repository: ${{github.event.pull_request.head.repo.full_name}}
-
+    - uses: actions/checkout@v1
     - name: Set up Python 3.10
       uses: actions/setup-python@v2
       with:
