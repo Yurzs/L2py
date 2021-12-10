@@ -1,12 +1,6 @@
-FROM l2py_common
+FROM l2py-common as l2py-data
 
-ADD data /code/data
-ADD requirements.txt /code
-ADD setup.py /code
-
-WORKDIR /code
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN python setup.py install
-
-CMD ["python", "/code/data/runner.py"]
+WORKDIR /code/
+ADD data/pyproject.toml /code/
+RUN /root/.local/bin/poetry update && /root/.local/bin/poetry install
+CMD ["/root/.local/bin/poetry", "run", "python", "/code/data/runner.py"]

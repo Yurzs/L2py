@@ -1,12 +1,7 @@
-FROM l2py_data_models
+FROM l2py-common as l2py-game
 
-ADD game /code/game
-ADD requirements.txt /code
-ADD setup.py /code
-
-WORKDIR /code
-RUN apt install -y build-essential swig
-RUN pip install --upgrade pip wheel
-RUN python setup.py install
-
-CMD ["python", "/code/game/runner.py"]
+WORKDIR /code/
+ADD game/game /code/game
+ADD game/pyproject.toml /code/
+RUN /root/.local/bin/poetry update && /root/.local/bin/poetry install
+CMD ["/root/.local/bin/poetry", "run", "python", "/code/game/runner.py"]

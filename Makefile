@@ -2,34 +2,22 @@
 PROJECT_NAME = l2py
 PYTHON_VERSION = 3.10
 UNAME = $(shell uname)
+REQUIRED_PACKAGES := swig openssl
 
 lint:
-	black --check .
-	isort -c --profile=black .
+	- poetry run black . --check
+	- poetry run isort -c --profile=black .
+
 
 format:
-	black .
-	isort --profile=black .
-
+	poetry run black .
+	poetry run isort --profile=black .
 
 test:
 	pytest .
 
-create_venv:
-	python$(PYTHON_VERSION) -m venv .venv
-
-activate:
-	. .venv/bin/activate; \
-	bin/activate
-
-
-venv: create_venv activate install_requirements
-
-install_lint:
-	pip install black isort
-
-
 install_requirements:
+	$(info Installing requirements:)
 ifeq ($(UNAME),Darwin)
 	brew install openssl; \
 	brew install swig; \
@@ -37,35 +25,63 @@ ifeq ($(UNAME),Darwin)
 	CFLAGS="-I$(brew --prefix openssl)/include" \
 	SWIG_FEATURES="-cpperraswarn -includeall -I$(brew --prefix openssl)/include"
 endif
+ifeq ($(UNAME),Linux)
+	$(foreach bin,$(REQUIRED_PACKAGES),\
+		$(if $(shell command -v $(bin) 2> /dev/null),\
+		$(info $(bin) is installed),\
+		$(info $(bin) not found, trying to install); $(shell sudo apt-get install $(bin)\
+		)))
+endif
+	@:
 
-	for module in common data game login ; do \
-		cd $$module; \
-		pip install -r requirements.txt; \
-		cd ..; \
-	done
+check_requirements:
+	$(info Checking requirements:)
+	$(foreach bin,$(REQUIRED_PACKAGES),\
+		$(if $(shell command -v $(bin) 2> /dev/null),$(info $(bin) is installed),$(error $(bin) not found, please install)))
+	@:
 
-install: install_requirements install_lint
+
+install: install_requirements
+	$(info Installing poetry:)
+	curl -sSL https://install.python-poetry.org | python3 -
+	@PATH="/root/.local/bin:$(PATH)"
+	@export PATH
+	poetry install
+	echo 'export $$(grep -v "^#" .env | xargs -0)' >> ./.venv/bin/activate
 
 docker-build-common:
-	cd common && docker build -t $(PROJECT_NAME)_common .
+	docker build -t $(PROJECT_NAME)_data . -f ./common/Dockerfile
+	
+docker-build-data:
+	docker build -t $(PROJECT_NAME)_data . -f ./data/Dockerfile
 
-docker-build-data-models: docker-build-common
-	cd data && docker build -f models.Dockerfile -t $(PROJECT_NAME)_data_models .
+docker-build-login:
+	docker build -t $(PROJECT_NAME)_login . -f ./login/Dockerfile
 
-docker-build-data: docker-build-common
-	cd data && docker build -t $(PROJECT_NAME)_data .
+docker-build-game:
+	docker build -t $(PROJECT_NAME)_game . -f ./game/Dockerfile
 
-docker-build-login: docker-build-data-models
-	cd login && docker build -t $(PROJECT_NAME)_login .
+docker-build: docker-build-common docker-build-data docker-build-login docker-build-game 
 
-docker-build-game: docker-build-data-models
-	cd game && docker build -t $(PROJECT_NAME)_game .
-
-
-docker-build: docker-build-game docker-build-login docker-build-data
-
-compose-build: docker-build-data-models
+compose-build:
 	docker-compose build
 
 python:
 	PYTHONSTARTUP=.pythonrc python
+
+help:
+	$(info check_requirements)
+	$(info compose-build)
+	$(info docker-build-common)
+	$(info docker-build-data)
+	$(info docker-build-game)
+	$(info docker-build-login)
+	$(info docker-build)
+	$(info format)
+	$(info help)
+	$(info install_requirements)
+	$(info install)
+	$(info lint)
+	$(info python)
+	$(info test)
+	@:

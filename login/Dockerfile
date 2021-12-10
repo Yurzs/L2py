@@ -1,12 +1,7 @@
-FROM l2py_data_models
+FROM l2py-common as l2py-login
 
-ADD login /code/login
-ADD requirements.txt /code
-ADD setup.py /code
-
-WORKDIR /code
-RUN apt install -y build-essential swig
-RUN pip install --upgrade pip
-RUN python setup.py install
-
-CMD ["python", "/code/login/runner.py"]
+WORKDIR /code/
+ADD login/login /code/login
+ADD login/pyproject.toml /code/
+RUN /root/.local/bin/poetry update && /root/.local/bin/poetry install
+CMD ["/root/.local/bin/poetry", "run", "python", "/code/login/runner.py"]
