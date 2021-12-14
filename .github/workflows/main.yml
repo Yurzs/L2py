@@ -3,46 +3,34 @@ name: PR static code check
 on: 
   pull_request:
     types: [assigned, opened, synchronize, reopened]
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
 jobs:
-  check:
+  isort:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10.0'
+      - uses: actions/checkout@v2
 
-    - name: Install and configure Poetry
-      shell: bash
-      run: |
-        curl -sSL https://install.python-poetry.org | python3.10 -
-        export PATH="$HOME/.poetry/bin:$PATH"
-        poetry config virtualenvs.in-project true
-    
-    - name: Check for poetry cache
-      uses: actions/cache@v2
-      id: cache-venv
-      with:
-        path: .venv
-        key: ${{ runner.os }}-venv-${{ hashFiles('**/poetry.lock') }}
+      - name: Prepare environment
+        uses: ./.github/actions/poetry
 
-    - name: Make poetry venv
-      shell: bash
-      run: |
-        poetry install
-      if: steps.cache-venv.outputs.cache-hit != 'true'
+      - name: Check imports with isort
+        shell: bash
+        run: |
+          poetry run isort -c .
 
-    - name: Check formatting with black
-      shell: bash
-      run: |
-        poetry run black --check .
-        
-    - name: Check imports with isort
-      shell: bash
-      run: |
-        poetry run isort -c .
+  black:
+    runs-on: ubuntu-latest
 
+    steps:
+      - uses: actions/checkout@v2
 
-####  TODO: Add pylint
+      - name: Prepare environment
+        uses: ./.github/actions/poetry
+
+      - name: Check formatting with black
+        shell: bash
+        run: |
+          poetry run black --check .
