@@ -2,7 +2,6 @@
 PROJECT_NAME = l2py
 PYTHON_VERSION = 3.10
 UNAME = $(shell uname)
-REQUIRED_PACKAGES := swig openssl
 
 lint:
 	- poetry run black . --check
@@ -17,7 +16,6 @@ test:
 	pytest .
 
 install_requirements:
-	$(info Installing requirements:)
 ifeq ($(UNAME),Darwin)
 	brew install openssl; \
 	brew install swig; \
@@ -25,27 +23,13 @@ ifeq ($(UNAME),Darwin)
 	CFLAGS="-I$(brew --prefix openssl)/include" \
 	SWIG_FEATURES="-cpperraswarn -includeall -I$(brew --prefix openssl)/include"
 endif
-ifeq ($(UNAME),Linux)
-	$(foreach bin,$(REQUIRED_PACKAGES),\
-		$(if $(shell command -v $(bin) 2> /dev/null),\
-		$(info $(bin) is installed),\
-		$(info $(bin) not found, trying to install); $(shell sudo apt-get install $(bin)\
-		)))
-endif
-	@:
-
-check_requirements:
-	$(info Checking requirements:)
-	$(foreach bin,$(REQUIRED_PACKAGES),\
-		$(if $(shell command -v $(bin) 2> /dev/null),$(info $(bin) is installed),$(error $(bin) not found, please install)))
-	@:
-
 
 install: install_requirements
 	$(info Installing poetry:)
-	curl -sSL https://install.python-poetry.org | python3 -
+	curl -sSL https://install.python-poetry.org | python3.10 -
 	@PATH="/root/.local/bin:$(PATH)"
 	@export PATH
+	poetry config virtualenvs.in-project true
 	poetry install
 	echo 'export $$(grep -v "^#" .env | xargs -0)' >> ./.venv/bin/activate
 
@@ -70,7 +54,6 @@ python:
 	PYTHONSTARTUP=.pythonrc python
 
 help:
-	$(info check_requirements)
 	$(info compose-build)
 	$(info docker-build-common)
 	$(info docker-build-data)
