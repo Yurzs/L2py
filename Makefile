@@ -40,18 +40,21 @@ install: install_requirements
 	poetry install
 
 docker-build-common:
-	$(DOCKER) build -t $(PROJECT_NAME)_common . -f ./common/Dockerfile
+	cd common && $(DOCKER) build -t $(PROJECT_NAME)_common .
 
-docker-build-data:
-	$(DOCKER) build -t $(PROJECT_NAME)_data . -f ./data/Dockerfile
+docker-build-data: docker-build-common
+	cd data && $(DOCKER) build -t $(PROJECT_NAME)_data .
 
-docker-build-login:
-	$(DOCKER) build -t $(PROJECT_NAME)_login . -f ./login/Dockerfile
+docker-build-models: docker-build-common
+	cd data && $(DOCKER) build -t $(PROJECT_NAME)_datamodels .
 
-docker-build-game:
-	$(DOCKER) build -t $(PROJECT_NAME)_game . -f ./game/Dockerfile
+docker-build-login: docker-build-common
+	cd login && $(DOCKER) build -t $(PROJECT_NAME)_login . 
 
-docker-build: docker-build-common docker-build-data docker-build-login docker-build-game
+docker-build-game: docker-build-common
+	cd game && $(DOCKER) build -t $(PROJECT_NAME)_game . 
+
+docker-build: docker-build-common docker-build-data docker-build-models docker-build-login docker-build-game
 
 compose-build:
 	$(COMPOSE) build

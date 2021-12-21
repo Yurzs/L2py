@@ -7,7 +7,7 @@ license = "MIT"
 packages = [
     {include = "login", from = "."},
     {include = "common", from = "."},
-    {include = "data", from = "."}
+    {include = "data", from = "."},
 ]
 
 [tool.poetry.dependencies]

@@ -1,12 +1,11 @@
 [tool.poetry]
-name = "l2py-common"
+name = "l2py_common"
 version = "0.1.0"
 description = "Lineage2 Interlude game server emulator"
 authors = ["Yury Sokov <yury@yurzs.dev>"]
 license = "MIT"
 packages = [
     {include = "common", from = "."},
-    {include = "data", from = "."}
 ]
 
 [tool.poetry.dependencies]

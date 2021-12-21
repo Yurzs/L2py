@@ -4,22 +4,19 @@ services:
   mongo:
     image: mongo
   common:
-    image: l2py-common
+    image: l2py_common
     build:
-      dockerfile: ./common/Dockerfile
-      context: .
+      context: ./common
   data:
     build:
-      dockerfile: ./data/Dockerfile
-      context: .
+      context: ./data
     restart: always
     environment:
       MONGO_URI: mongo
 
   login:
     build:
-      dockerfile: ./login/Dockerfile
-      context: .
+      context: ./login
     restart: always
     environment:
       DATA_SERVER_HOST: data
@@ -28,8 +25,7 @@ services:
 
   game:
     build:
-      dockerfile: ./game/Dockerfile
-      context: .
+      context: ./game
     restart: always
     environment:
       DATA_SERVER_HOST: data

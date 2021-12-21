@@ -1,13 +1,15 @@
-FROM python:3.10.0 as l2py-common
+FROM python:3.10.0
 
-
-ADD common/common /code/common
-ADD common/pyproject.toml /code/
-ADD data/data /code/data
+ADD common /code/common
+ADD pyproject.toml /code/
 ADD sitecustomize.py /code
 
 RUN apt-get update && apt-get install -y build-essential swig
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN curl -sSL https://install.python-poetry.org | python -
+
+ENV PATH $PATH:/root/.local/bin
+
 WORKDIR /code/
-RUN /root/.local/bin/poetry install
-CMD ["true"]
+
+RUN poetry config virtualenvs.in-project true
+RUN poetry install
