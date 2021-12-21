@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "l2py-gameserver"
+name = "l2py_gameserver"
 version = "0.1.0"
 description = "Lineage2 Interlude game server emulator"
 authors = ["Yury Sokov <yury@yurzs.dev>"]
@@ -7,7 +7,7 @@ license = "MIT"
 packages = [
     {include = "game", from = "."},
     {include = "common", from = "."},
-    {include = "data", from = "."}
+    {include = "data", from = "."},
 ]
 
 [tool.poetry.dependencies]
