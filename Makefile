@@ -1,7 +1,14 @@
-
 PROJECT_NAME = l2py
 PYTHON_VERSION = 3.10
+
 UNAME = $(shell uname)
+DOCKER = $(shell which docker)
+COMPOSE = $(shell which docker-compose)
+POETRY = $(shell which poetry)
+PYTHON = $(shell which python$(PYTHON_VERSION))
+
+REQUIRED_PACKAGES := swig openssl
+
 
 lint:
 	- poetry run black . --check
@@ -26,29 +33,28 @@ endif
 
 install: install_requirements
 	$(info Installing poetry:)
-	curl -sSL https://install.python-poetry.org | python3.10 -
+	curl -sSL https://install.python-poetry.org | $(PYTHON) -
 	@PATH="/root/.local/bin:$(PATH)"
 	@export PATH
 	poetry config virtualenvs.in-project true
 	poetry install
-	echo 'export $$(grep -v "^#" .env | xargs -0)' >> ./.venv/bin/activate
 
 docker-build-common:
-	docker build -t $(PROJECT_NAME)_data . -f ./common/Dockerfile
-	
+	$(DOCKER) build -t $(PROJECT_NAME)_common . -f ./common/Dockerfile
+
 docker-build-data:
-	docker build -t $(PROJECT_NAME)_data . -f ./data/Dockerfile
+	$(DOCKER) build -t $(PROJECT_NAME)_data . -f ./data/Dockerfile
 
 docker-build-login:
-	docker build -t $(PROJECT_NAME)_login . -f ./login/Dockerfile
+	$(DOCKER) build -t $(PROJECT_NAME)_login . -f ./login/Dockerfile
 
 docker-build-game:
-	docker build -t $(PROJECT_NAME)_game . -f ./game/Dockerfile
+	$(DOCKER) build -t $(PROJECT_NAME)_game . -f ./game/Dockerfile
 
-docker-build: docker-build-common docker-build-data docker-build-login docker-build-game 
+docker-build: docker-build-common docker-build-data docker-build-login docker-build-game
 
 compose-build:
-	docker-compose build
+	$(COMPOSE) build
 
 python:
 	PYTHONSTARTUP=.pythonrc python
