@@ -64,9 +64,7 @@ class CharacterTemplateDefaults:
 
 
 @dataclass
-class CharacterTemplate(
-    BaseDataclass, CharacterTemplateDefaults, CharacterTemplateBase
-):
+class CharacterTemplate(BaseDataclass, CharacterTemplateDefaults, CharacterTemplateBase):
     @classmethod
     def from_static_template(
         cls,

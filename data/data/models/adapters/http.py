@@ -3,9 +3,7 @@ from common.client.data_client import DataClient
 
 
 class _HttpCollection:
-    def __init__(
-        self, data_client: DataClient, database_name: str, collection_name: str
-    ):
+    def __init__(self, data_client: DataClient, database_name: str, collection_name: str):
         self.data_client = data_client
         self.database_name = database_name
         self.collection_name = collection_name
