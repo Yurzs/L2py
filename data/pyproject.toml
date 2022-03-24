@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "l2py-dataserver"
+name = "data"
 version = "0.1.0"
-description = "Lineage2 Interlude game server emulator"
+description = "Lineage2 Interlude data server"
 authors = ["Yury Sokov <yury@yurzs.dev>"]
 license = "MIT"
 packages = [
-    {include = "common", from = "."},
-    {include = "data", from = "."}
+    {include = "data", from = "."},
+    {include = "models", from = "data"},
 ]
 
 [tool.poetry.dependencies]

@@ -1,13 +1,11 @@
 [tool.poetry]
-name = "l2py_gameserver"
+name = "game"
 version = "0.1.0"
 description = "Lineage2 Interlude game server emulator"
 authors = ["Yury Sokov <yury@yurzs.dev>"]
 license = "MIT"
 packages = [
     {include = "game", from = "."},
-    {include = "common", from = "."},
-    {include = "data", from = "."},
 ]
 
 [tool.poetry.dependencies]
@@ -15,7 +13,7 @@ python = "^3.10"
 pycryptodomex = "^3.12.0"
 M2Crypto = "^0.38.0"
 aiojsonapi = "^0.3.1633554756"
-APScheduler = "^3.8.1"
+APScheduler = "^3.9.1"
 motor = "^2.5.1"
 
 [tool.poetry.dev-dependencies]
