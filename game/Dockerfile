@@ -1,10 +1,11 @@
-FROM l2py_datamodels
+FROM l2py_data
 
+WORKDIR /code/
 ADD game /code/game
 ADD pyproject.toml /code/
 
-WORKDIR /code/
+RUN poetry update --no-interaction --no-ansi
+RUN poetry install --no-interaction --no-ansi
 
-RUN poetry update && poetry install
 
 CMD ["poetry", "run", "python", "/code/game/runner.py"]

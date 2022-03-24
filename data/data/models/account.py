@@ -51,7 +51,9 @@ class Account(Document, AccountDefaults, AccountBase):
         """
         salt = base64.b64encode(os.urandom(20)).decode()
         salted_password = password + salt
-        self.password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
+        self.password = base64.b64encode(
+            sha3_512(salted_password.encode()).digest()
+        ).decode()
         self.salt = salt
         await self.commit_changes(fields=["salt", "password"])
 
@@ -63,7 +65,9 @@ class Account(Document, AccountDefaults, AccountBase):
         """
 
         salted_password = password + self.salt
-        hashed_password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
+        hashed_password = base64.b64encode(
+            sha3_512(salted_password.encode()).digest()
+        ).decode()
         return self.password == hashed_password
 
     @classmethod

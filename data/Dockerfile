@@ -1,10 +1,11 @@
 FROM l2py_common
 
-ADD data /code/data
+WORKDIR /code/datta
+
+ADD data/ /code/data/
 ADD pyproject.toml /code/
 
-WORKDIR /code/
-
-RUN poetry update && poetry install
+RUN poetry update --no-interaction --no-ansi
+RUN poetry install --no-interaction --no-ansi
 
 CMD ["poetry", "run", "python", "/code/data/runner.py"]

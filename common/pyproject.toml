@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "l2py_common"
+name = "common"
 version = "0.1.0"
 description = "Lineage2 Interlude game server emulator"
 authors = ["Yury Sokov <yury@yurzs.dev>"]
@@ -17,5 +17,5 @@ motor = "^2.5.1"
 
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "poetry>=1.1.12"]
 build-backend = "poetry.core.masonry.api"

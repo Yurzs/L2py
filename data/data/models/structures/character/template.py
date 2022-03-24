@@ -64,7 +64,9 @@ class CharacterTemplateDefaults:
 
 
 @dataclass
-class CharacterTemplate(BaseDataclass, CharacterTemplateDefaults, CharacterTemplateBase):
+class CharacterTemplate(
+    BaseDataclass, CharacterTemplateDefaults, CharacterTemplateBase
+):
     @classmethod
     def from_static_template(
         cls,
@@ -73,7 +75,9 @@ class CharacterTemplate(BaseDataclass, CharacterTemplateDefaults, CharacterTempl
     ):
 
         class_info = ClassInfo(
-            id=template.class_id, name=template.class_name, base_level=template.level_up_gain.level
+            id=template.class_id,
+            name=template.class_name,
+            base_level=template.level_up_gain.level,
         )
 
         collision_height = template.male_collision_height

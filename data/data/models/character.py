@@ -6,7 +6,9 @@ from common.dataclass import BaseDataclass
 from common.document import Document, DocumentDefaults
 from common.helpers.bytearray import ByteArray
 from data.models.structures.character.character import Character as CharacterStructure
-from data.models.structures.character.character import CharacterBase as CharacterBaseStructure
+from data.models.structures.character.character import (
+    CharacterBase as CharacterBaseStructure,
+)
 from data.models.structures.character.character import (
     CharacterDefaults as CharacterDefaultsStructure,
 )
@@ -64,11 +66,21 @@ class Character(
 
     @classmethod
     async def all(cls, account_username=None, **kwargs):
-        return await super().all(add_query={"account_username": account_username}, **kwargs)
+        return await super().all(
+            add_query={"account_username": account_username}, **kwargs
+        )
 
     @classmethod
     def from_template(
-        cls, template: CharacterTemplate, name, account, sex, race, face, hair_style, hair_color
+        cls,
+        template: CharacterTemplate,
+        name,
+        account,
+        sex,
+        race,
+        face,
+        hair_style,
+        hair_color,
     ):
 
         status = Status(
