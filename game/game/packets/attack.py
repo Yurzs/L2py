@@ -3,23 +3,24 @@ from dataclasses import dataclass, field
 
 import game.models.structures.object.position
 from common.dataclass import BaseDataclass
+from common.helpers.cython import cython
 
 from .base import GameServerPacket
 
 
 @dataclass
 class Hit(BaseDataclass):
-    target_id: Int32
-    damage: Int32
-    flags: Int8 = 0
+    target_id: cython.long
+    damage: cython.long
+    flags: cython.char = 0
 
 
 @dataclass
 class Attack(GameServerPacket):
-    type: Int8 = field(default=5, init=False, repr=False)
-    attacker_id: Int32
-    soulshot: Bool
-    grade: Int32
+    type: cython.char = field(default=5, init=False, repr=False)
+    attacker_id: cython.long
+    soulshot: cython.bint
+    grade: cython.long
     position: game.models.structures.object.position.Position
     hit: Hit
     hits: typing.List[Hit] = field(default_factory=list, init=False)
@@ -31,8 +32,8 @@ class Attack(GameServerPacket):
 
     def add_hit(
         self,
-        target_id: Int32,
-        damage: Int32,
+        target_id: cython.long,
+        damage: cython.long,
         have_missed: bool,
         is_critical: bool,
         is_shielded: bool,
@@ -62,13 +63,13 @@ class Attack(GameServerPacket):
             self.position.point3d.x,
             self.position.point3d.y,
             self.position.point3d.z,
-            Int16(len(self.hits) - 1),
+            cython.int(len(self.hits) - 1),
         ]
         for hit in self.hits:
             ordered_data += [
                 hit.target_id,
                 hit.damage,
-                Int32(hit.flags),
+                cython.long(hit.flags),
             ]
         for item in ordered_data:
             encoded.append(item)

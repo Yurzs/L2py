@@ -8,6 +8,6 @@ from common.dataclass import BaseDataclass
 
 @dataclass
 class ObjectPolymorph(BaseDataclass):
-    id: Int32 = None
-    type: Int32 = None
+    id: cython.long = None
+    type: cython.long = None
     object: game.models.structures.object.object.L2Object = field(default=None)

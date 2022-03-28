@@ -5,8 +5,8 @@ from common.dataclass import BaseDataclass
 
 @dataclass
 class Reflections(BaseDataclass):
-    damage_percent: Int32
-    magic_skill: Int32
-    physical_skill: Int32
-    absorb_percent: Int32
-    transfer_percent: Int32
+    damage_percent: cython.long
+    magic_skill: cython.long
+    physical_skill: cython.long
+    absorb_percent: cython.long
+    transfer_percent: cython.long

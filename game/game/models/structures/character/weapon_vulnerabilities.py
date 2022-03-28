@@ -5,13 +5,13 @@ from common.dataclass import BaseDataclass
 
 @dataclass
 class WeaponVulnerabilities(BaseDataclass):
-    shield: Int32
-    sword: Int32
-    blunt: Int32
-    dagger: Int32
-    bow: Int32
-    pole: Int32
-    etc: Int32
-    fist: Int32
-    dual: Int32
-    dual_fist: Int32
+    shield: cython.long
+    sword: cython.long
+    blunt: cython.long
+    dagger: cython.long
+    bow: cython.long
+    pole: cython.long
+    etc: cython.long
+    fist: cython.long
+    dual: cython.long
+    dual_fist: cython.long

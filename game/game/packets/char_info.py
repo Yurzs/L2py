@@ -11,7 +11,7 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class CharInfo(GameServerPacket):
-    type: Int8 = field(default=3, init=False, repr=False)
+    type: cython.char = field(default=3, init=False, repr=False)
     character: Character
 
     def encode(self, session: "GameSession"):
@@ -28,22 +28,22 @@ class CharInfo(GameServerPacket):
             self.character.sex,
             self.character.active_class,
             *self.character.inventory.encode_other(),
-            *[Int16(0) for _ in range(4)],
+            *[cython.int(0) for _ in range(4)],
             # right hand augment
             self.character.inventory.equipped_items.right_hand.augmentation
             if self.character.inventory.equipped_items.right_hand is not None
-            else Int32(0),
-            *[Int16(0) for _ in range(12)],
+            else cython.long(0),
+            *[cython.int(0) for _ in range(12)],
             # left hand augment
             self.character.inventory.equipped_items.left_hand.augmentation
             if self.character.inventory.equipped_items.left_hand is not None
-            else Int32(0),
-            *[Int16(0) for _ in range(4)],
-            Int32(self.character.status.is_pvp),
+            else cython.long(0),
+            *[cython.int(0) for _ in range(4)],
+            cython.long(self.character.status.is_pvp),
             self.character.stats.karma,
             self.character.stats.magic_attack_speed,
             self.character.stats.physical_attack_speed,
-            Int32(self.character.status.is_pvp),
+            cython.long(self.character.status.is_pvp),
             self.character.stats.karma,
             self.character.stats.run_speed,
             self.character.stats.walk_speed,
@@ -61,21 +61,21 @@ class CharInfo(GameServerPacket):
             self.character.hair_color,
             self.character.face,
             self.character.title if self.character.is_visible else UTFString("Invisible"),
-            Int32(0),  # TODO clan id
-            Int32(0),  # TODO clan crest id
-            Int32(0),  # TODO ally id
-            Int32(0),  # TODO ally crest id
-            Int32(0),
-            Bool(not self.character.status.is_sitting),
+            cython.long(0),  # TODO clan id
+            cython.long(0),  # TODO clan crest id
+            cython.long(0),  # TODO ally id
+            cython.long(0),  # TODO ally crest id
+            cython.long(0),
+            cython.bint(not self.character.status.is_sitting),
             self.character.status.is_running,
             self.character.status.is_in_combat,
             self.character.status.is_faking_death,
-            Bool(not self.character.is_visible),
+            cython.bint(not self.character.is_visible),
             self.character.status.is_mounted,
             self.character.status.is_private_store,
-            Int16(0),  # TODO cubics
-            Bool(0),  # 1 - to find party members
-            Int32(0),  # TODO abnormal effect
+            cython.int(0),  # TODO cubics
+            cython.bint(0),  # 1 - to find party members
+            cython.long(0),  # TODO abnormal effect
             self.character.stats.recommends_left,
             self.character.stats.recommends_received,
             self.character.base_class,
@@ -83,21 +83,21 @@ class CharInfo(GameServerPacket):
             self.character.status.cp,
             self.character.status.is_mounted,
             # TODO circles
-            Int8(0),  # TODO Team id
-            Int32(0),  # TODO clan large crest id
+            cython.char(0),  # TODO Team id
+            cython.long(0),  # TODO clan large crest id
             self.character.status.is_noble,
             self.character.status.is_hero,
             self.character.status.is_fishing,
-            Int32(0),  # TODO fish x
-            Int32(0),  # TODO fish y
-            Int32(0),  # TODO fish z
+            cython.long(0),  # TODO fish x
+            cython.long(0),  # TODO fish y
+            cython.long(0),  # TODO fish z
             self.character.name_color,
-            Int32(self.character.status.is_running),
-            Int32(0),  # TODO pledge class
-            Int32(0),
+            cython.long(self.character.status.is_running),
+            cython.long(0),  # TODO pledge class
+            cython.long(0),
             self.character.title_color,
             # TODO cursed weapons
-            Int32(0),
+            cython.long(0),
         ]
         for item in ordered_data:
             encoded.append(item)

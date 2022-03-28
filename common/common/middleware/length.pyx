@@ -8,11 +8,13 @@ from common.session import Session
 class DataLengthMiddleware(Middleware):
     @classmethod
     def before(cls, session: Session, request: Request):
-        packet_length = Int16.decode(request.data[:2])
+        cdef int packet_length = int.from_bytes(request.data[:2], "little")
+
         if packet_length != len(request.data):
             raise exceptions.RequestLengthDoesntMatch()
         request.data = request.data[2:]
 
     @classmethod
     def after(cls, session: Session, response: Response):
-        response.data = Int16(2 + len(response.data)).encode() + response.data
+        cdef short packet_len = 2 + len(response.data)
+        response.data = packet_len.to_bytes(2, "little") + response.data

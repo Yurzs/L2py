@@ -5,9 +5,9 @@ from game.models.structures.zone.farm import ZoneFarm
 
 @dataclass
 class ZoneCylinder(ZoneFarm):
-    x: Int32
-    y: Int32
-    z1: Int32
-    z2: Int32
-    radiant: Int32
-    radiantS: Int32
+    x: cython.long
+    y: cython.long
+    z1: cython.long
+    z2: cython.long
+    radiant: cython.long
+    radiantS: cython.long

@@ -1,17 +1,19 @@
 import logging
 
+import login.session
 from common.api_handlers import handle_request
 from common.response import Response
 from common.transport.protocol import TCPProtocol
 from login.packets import Init
-from login.session import LoginSession
 from login.state import Connected
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 
 
 class Lineage2LoginProtocol(TCPProtocol):
-    session_cls = LoginSession
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, *kwargs)
+        self.session_cls = login.session.LoginSession
 
     def connection_made(self, transport):
         super().connection_made(transport)

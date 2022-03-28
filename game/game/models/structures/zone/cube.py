@@ -5,9 +5,9 @@ from game.models.structures.zone.farm import ZoneFarm
 
 @dataclass
 class ZoneCube(ZoneFarm):
-    x1: Int32
-    x2: Int32
-    y1: Int32
-    y2: Int32
-    z1: Int32
-    z2: Int32
+    x1: cython.long
+    x2: cython.long
+    y1: cython.long
+    y2: cython.long
+    z1: cython.long
+    z2: cython.long

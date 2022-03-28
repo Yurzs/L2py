@@ -1,13 +1,15 @@
 import dataclasses
 from abc import abstractmethod
 
+import cython
+
+import common.helpers.cython
 from common.dataclass import BaseDataclass
-from common.helpers.bytearray import ByteArray
 
 
 @dataclasses.dataclass
 class Packet(BaseDataclass):
-    type: Int8
+    type: cython.char
 
     @abstractmethod
     def encode(self):
@@ -15,9 +17,21 @@ class Packet(BaseDataclass):
 
     @property
     def body(self):
-        data = ByteArray(b"")
-        for arg in self._fields.keys():
-            data.extend(getattr(self, arg).encode())
+        data = bytearray()
+        for field_name, field in self._fields.items():
+            value = getattr(self, field_name)
+            field_type = field.type
+            print(field_name, field_type, value)
+            if isinstance(value, str):
+                data.extend(bytearray(value, "utf-8"))
+            elif isinstance(value, bytes):
+                print(f"len: {len(value)}")
+                data.extend(bytearray(value))
+            else:
+                print(f"len: {common.helpers.cython.get_len(field_type)}")
+                data.extend(
+                    bytearray(common.helpers.cython.convert_numeric_to_bytes(field_type, value))
+                )
         return data
 
     @classmethod

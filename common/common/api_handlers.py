@@ -18,11 +18,11 @@ def parse_data(request_template, f):
         for parameter in template.parameters:
             start = template.get_start(parameter.id)
             if parameter.length is not None:
-                chunk = ByteArray(request.data[start : start + parameter.length])
+                chunk = bytearray(request.data[start : start + parameter.length])
             elif parameter.stop is not None:
-                chunk = ByteArray(request.data[start : parameter.stop])
+                chunk = bytearray(request.data[start : parameter.stop])
             else:
-                chunk = ByteArray(request.data[start:])
+                chunk = bytearray(request.data[start:])
             parsed_value, stop = parameter.parse(chunk)
             template.set_stop(parameter.id, start + stop)
             request.validated_data[parameter.id] = parsed_value
@@ -47,7 +47,7 @@ def l2_request_handler(action, template, states="*"):
 
 
 async def handle_request(request):
-    action_id, request.data = request.data[0], ByteArray(request.data[1:])
+    action_id, request.data = request.data[0], bytearray(request.data[1:])
     LOG.debug("Looking for action with ID %s", action_id)
     if action_id in _HANDLERS:
         params = _HANDLERS[action_id]

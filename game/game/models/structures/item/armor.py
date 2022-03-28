@@ -1,5 +1,7 @@
 import typing
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+
+import cython
 
 from game.models.structures.skill.skill import Skill
 
@@ -8,11 +10,11 @@ from .item import Item, ItemTemplateBases, ItemTemplateDefaults
 
 @dataclass
 class ArmorBases(ItemTemplateBases):
-    avoid_modifier: Int32
-    physical_defense: Int32
-    magic_defense: Int32
-    mp_bonus: Int32
-    hp_bonus: Int32
+    avoid_modifier: cython.long
+    physical_defense: cython.long
+    magic_defense: cython.long
+    mp_bonus: cython.long
+    hp_bonus: cython.long
 
 
 @dataclass

@@ -3,6 +3,7 @@ import os
 from dataclasses import dataclass, field
 from hashlib import sha3_512
 
+import cython
 import pymongo
 
 from common.dataclass import BaseDataclass
@@ -11,28 +12,28 @@ from common.document import Document, DocumentDefaults
 
 @dataclass
 class GameAuth(BaseDataclass):
-    server_id: Int8
-    play_ok1: Int32
-    play_ok2: Int32
-    login_ok1: Int32
-    login_ok2: Int32
+    server_id: cython.char
+    play_ok1: cython.long
+    play_ok2: cython.long
+    login_ok1: cython.long
+    login_ok2: cython.long
 
 
 @dataclass
 class AccountDefaults(DocumentDefaults):
-    last_server: Int8 = None
-    last_character: UTFString = None
-    salt: UTFString = field(default=None, repr=False)
-    email: UTFString = None
+    last_server: cython.char = None
+    last_character: str = None
+    salt: str = field(default=None, repr=False)
+    email: str = None
     game_auth: GameAuth = None
 
 
 @dataclass
 class AccountBase:
-    id: UTFString
-    username: UTFString
-    password: UTFString = field(repr=False)
-    status: Int8
+    id: str
+    username: str
+    password: str = field(repr=False)
+    status: cython.char
 
 
 @dataclass

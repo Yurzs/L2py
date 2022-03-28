@@ -8,18 +8,18 @@ from .item import Item, ItemTemplateBases, ItemTemplateDefaults
 
 @dataclass
 class WeaponBases(ItemTemplateBases):
-    soulshot_count: Int32
-    spiritshot_count: Int32
-    physical_damage: Int32
-    random_damage: Int32
-    critical: Int32
-    hit_modifier: Double
-    avoid_modifier: Int32
-    shield_defense_rate: Double
-    attack_speed: Int32
-    attack_reuse: Int32
-    mp_consumption: Int32
-    magic_damage: Int32
+    soulshot_count: cython.long
+    spiritshot_count: cython.long
+    physical_damage: cython.long
+    random_damage: cython.long
+    critical: cython.long
+    hit_modifier: cython.double
+    avoid_modifier: cython.long
+    shield_defense_rate: cython.double
+    attack_speed: cython.long
+    attack_reuse: cython.long
+    mp_consumption: cython.long
+    magic_damage: cython.long
 
 
 @dataclass

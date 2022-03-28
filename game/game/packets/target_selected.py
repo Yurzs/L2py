@@ -11,7 +11,7 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class TargetSelected(GameServerPacket):
-    type: Int8 = field(default=41, init=False, repr=False)
+    type: cython.char = field(default=41, init=False, repr=False)
     me: L2Object
     target: L2Object
 

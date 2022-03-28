@@ -11,7 +11,7 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class CharMoveToLocation(GameServerPacket):
-    type: Int8 = field(default=1, init=False, repr=False)
+    type: cython.char = field(default=1, init=False, repr=False)
     character: Character
     new_position: Position
 

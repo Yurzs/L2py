@@ -5,7 +5,23 @@ import sys
 import typing
 from typing import get_args, get_origin
 
+from common.helpers.cython import convert_numeric_to_bytes, cython, utf8str, utf16str
+
 _DATACLASS_MAP = {}
+
+
+type_encode_map = {
+    bytearray: lambda field_type, field_value: field_value,
+    bytes: lambda field_type, field_value: bytearray(field_value),
+    utf16str: lambda field_type, field_value: field_value.encode(),
+    utf8str: lambda field_type, field_value: field_value.encode(),
+    **{
+        cython_type: lambda field_type, field_value: convert_numeric_to_bytes(
+            field_type, field_value
+        )
+        for cython_type in cython.int_types
+    },
+}
 
 
 def post_init_inheritance(dataclass_instance):
@@ -29,7 +45,7 @@ class TypedList(collections.UserList):
     def __init__(self, items_type, iterable=()):
         self.items_type = items_type
         for item_n, item in enumerate(copy.copy(iterable)):
-            if isinstance(item, int) and issubclass(self.items_type, Int):
+            if isinstance(item, int) and issubclass(self.items_type, cython.int_types):
                 iterable[item_n] = self.items_type(item)
             elif not isinstance(item, self.items_type):
                 raise ValueError(f"Wrong item type {type(item)}.")
@@ -122,17 +138,26 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
             return field_value
         return field.type(field_value)
 
-    def __post_init__(self):
-        for field_name, field in self.__class__.__dataclass_fields__.items():
-            setattr(
-                self,
-                field_name,
-                self.ensure_field_value(field, getattr(self, field_name)),
-            )
-        for cls, hooks in self.__hooks.items():
-            if issubclass(self.__class__, cls):
-                for func in hooks[self.HOOK_VALIDATE]:
-                    func(self)
+    # def __post_init__(self):
+    #     for field_name, field in self.__class__.__dataclass_fields__.items():
+    #         setattr(
+    #             self,
+    #             field_name,
+    #             self.ensure_field_value(field, getattr(self, field_name)),
+    #         )
+    #     for cls, hooks in self.__hooks.items():
+    #         if issubclass(self.__class__, cls):
+    #             for func in hooks[self.HOOK_VALIDATE]:
+    #                 func(self)
+
+    def encoded_fields(self, override: dict = None) -> typing.Dict[str, bytearray]:
+        fields = self._fields
+        fields.update(override or {})
+
+        result = {}
+        for f_name, f_type in fields.items():
+            result[f_name] = type_encode_map[f_type](f_type, getattr(self, f_name))
+        return result
 
     @classmethod
     def hooks_parser(cls):
@@ -143,23 +168,25 @@ class BaseDataclass(metaclass=MetaBaseDataclass):
 
     def __setattr__(self, key, value):
         if key in self._fields:
-            field = self._get_field(key)
-            return super().__setattr__(key, self.ensure_field_value(field, value))
+            # field = self._get_field(key)
+            return super().__setattr__(key, value)
+
+            # return super().__setattr__(key, self.ensure_field_value(field, value))
         raise AttributeError()
 
     def to_dict(self):
         """Returns dictionary representation of dataclass."""
 
         def convert_object(value):
-            if isinstance(value, Int):
-                return int(value)
-            elif isinstance(value, String):
-                return str(value)
-            elif isinstance(value, Bytes):
-                return bytes(value)
-            elif isinstance(value, Float):
-                return float(value)
-            elif isinstance(value, dict):
+            # if isinstance(value, Int):
+            #     return int(value)
+            # elif isinstance(value, bytes):
+            #     return str(value)
+            # elif isinstance(value, Bytes):
+            #     return bytes(value)
+            # elif isinstance(value, cython.float):
+            #     return float(value)
+            if isinstance(value, dict):
                 return custom_data_types_dict_factory(value.items())
             elif isinstance(value, (list, set, frozenset, tuple)):
                 result = []

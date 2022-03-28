@@ -15,8 +15,8 @@ LOG = logging.getLogger(f"l2py.{__name__}")
     game.constants.GAME_REQUEST_ACTION,
     Template(
         [
-            Parameter("object_id", start=0, length=4, type=Int32),
-            Parameter("action_id", start=16, length=4, type=Int32),
+            Parameter("object_id", start=0, length=4, type=cython.long),
+            Parameter("action_id", start=16, length=4, type=cython.long),
         ]
     ),
 )
@@ -43,7 +43,7 @@ async def action(request):
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_TARGET_CANCEL,
-    Template([Parameter("unselect", start=0, length=2, type=Int16)]),
+    Template([Parameter("unselect", start=0, length=2, type=cython.int)]),
 )
 async def target_cancel(request):
     request.session.character.set_target(None)
@@ -59,9 +59,9 @@ async def target_cancel(request):
     game.constants.GAME_REQUEST_ACTION_USE,
     Template(
         [
-            Parameter("action_id", start=0, length=4, type=Int32),
-            Parameter("with_ctrl", start=4, length=4, type=Int32),
-            Parameter("with_shift", start=8, length=4, type=Int32),
+            Parameter("action_id", start=0, length=4, type=cython.long),
+            Parameter("with_ctrl", start=4, length=4, type=cython.long),
+            Parameter("with_shift", start=8, length=4, type=cython.long),
         ]
     ),
 )
@@ -79,7 +79,7 @@ async def action_use(request):
         case game.constants.ACTION_SIT:
             character.status.is_sitting = not character.status.is_sitting
             packet = game.packets.ChangeWaitType(
-                character.id, Bool(not character.status.is_sitting), character.position
+                character.id, cython.bint(not character.status.is_sitting), character.position
             )
             WORLD.broadcast(character, packet)
         case game.constants.ACTION_FAKE_DEATH_START:
@@ -94,7 +94,7 @@ async def action_use(request):
     game.constants.GAME_REQUEST_SOCIAL_ACTION,
     Template(
         [
-            Parameter("action_id", start=0, length=4, type=Int32),
+            Parameter("action_id", start=0, length=4, type=cython.long),
         ]
     ),
 )

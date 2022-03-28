@@ -1,6 +1,7 @@
 import logging
 
-from common.helpers.bytearray import ByteArray
+import cython
+
 from common.request import Request
 from common.response import Response
 
@@ -17,12 +18,12 @@ class PacketTransport:
     def peer(self):
         return self._transport.get_extra_info("peername")
 
-    def read(self, data):
-        data = ByteArray(data)
+    def read(self, data: bytes):
+        data = bytearray(data)
         requests = []
         while True:
             if data:
-                packet_len = int(Int16(data[0:2]))
+                packet_len: cython.int = int.from_bytes(data[0:2], "big")
                 request = Request(data[:packet_len], self.session)
                 requests.append(request)
                 data = data[packet_len:]
@@ -36,6 +37,7 @@ class PacketTransport:
         for middleware in self.middleware[::-1]:
             middleware.after(self.session, response)
         LOG.debug(f"SENDING: %s", response.packet)
+        LOG.debug(bytes(response.data))
         return self._transport.write(bytes(response.data))
 
     def close(self):

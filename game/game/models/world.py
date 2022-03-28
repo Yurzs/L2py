@@ -40,7 +40,7 @@ class Clock:
         CLOCK.toggle_is_night()
 
     def get_time(self):
-        return Int32(self.ticks / (self.TICKS_PER_SECOND * 10))
+        return cython.long(self.ticks / (self.TICKS_PER_SECOND * 10))
 
     def is_daytime_changed(self):
         return self._is_night != self.is_night
@@ -55,9 +55,9 @@ CLOCK = Clock()
 @dataclass
 class World(BaseDataclass):
     _characters: typing.Dict[Character, "GameSession"] = field(default_factory=dict)
-    _char_ids: typing.Dict[Int32, Character] = field(default_factory=dict)
+    _char_ids: typing.Dict[cython.long, Character] = field(default_factory=dict)
     _sessions: typing.Dict["GameSession", Character] = field(default_factory=dict)
-    _objects: typing.Dict[Int32, L2Object] = field(default_factory=dict)
+    _objects: typing.Dict[cython.long, L2Object] = field(default_factory=dict)
 
     clock = CLOCK
 
@@ -65,10 +65,10 @@ class World(BaseDataclass):
     def characters(self):
         return list(self._characters)
 
-    def get_character_by_id(self, char_id: Int32) -> typing.Union[None, Character]:
+    def get_character_by_id(self, char_id: cython.long) -> typing.Union[None, Character]:
         return self._char_ids.get(char_id)
 
-    def find_object_by_id(self, object_id: Int32) -> typing.Union[None, L2Object]:
+    def find_object_by_id(self, object_id: cython.long) -> typing.Union[None, L2Object]:
         return self._objects.get(object_id)
 
     @staticmethod
@@ -137,7 +137,7 @@ class World(BaseDataclass):
     def broadcast_snoop(
         self,
         creature: L2Object,
-        text_type: Int32,
+        text_type: cython.long,
         character_name: UTFString,
         text: UTFString,
     ):

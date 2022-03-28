@@ -7,25 +7,25 @@ from game.models.structures.item import Armor, EtcItem, Item, Weapon
 
 @dataclass
 class PaperDoll(BaseDataclass):
-    under_id = Int32(0)
-    left_ear_id = Int32(1)
-    right_ear_id = Int32(2)
-    neck_id = Int32(3)
-    left_finger_id = Int32(4)
-    right_finger_id = Int32(5)
-    head_id = Int32(6)
-    right_hand_id = Int32(7)
-    left_hand_id = Int32(8)
-    gloves_id = Int32(9)
-    chest_id = Int32(10)
-    legs_id = Int32(11)
-    feet_id = Int32(12)
-    back_id = Int32(13)
-    double_handed_id = Int32(14)
-    face_id = Int32(15)
-    hair_id = Int32(16)
-    double_hair_id = Int32(17)
-    total_slots_count = Int32(17)
+    under_id = cython.long(0)
+    left_ear_id = cython.long(1)
+    right_ear_id = cython.long(2)
+    neck_id = cython.long(3)
+    left_finger_id = cython.long(4)
+    right_finger_id = cython.long(5)
+    head_id = cython.long(6)
+    right_hand_id = cython.long(7)
+    left_hand_id = cython.long(8)
+    gloves_id = cython.long(9)
+    chest_id = cython.long(10)
+    legs_id = cython.long(11)
+    feet_id = cython.long(12)
+    back_id = cython.long(13)
+    double_handed_id = cython.long(14)
+    face_id = cython.long(15)
+    hair_id = cython.long(16)
+    double_hair_id = cython.long(17)
+    total_slots_count = cython.long(17)
 
     all_items_ids = [
         under_id,
@@ -67,7 +67,7 @@ class PaperDoll(BaseDataclass):
     hair_all: Armor = None
     double_handed: Weapon = None
 
-    def by_id(self, item_slot_id: Int32):
+    def by_id(self, item_slot_id: cython.long):
         """Finds item by its slot ID."""
 
         return {
@@ -141,8 +141,8 @@ class Inventory(BaseDataclass):
                 object_ids.append(item.id)
                 type_ids.append(item.special_type)
             else:
-                object_ids.append(Int32(0))
-                type_ids.append(Int32(0))
+                object_ids.append(cython.long(0))
+                type_ids.append(cython.long(0))
         return [*object_ids, *type_ids]
 
     def equip(self, item, slot_id=None):
@@ -177,5 +177,5 @@ class Inventory(BaseDataclass):
             if item is not None:
                 result.append(item.id)
             else:
-                result.append(Int32(0))
+                result.append(cython.long(0))
         return result

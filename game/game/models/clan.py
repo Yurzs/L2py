@@ -8,7 +8,7 @@ from common.document import Document, DocumentBases, DocumentDefaults
 @dataclass
 class ClanBases(DocumentBases):
     name: UTFString
-    leader: Int32
+    leader: cython.long
 
 
 @dataclass

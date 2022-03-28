@@ -13,7 +13,7 @@ LOG = logging.getLogger(f"l2py.{__name__}")
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_PROTOCOL_VERSION,
-    Template([Parameter("protocol_version", start=0, length=4, type=Int32)]),
+    Template([Parameter("protocol_version", start=0, length=4, type=cython.long)]),
     states=[Connected],
 )
 async def protocol_version(request):
@@ -40,10 +40,10 @@ async def protocol_version(request):
     Template(
         [
             Parameter("login", start=0, type=String, func=String.read),
-            Parameter("play_ok2", start="$login.stop", length=4, type=Int32),
-            Parameter("play_ok1", start="$play_ok2.stop", length=4, type=Int32),
-            Parameter("login_ok1", start="$play_ok1.stop", length=4, type=Int32),
-            Parameter("login_ok2", start="$login_ok1.stop", length=4, type=Int32),
+            Parameter("play_ok2", start="$login.stop", length=4, type=cython.long),
+            Parameter("play_ok1", start="$play_ok2.stop", length=4, type=cython.long),
+            Parameter("login_ok1", start="$play_ok1.stop", length=4, type=cython.long),
+            Parameter("login_ok2", start="$login_ok1.stop", length=4, type=cython.long),
         ]
     ),
     states=[WaitingAuthentication],

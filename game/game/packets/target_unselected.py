@@ -10,8 +10,8 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class TargetUnselected(GameServerPacket):
-    type: Int8 = field(default=42, init=False, repr=False)
-    target_id: Int32
+    type: cython.char = field(default=42, init=False, repr=False)
+    target_id: cython.long
     position: Position
 
     def encode(self, session: "GameSession"):

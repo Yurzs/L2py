@@ -10,4 +10,4 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class FriendList(GameServerPacket):
-    type: Int8 = field(default=250, init=False, repr=False)
+    type: cython.char = field(default=250, init=False, repr=False)

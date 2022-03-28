@@ -1,31 +1,32 @@
 from dataclasses import dataclass, field
 
 from common.document import Document, DocumentDefaults
+from common.helpers.cython import cython
 
 
 @dataclass
 class GameServerBase:
-    id: Int8
-    host: String
-    port: Int32
+    id: cython.char
+    host: str
+    port: cython.long
 
 
 @dataclass
 class GameServerDefaults(DocumentDefaults):
-    age_limit: Int8 = 13
-    is_pvp: Int8 = False
-    online_count: Int16 = 0
-    max_online: Int16 = 500
-    is_online: Int8 = False
-    type: Int32 = 1
-    brackets: Int8 = 0
-    last_alive: Int32 = 0
+    age_limit: cython.char = 13
+    is_pvp: cython.bint = False
+    online_count: cython.int = 0
+    max_online: cython.int = 500
+    is_online: cython.bint = False
+    type: cython.long = 1
+    brackets: cython.char = 0
+    last_alive: cython.long = 0
 
 
 @dataclass
 class GameServer(Document, GameServerDefaults, GameServerBase):
-    __collection__: String = field(default="game_servers", repr=False, init=False)
-    __database__: String = field(default="l2py", repr=False, init=False)
+    __collection__: str = field(default="game_servers", repr=False, init=False)
+    __database__: str = field(default="l2py", repr=False, init=False)
 
     @property
     def is_full(self):

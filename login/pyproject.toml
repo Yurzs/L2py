@@ -11,7 +11,6 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.10"
 pycryptodomex = "^3.12.0"
-M2Crypto = "^0.38.0"
 aiojsonapi = "^0.3.1633554756"
 APScheduler = "^3.8.1"
 motor = "^2.5.1"
@@ -21,5 +20,5 @@ blowfish = "^0.6.1"
 
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "cython"]
 build-backend = "poetry.core.masonry.api"

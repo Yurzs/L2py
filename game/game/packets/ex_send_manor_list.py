@@ -2,6 +2,6 @@ from .base import GameServerPacket
 
 
 class ExSendManorList(GameServerPacket):
-    type = Int8(254)
+    type = cython.char(254)
     arg_order = ["type", "constant", ""]  # TODO custom method
-    constant = Int16(27)
+    constant = cython.int(27)

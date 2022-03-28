@@ -11,5 +11,5 @@ class LoginServer(Document):
 
     _id: datatypes.String
     host: datatypes.String
-    port: datatypes.Int16
-    status: datatypes.Int8
+    port: datatypes.cython.int
+    status: datatypes.cython.char

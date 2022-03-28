@@ -1,10 +1,11 @@
 from dataclasses import dataclass, field
 
 from common.dataclass import BaseDataclass
+from common.helpers.cython import cython
 
 
 @dataclass
 class UpdateChecks(BaseDataclass):
-    increase: Int64 = field(default=0)
-    decrease: Int64 = field(default=0)
-    interval: Int64 = field(default=0)
+    increase: cython.longlong = field(default=0)
+    decrease: cython.longlong = field(default=0)
+    interval: cython.longlong = field(default=0)

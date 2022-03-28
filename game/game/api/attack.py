@@ -11,8 +11,8 @@ from game.models.world import WORLD
     game.constants.GAME_REQUEST_ATTACK,
     Template(
         [
-            Parameter("object_id", start=0, length=4, type=Int32),
-            Parameter("shift_flag", start=16, length=1, type=Bool),
+            Parameter("object_id", start=0, length=4, type=cython.long),
+            Parameter("shift_flag", start=16, length=1, type=cython.bint),
         ]
     ),
 )
@@ -21,7 +21,7 @@ async def attack(request):
     attack_packet = game.packets.Attack(
         character.id,
         False,
-        Int32(0),
+        cython.long(0),
         character.position,
         game.packets.Attack.Hit(request.validated_data["object_id"], 1),
     )

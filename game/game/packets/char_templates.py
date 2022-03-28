@@ -10,12 +10,12 @@ from .base import GameServerPacket
 
 @dataclass
 class CharTemplates(GameServerPacket):
-    type: Int8 = field(default=23, init=False, repr=False)
+    type: cython.char = field(default=23, init=False, repr=False)
     templates: typing.List[StaticCharacterTemplate] = ()
 
     def encode(self, session):
         result = ByteArray(self.type)
-        result.append(Int32(len(self.templates)))
+        result.append(cython.long(len(self.templates)))
 
         for template in self.templates:
             result += template.encode()

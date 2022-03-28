@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class MoveToPawn(GameServerPacket):
-    type: Int8 = field(default=96, init=False, repr=False)
+    type: cython.char = field(default=96, init=False, repr=False)
     character: Character
     object: L2Object
 

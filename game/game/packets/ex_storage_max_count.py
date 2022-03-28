@@ -10,12 +10,12 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class ExStorageMaxCount(GameServerPacket):
-    type: Int8 = field(default=254, init=False, repr=False)
+    type: cython.char = field(default=254, init=False, repr=False)
     character: Character
 
     def encode(self, session: "GameSession"):
         encoded = self.type.encode()
-        encoded.append(Int16(0x2E))
+        encoded.append(cython.int(0x2E))
 
         ordered_data = [
             self.character.inventory_max,

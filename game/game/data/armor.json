@@ -21137,7 +21137,7 @@
         "magic_defense": 0,
         "material": "leather",
         "mp_bonus": 665,
-        "name": "Apella Doublet",
+        "name": "Apella cython.doublet",
         "physical_defense": 139,
         "price": 0,
         "properties": {
@@ -21387,7 +21387,7 @@
         "magic_defense": 0,
         "material": "leather",
         "mp_bonus": 665,
-        "name": "Sealed Apella Doublet",
+        "name": "Sealed Apella cython.doublet",
         "physical_defense": 139,
         "price": 0,
         "properties": {

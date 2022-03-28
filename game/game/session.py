@@ -8,7 +8,7 @@ class GameSession(Session):
     def __init__(self, protocol):
         super().__init__()
 
-        self.id = Int32.random()
+        self.id = cython.long.random()
         self.state = None
         self.protocol = protocol
         self.xor_key = GameXorKey()

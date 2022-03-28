@@ -25,14 +25,14 @@ class Buff(BaseDataclass):
 class CharacterBase(CharacterBaseStructure):
     account_username: String
 
-    sex: Int32
-    race: Int32
-    base_class: Int32
-    active_class: Int32
+    sex: cython.long
+    race: cython.long
+    base_class: cython.long
+    active_class: cython.long
 
-    hair_style: Int32
-    hair_color: Int32
-    face: Int32
+    hair_style: cython.long
+    hair_color: cython.long
+    face: cython.long
 
 
 @dataclass
@@ -40,15 +40,15 @@ class CharacterDefaults(DocumentDefaults, CharacterDefaultsStructure):
     __collection__: str = field(default="characters", init=False, repr=False)
     __database__: str = field(default="l2py", init=False, repr=False)
 
-    delete_at: Int32 = field(default=0)
-    friends: typing.List[Int32] = field(default_factory=list)
+    delete_at: cython.long = field(default=0)
+    friends: typing.List[cython.long] = field(default_factory=list)
     inventory: Inventory = Inventory()
 
-    active: Int32 = True
-    karma: Int32 = 0
+    active: cython.long = True
+    karma: cython.long = 0
 
-    pk_kills: Int32 = 0
-    pvp_kills: Int32 = 0
+    pk_kills: cython.long = 0
+    pvp_kills: cython.long = 0
 
 
 @dataclass
@@ -60,7 +60,7 @@ class Character(
 ):
     @property
     def time_until_deletion(self):
-        return Int32(Int32(self.delete_at - time.time()) if self.delete_at else 0)
+        return cython.long(cython.long(self.delete_at - time.time()) if self.delete_at else 0)
 
     @classmethod
     async def all(cls, account_username=None, **kwargs):

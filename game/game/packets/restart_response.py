@@ -10,6 +10,6 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class RestartResponse(GameServerPacket):
-    type: Int8 = field(default=95, init=False, repr=False)
-    ok: Int32 = field(default=1, init=False, repr=False)
+    type: cython.char = field(default=95, init=False, repr=False)
+    ok: cython.long = field(default=1, init=False, repr=False)
     message: UTFString

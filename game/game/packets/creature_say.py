@@ -5,8 +5,8 @@ from game.packets.base import GameServerPacket
 
 @dataclass
 class CreatureSay(GameServerPacket):
-    type: Int8 = field(default=74, init=False, repr=False)
-    object_id: Int32
-    text_type: Int32
+    type: cython.char = field(default=74, init=False, repr=False)
+    object_id: cython.long
+    text_type: cython.long
     character_name: UTFString
     text: UTFString

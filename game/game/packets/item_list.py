@@ -7,16 +7,16 @@ from game.packets.base import GameServerPacket
 
 @dataclass
 class ItemList(GameServerPacket):
-    type: Int8 = field(default=27, init=False, repr=False)
+    type: cython.char = field(default=27, init=False, repr=False)
 
     items: typing.List[Item]
-    show_window: Bool = False
+    show_window: cython.bint = False
 
     def encode(self, session):
         encoded = self.type.encode()
 
-        encoded.append(Int16(self.show_window))
-        encoded.append(Int16(len(self.items)))
+        encoded.append(cython.int(self.show_window))
+        encoded.append(cython.int(len(self.items)))
 
         for item in self.items:
             encoded.extend(

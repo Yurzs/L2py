@@ -10,7 +10,7 @@ from common.session import Session
 class Request(BaseDataclass):
     raw_data: ByteArray  # Data received from socket
     session: Session  # Client connection session
-    data: ByteArray = None  # Data modified during processing
+    data: bytearray = None  # Data modified during processing
     validated_data: typing.Dict[str, typing.Any] = None
 
     def __post_init__(self):

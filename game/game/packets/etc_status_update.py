@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class EtcStatusUpdate(GameServerPacket):
-    type: Int8 = field(default=243, init=False, repr=False)
+    type: cython.char = field(default=243, init=False, repr=False)
     character: Character
 
     def encode(self, session: "GameSession"):
@@ -18,8 +18,8 @@ class EtcStatusUpdate(GameServerPacket):
 
         ordered_data = [
             self.character.weight_penalty,
-            Int32(0),
-            Int32(0),
+            cython.long(0),
+            cython.long(0),
             self.character.exp_penalty,
             self.character.exp_protected,
             self.character.death_penalty,

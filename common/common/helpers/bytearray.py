@@ -4,6 +4,8 @@ import struct
 import typing
 from collections import UserList
 
+import cython
+
 
 def to_bytearray_deco(func):
     @functools.wraps(func)
@@ -27,9 +29,9 @@ class ByteArray(UserList):
             self.data = iterable.data
         else:
             for value in iterable:
-                self.data.append(Int8(value))
+                self.data.extend(value)
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: str, value):
         try:
             if isinstance(key, slice):
                 start = key.start
@@ -46,17 +48,17 @@ class ByteArray(UserList):
                         self[start + item_n] = item
                 else:
                     raise ValueError()
-            elif isinstance(value, Int8):
+            elif isinstance(value, cython.char):
                 self.data[key] = value
             else:
-                self.data[key] = Int8(value)
+                self.data[key] = cython.char(value)
         except IndexError:
             for _ in range(len(self.data), key):
                 self.data.append(0)
-            if isinstance(value, Int8):
+            if isinstance(value, cython.char):
                 self.data.append(value)
             else:
-                self.data.append(Int8(value))
+                self.data.append(cython.char(value))
 
     def __getitem__(self, item):
         return self.data[item]

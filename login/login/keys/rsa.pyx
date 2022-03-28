@@ -1,13 +1,9 @@
 from Cryptodome.PublicKey import RSA
-from M2Crypto import BIO
-from M2Crypto import RSA as M2RSA
-
-from common.helpers.bytearray import ByteArray
 
 
 class L2RsaKey(RSA.RsaKey):
     def scramble_mod(self) -> bytes:
-        n = ByteArray(self.n_bytes)
+        n = bytearray(self.n_bytes)
 
         # step 1: 0x4d - 0x50 <-> 0x00 - 0x04
         for i in range(4):
@@ -28,8 +24,7 @@ class L2RsaKey(RSA.RsaKey):
         return bytes(n)
 
     @classmethod
-    def unscramble_mod(cls, n: bytes) -> int:
-        n = ByteArray(n)
+    def unscramble_mod(cls, n: bytearray) -> int:
 
         for i in range(0x40):
             n[0x40 + i] = n[0x40 + i] ^ n[i]
@@ -52,13 +47,6 @@ class L2RsaKey(RSA.RsaKey):
         return self.n.to_bytes(128, "big")
 
     @classmethod
-    def from_scrambled(cls, data) -> "L2RsaKey":
-        modulus = cls.unscramble_mod(data)
-        key = RSA.construct((modulus, 65537))
-        key.__class__ = L2RsaKey
-        return key
-
-    @classmethod
     def generate(cls, bits=1024, randfunc=None, e=65537) -> "L2RsaKey":
         key = RSA.generate(bits, randfunc, e)
         key.__class__ = cls
@@ -67,16 +55,7 @@ class L2RsaKey(RSA.RsaKey):
     def __repr__(self):
         return "L2" + super().__repr__()
 
-    @property
-    def m2crypto_key(self):
-        key_bio = BIO.MemoryBuffer(self.export_key())
-        if self.has_private():
-            return M2RSA.load_key_bio(key_bio)
-        else:
-            return M2RSA.load_pub_key_bio(key_bio)
-
-    @property
-    def scrambled_key(self):
-        scrambled_key = RSA.construct((int.from_bytes(self.scramble_mod(), "big"), self.e))
-        key_bio = BIO.MemoryBuffer(scrambled_key.export_key())
-        return M2RSA.load_key_bio(key_bio)
+    def private_decrypt(self, data: bytearray):
+        cipher_int = int.from_bytes(data, "big")
+        plain_int = pow(cipher_int, self.d, self.n)
+        return plain_int.to_bytes((self._n.bit_length() - 1) // 8 + 1, "big")

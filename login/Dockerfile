@@ -1,7 +1,6 @@
-FROM l2py_data
+FROM l2py_common
 
 WORKDIR /code/
-
 
 ADD login /code/login
 ADD pyproject.toml /code/

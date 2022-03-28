@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 
 import game.static.character_template
 from common.dataclass import BaseDataclass
+from common.helpers.cython import cython
 from game.models.structures.character.stats import Stats
 
 # from game.models.structures.item.item import Item
@@ -13,9 +14,9 @@ from game.models.structures.object.point3d import Point3D
 
 @dataclass
 class LevelUpIncrease(BaseDataclass):
-    base: Float
-    add: Float
-    mod: Float
+    base: cython.float
+    add: cython.float
+    mod: cython.float
 
 
 LevelUpIncrease.update_forward_refs()
@@ -23,7 +24,7 @@ LevelUpIncrease.update_forward_refs()
 
 @dataclass
 class LevelUpGain(BaseDataclass):
-    level: Int32
+    level: cython.long
     hp: LevelUpIncrease
     cp: LevelUpIncrease
     mp: LevelUpIncrease
@@ -34,9 +35,9 @@ LevelUpGain.update_forward_refs()
 
 @dataclass
 class ClassInfo(BaseDataclass):
-    id: Int8
-    name: UTFString
-    base_level: Int32
+    id: cython.char
+    name: str
+    base_level: cython.long
 
 
 ClassInfo.update_forward_refs()
@@ -46,21 +47,21 @@ ClassInfo.update_forward_refs()
 class CharacterTemplateBase:
     class_info: ClassInfo
     stats: Stats
-    race: Int8
+    race: cython.char
     level_up_gain: LevelUpGain
     spawn: Point3D
 
-    collision_radius: Double
-    collision_height: Double
-    load: Int32
+    collision_radius: cython.double
+    collision_height: cython.double
+    load: cython.long
 
 
 @dataclass
 class CharacterTemplateDefaults:
-    mp_consume_rate: Int32 = 0
-    hp_consume_rate: Int32 = 0
+    mp_consume_rate: cython.long = 0
+    hp_consume_rate: cython.long = 0
 
-    items: typing.List[Int32] = field(default_factory=list)
+    items: typing.List[cython.long] = field(default_factory=list)
 
 
 @dataclass
@@ -84,9 +85,9 @@ class CharacterTemplate(BaseDataclass, CharacterTemplateDefaults, CharacterTempl
             collision_radius = template.female_collision_radius
             collision_height = template.female_collision_height
 
-        template.stats.max_hp = Int32(template.level_up_gain.hp.base.value)
-        template.stats.max_mp = Int32(template.level_up_gain.mp.base.value)
-        template.stats.max_cp = Int32(template.level_up_gain.cp.base.value)
+        template.stats.max_hp = cython.long(template.level_up_gain.hp.base.value)
+        template.stats.max_mp = cython.long(template.level_up_gain.mp.base.value)
+        template.stats.max_cp = cython.long(template.level_up_gain.cp.base.value)
 
         return cls(
             class_info=class_info,

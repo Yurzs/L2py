@@ -1,5 +1,9 @@
 import logging
 
+import pyximport
+
+pyximport.install(language_level=3)
+
 import common  # noqa: F401
 import login.api.http  # noqa: F401
 import login.api.l2  # noqa: F401
@@ -11,7 +15,6 @@ from login.config import (
     LOGIN_SERVER_PORT,
     loop,
 )
-from login.session import LoginSession
 
 LOG = logging.getLogger(f"L2py.login")
 

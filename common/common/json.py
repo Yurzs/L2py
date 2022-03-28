@@ -13,6 +13,8 @@ class JsonEncoder(json.JSONEncoder):
             result = o.to_dict()
             result["$model"] = o.__class__.__name__.lower()
             return result
+        elif isinstance(o, (bytes, str)):
+            return str(o)
         elif isinstance(o, Int):
             return int(o)
         elif isinstance(o, bson.ObjectId):

@@ -14,13 +14,13 @@ from common.json import JsonEncoder
 
 @dataclass
 class DocumentBases:
-    __collection__: String = field(init=False, repr=False)
-    __database__: String = field(init=False, repr=False)
+    __collection__: str = field(init=False, repr=False)
+    __database__: str = field(init=False, repr=False)
 
 
 @dataclass
 class DocumentDefaults:
-    _id: String = field(default_factory=lambda: String(bson.ObjectId()))
+    _id: str = field(default_factory=lambda: str(bson.ObjectId()))
 
 
 @dataclass

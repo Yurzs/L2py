@@ -11,7 +11,7 @@ if typing.TYPE_CHECKING:
 
 @dataclass
 class CharSelected(GameServerPacket):
-    type: Int8 = field(default=21, init=False, repr=False)
+    type: cython.char = field(default=21, init=False, repr=False)
     character: Character
 
     def encode(self, session: "GameSession"):
@@ -24,8 +24,8 @@ class CharSelected(GameServerPacket):
             self.character.id,
             self.character.title,
             session.id,
-            Int32(0),  # TODO: clan id
-            Int32(0),  # unknown
+            cython.long(0),  # TODO: clan id
+            cython.long(0),  # unknown
             self.character.sex,
             self.character.race,
             self.character.active_class,
@@ -33,9 +33,9 @@ class CharSelected(GameServerPacket):
             self.character.position.point3d.x,
             self.character.position.point3d.y,
             self.character.position.point3d.z,
-            Double(self.character.status.hp.value),
-            Double(self.character.status.mp.value),
-            Double(self.character.status.cp.value),
+            cython.double(self.character.status.hp.value),
+            cython.double(self.character.status.mp.value),
+            cython.double(self.character.status.cp.value),
             self.character.stats.exp,
             self.character.stats.level,
             self.character.stats.karma,
@@ -45,9 +45,9 @@ class CharSelected(GameServerPacket):
             self.character.stats.base.men,
             self.character.stats.base.dex,
             self.character.stats.base.wit,
-            *[Int32(0) for _ in range(32)],
+            *[cython.long(0) for _ in range(32)],
             game.models.world.WORLD.clock.get_time(),
-            *[Int32(0) for _ in range(18)],
+            *[cython.long(0) for _ in range(18)],
         ]
 
         for item in ordered_data:

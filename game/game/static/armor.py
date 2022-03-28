@@ -6,16 +6,16 @@ from game.models.structures.item.item import Item, ItemProperties, ItemPropertie
 
 @dataclass
 class ArmorPropertiesDefaults(BaseDataclass):
-    stackable: Bool = field(default=False, init=False, repr=False)
+    stackable: cython.bint = field(default=False, init=False, repr=False)
 
 
 @dataclass
 class ArmorPropertiesBases(ItemPropertiesBases):
-    crystallizable: Bool
-    sellable: Bool
-    droppable: Bool
-    destroyable: Bool
-    tradable: Bool
+    crystallizable: cython.bint
+    sellable: cython.bint
+    droppable: cython.bint
+    destroyable: cython.bint
+    tradable: cython.bint
 
 
 @dataclass
@@ -25,7 +25,7 @@ class ArmorProperties(ItemProperties, ArmorPropertiesDefaults, ArmorPropertiesBa
 
 class Armor(Item):
     states: ArmorProperties
-    physical_defense: Int32
-    magic_defense: Int32
-    mp_bonus: Int32
+    physical_defense: cython.long
+    magic_defense: cython.long
+    mp_bonus: cython.long
     armor_type: UTFString

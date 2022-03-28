@@ -25,18 +25,18 @@ async def _char_list(session):
     Template(
         [
             Parameter("name", start=0, type=String, func=String.read),
-            Parameter("race", start="$name.stop", length=4, type=Int32),
-            Parameter("sex", start="$race.stop", length=4, type=Int32),
-            Parameter("class_id", start="$sex.stop", length=4, type=Int32),
-            Parameter("INT", start="$class_id.stop", length=4, type=Int32),
-            Parameter("STR", start="$INT.stop", length=4, type=Int32),
-            Parameter("CON", start="$STR.stop", length=4, type=Int32),
-            Parameter("MEN", start="$CON.stop", length=4, type=Int32),
-            Parameter("DEX", start="$MEN.stop", length=4, type=Int32),
-            Parameter("WIT", start="$DEX.stop", length=4, type=Int32),
-            Parameter("hair_style", start="$WIT.stop", length=4, type=Int32),
-            Parameter("hair_color", start="$hair_style.stop", length=4, type=Int32),
-            Parameter("face", start="$hair_color.stop", length=4, type=Int32),
+            Parameter("race", start="$name.stop", length=4, type=cython.long),
+            Parameter("sex", start="$race.stop", length=4, type=cython.long),
+            Parameter("class_id", start="$sex.stop", length=4, type=cython.long),
+            Parameter("INT", start="$class_id.stop", length=4, type=cython.long),
+            Parameter("STR", start="$INT.stop", length=4, type=cython.long),
+            Parameter("CON", start="$STR.stop", length=4, type=cython.long),
+            Parameter("MEN", start="$CON.stop", length=4, type=cython.long),
+            Parameter("DEX", start="$MEN.stop", length=4, type=cython.long),
+            Parameter("WIT", start="$DEX.stop", length=4, type=cython.long),
+            Parameter("hair_style", start="$WIT.stop", length=4, type=cython.long),
+            Parameter("hair_color", start="$hair_style.stop", length=4, type=cython.long),
+            Parameter("face", start="$hair_color.stop", length=4, type=cython.long),
         ]
     ),
     states=[game.states.CreatingCharacter],
@@ -87,7 +87,7 @@ async def new_character(request):
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_CHARACTER_DELETE,
-    Template([Parameter("character_slot", start=0, length=4, type=Int32)]),
+    Template([Parameter("character_slot", start=0, length=4, type=cython.long)]),
     states=[game.states.WaitingCharacterSelect],
 )
 async def character_delete(request):
@@ -105,7 +105,7 @@ async def character_delete(request):
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_CHARACTER_RESTORE,
-    Template([Parameter("character_slot", start=0, length=4, type=Int32)]),
+    Template([Parameter("character_slot", start=0, length=4, type=cython.long)]),
     states=[game.states.WaitingCharacterSelect],
 )
 async def character_restore(request):
@@ -120,7 +120,7 @@ async def character_restore(request):
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_CHARACTER_SELECTED,
-    Template([Parameter("character_slot", start=0, length=4, type=Int32)]),
+    Template([Parameter("character_slot", start=0, length=4, type=cython.long)]),
     states=[game.states.WaitingCharacterSelect],
 )
 async def character_selected(request):

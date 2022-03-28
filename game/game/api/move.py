@@ -13,13 +13,13 @@ from game.models.world import WORLD
     game.constants.GAME_REQUEST_MOVE_BACK_TO_LOCATION,
     Template(
         [
-            Parameter("to_x", start=0, length=4, type=Int32),
-            Parameter("to_y", start="$to_x.stop", length=4, type=Int32),
-            Parameter("to_z", start="$to_y.stop", length=4, type=Int32),
-            Parameter("from_x", start="$to_z.stop", length=4, type=Int32),
-            Parameter("from_y", start="$from_x.stop", length=4, type=Int32),
-            Parameter("from_z", start="$from_y.stop", length=4, type=Int32),
-            Parameter("by_mouse", start="$from_z.stop", length=4, type=Bool),
+            Parameter("to_x", start=0, length=4, type=cython.long),
+            Parameter("to_y", start="$to_x.stop", length=4, type=cython.long),
+            Parameter("to_z", start="$to_y.stop", length=4, type=cython.long),
+            Parameter("from_x", start="$to_z.stop", length=4, type=cython.long),
+            Parameter("from_y", start="$from_x.stop", length=4, type=cython.long),
+            Parameter("from_z", start="$from_y.stop", length=4, type=cython.long),
+            Parameter("by_mouse", start="$from_z.stop", length=4, type=cython.bint),
         ]
     ),
     states="*",  # TODO
@@ -35,8 +35,8 @@ async def move_back_to_location(request):
     to_y = request.validated_data["to_y"]
     to_z = request.validated_data["to_z"]
 
-    diff_x = Double(to_x - character.position.point3d.x)
-    diff_y = Double(to_y - character.position.point3d.y)
+    diff_x = cython.double(to_x - character.position.point3d.x)
+    diff_y = cython.double(to_y - character.position.point3d.y)
 
     print(diff_x, diff_y)
     if (diff_x * diff_x + diff_y * diff_y) > 98010000:
@@ -61,11 +61,11 @@ async def move_back_to_location(request):
     game.constants.GAME_REQUEST_VALIDATE_POSITION,
     Template(
         [
-            Parameter("x", start=0, length=4, type=Int32),
-            Parameter("y", start="$x.stop", length=4, type=Int32),
-            Parameter("z", start="$y.stop", length=4, type=Int32),
-            Parameter("heading", start="$z.stop", length=4, type=Int32),
-            Parameter("data", start="$heading.stop", length=4, type=Int32),
+            Parameter("x", start=0, length=4, type=cython.long),
+            Parameter("y", start="$x.stop", length=4, type=cython.long),
+            Parameter("z", start="$y.stop", length=4, type=cython.long),
+            Parameter("heading", start="$z.stop", length=4, type=cython.long),
+            Parameter("data", start="$heading.stop", length=4, type=cython.long),
         ]
     ),
     states="*",  # TODO

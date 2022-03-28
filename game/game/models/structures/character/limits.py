@@ -5,10 +5,10 @@ from common.dataclass import BaseDataclass
 
 @dataclass
 class Limits(BaseDataclass):
-    inventory: Int32
-    warehouse: Int32
-    freight: Int32
-    sell: Int32
-    buy: Int32
-    dwarf_recipe: Int32
-    common_recipe: Int32
+    inventory: cython.long
+    warehouse: cython.long
+    freight: cython.long
+    sell: cython.long
+    buy: cython.long
+    dwarf_recipe: cython.long
+    common_recipe: cython.long

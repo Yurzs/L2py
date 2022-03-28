@@ -5,10 +5,10 @@ from game.packets.base import GameServerPacket
 
 @dataclass
 class CryptInit(GameServerPacket):
-    type: Int8 = field(default=0, repr=False, init=False)
-    # unknown1: Int32 = field(default=1, repr=False, init=False)
-    is_valid: Int8
+    type: cython.char = field(default=0, repr=False, init=False)
+    # unknown1: cython.long = field(default=1, repr=False, init=False)
+    is_valid: cython.char
     xor_key: Bytes
-    unknown2: Int32 = field(default=16777216, repr=False, init=False)
-    unknown3: Int32 = field(default=16777216, repr=False, init=False)
-    # unknown4: Int8 = field(default=1, repr=False, init=False)
+    unknown2: cython.long = field(default=16777216, repr=False, init=False)
+    unknown3: cython.long = field(default=16777216, repr=False, init=False)
+    # unknown4: cython.char = field(default=1, repr=False, init=False)

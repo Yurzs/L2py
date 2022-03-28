@@ -1,8 +1,10 @@
 from dataclasses import dataclass, field
 
+from common.helpers.cython import cython
+
 from .base import GameServerPacket
 
 
 @dataclass
 class ActionFailed(GameServerPacket):
-    type: Int8 = field(default=37, init=False, repr=False)
+    type: cython.char = field(default=37, init=False, repr=False)

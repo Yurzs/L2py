@@ -1,7 +1,7 @@
 import abc
 
 
-class Middleware(metaclass=abc.ABCMeta):
+class Middleware(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def before(cls, session, request):

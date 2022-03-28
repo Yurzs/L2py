@@ -1,23 +1,25 @@
 import asyncio
 from dataclasses import dataclass, field
 
+import cython
+
 from common.document import Document, DocumentBases
 
 
 @dataclass
 class IDFactoryBases(DocumentBases):
-    name: UTFString
+    name: str
 
 
 @dataclass
 class IDFactory(Document, IDFactoryBases):
-    __collection__: String = field(default="id_factory", repr=False, init=False)
-    __database__: String = field(default="l2py", repr=False, init=False)
+    __collection__: bytes = field(default="id_factory", repr=False, init=False)
+    __database__: bytes = field(default="l2py", repr=False, init=False)
 
     NAME_ITEMS = "items"
     NAME_CHARACTERS = "characters"
 
-    counter: Int32 = 1
+    counter: cython.long = 1
 
     @classmethod
     async def get_new_id(cls, object_type_name: str):

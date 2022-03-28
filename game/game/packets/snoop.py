@@ -5,10 +5,10 @@ from game.packets.base import GameServerPacket
 
 @dataclass
 class Snoop(GameServerPacket):
-    type: Int8 = field(default=213, init=False, repr=False)
-    conversation_id: Int32
+    type: cython.char = field(default=213, init=False, repr=False)
+    conversation_id: cython.long
     receiver: UTFString
-    text_type: Int32
+    text_type: cython.long
     speaker: UTFString
     message: UTFString
 
@@ -18,7 +18,7 @@ class Snoop(GameServerPacket):
         sorted_args = [
             self.conversation_id,
             self.receiver,
-            Int32(0),
+            cython.long(0),
             self.text_type,
             self.speaker,
             self.message,

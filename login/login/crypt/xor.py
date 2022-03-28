@@ -1,19 +1,20 @@
 import functools
 
-from common.helpers.bytearray import ByteArray
+from common.helpers.cython import cython
 
 
 def xor_encrypt_login(func):
-    def xor(data: ByteArray, key):
-        stop = len(data) - 8
-        start = 4
-        ecx = Int32(key)
+    def xor(data: bytearray, key: cython.long):
+
+        stop: cython.long = len(data) - 8
+        start: cython.long = 4
+        ecx: cython.long = key
 
         for pos in range(start, stop, 4):
-            edx = Int32(data[pos]) & 255
-            edx |= (Int32(data[pos + 1]) & 255) << 8
-            edx |= (Int32(data[pos + 2]) & 255) << 16
-            edx |= (Int32(data[pos + 3]) & 255) << 24
+            edx: cython.long = data[pos] & 255
+            edx |= (data[pos + 1] & 255) << 8
+            edx |= (data[pos + 2] & 255) << 16
+            edx |= (data[pos + 3] & 255) << 24
 
             ecx += edx
             edx ^= ecx
@@ -33,16 +34,16 @@ def xor_encrypt_login(func):
 
 
 def xor_decrypt_login(func):
-    def xor(raw, key):
-        stop = 2
-        pos = len(raw) - 12
-        ecx = Int32(key)
+    def xor(raw: bytearray, key: cython.long):
+        stop: cython.long = 2
+        pos: cython.long = len(raw) - 12
+        ecx: cython.long = key
 
         while stop < pos:
-            edx = Int32(raw[pos]) & 255
-            edx |= (Int32(raw[pos + 1]) & 255) << 8
-            edx |= (Int32(raw[pos + 2]) & 255) << 16
-            edx |= (Int32(raw[pos + 3]) & 255) << 24
+            edx: cython.long = raw[pos] & 255
+            edx |= (raw[pos + 1] & 255) << 8
+            edx |= (raw[pos + 2] & 255) << 16
+            edx |= (raw[pos + 3] & 255) << 24
 
             edx ^= ecx
             ecx -= edx

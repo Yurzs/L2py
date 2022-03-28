@@ -7,6 +7,6 @@ from game.packets.base import GameServerPacket
 
 @dataclass
 class MyTargetSelected(GameServerPacket):
-    type: Int8 = field(default=166, init=False, repr=False)
-    object_id: Int32
-    color: Int16
+    type: cython.char = field(default=166, init=False, repr=False)
+    object_id: cython.long
+    color: cython.int

@@ -1,14 +1,17 @@
 import typing
 from dataclasses import dataclass
 
+from Cython.Shadow import typedef
+
 from common.datatypes.base import DataType
+from common.helpers.cython import convert_numeric_from_bytes, utf8str, utf16str
 
 
 @dataclass
 class Parameter:
     id: str
     start: typing.Union[int, str]
-    type: DataType
+    type: type
     length: int = None
     func: typing.Optional[typing.Callable] = None
     stop: typing.Optional[int] = None
@@ -17,7 +20,11 @@ class Parameter:
         if self.func is not None:
             return self.func(data)
         elif self.length is not None:
-            if hasattr(self.type, "decode"):
+            if isinstance(self.type, typedef):
+                return convert_numeric_from_bytes(self.type, data), self.length
+            elif self.type in [utf8str, utf16str]:
+                return self.type.decode(data), self.length
+            elif hasattr(self.type, "decode"):
                 return self.type.decode(data), self.length
             return self.type(data), self.length
 

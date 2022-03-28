@@ -15,7 +15,7 @@ from game.models.world import WORLD
                 type=UTFString,
                 func=UTFString.read,
             ),
-            Parameter("type", start="$text.stop", length=4, type=Int32),
+            Parameter("type", start="$text.stop", length=4, type=cython.long),
         ]
     ),
 )

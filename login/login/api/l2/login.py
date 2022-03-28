@@ -1,12 +1,9 @@
-import asyncio
 import logging
-
-from M2Crypto import RSA
 
 import login.constants
 from common.api_handlers import l2_request_handler
 from common.client.exceptions import ApiException, WrongCredentials
-from common.helpers.bytearray import ByteArray
+from common.helpers.cython import cython, utf8str
 from common.models import Account, GameServer
 from common.template import Parameter, Template
 from login.api.l2.handlers import verify_secrets
@@ -25,12 +22,11 @@ LOG = logging.getLogger(f"l2py.{__name__}")
 )
 async def auth_login(request):
 
-    encrypted = ByteArray(request.data[0:128])
-    key = request.session.rsa_key.m2crypto_key
-    decrypted = key.private_decrypt(bytes(encrypted), RSA.no_padding)
+    encrypted = bytearray(request.data[0:128])
+    decrypted = request.session.rsa_key.private_decrypt(encrypted)
     try:
-        username = String.decode(decrypted[94:107])
-        password = String.decode(decrypted[108:124])
+        username = utf8str.decode(decrypted[94:107])
+        password = utf8str.decode(decrypted[108:124])
     except UnicodeDecodeError:
         return LoginFail(login.constants.LOGIN_FAIL_WRONG_LOGIN_OR_PASSWORD)
 
@@ -38,7 +34,6 @@ async def auth_login(request):
         account = await Account.one(username=username, required=False)
         if account is None:
             account = Account(username, username, "none", 1)
-            print(account)
             await account.insert()
             await account.set_new_password(password)
         print(account)
@@ -68,8 +63,8 @@ async def gg_authenticated(request):
     login.constants.REQUEST_SERVER_LIST,
     Template(
         [
-            Parameter("login_ok1", start=0, length=4, type=ByteArray),
-            Parameter("login_ok2", start=4, length=4, type=ByteArray),
+            Parameter("login_ok1", start=0, length=4, type=cython.long),
+            Parameter("login_ok2", start=4, length=4, type=cython.long),
         ]
     ),
     states=[Authenticated],
@@ -85,9 +80,9 @@ async def server_list(request):
     login.constants.REQUEST_SERVER_LOGIN,
     Template(
         [
-            Parameter("login_ok1", start=0, length=4, type=ByteArray),
-            Parameter("login_ok2", start=4, length=4, type=ByteArray),
-            Parameter("server_id", start=8, length=1, type=Int8),
+            Parameter("login_ok1", start=0, length=4, type=cython.long),
+            Parameter("login_ok2", start=4, length=4, type=cython.long),
+            Parameter("server_id", start=8, length=1, type=cython.char),
         ]
     ),
     states=[WaitingGameServerSelect],

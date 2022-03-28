@@ -6,20 +6,20 @@ from .base import GameServerPacket
 
 @dataclass
 class Requirement:
-    item_id: Int32
-    count: Int32
-    type: Int32
-    unk: Int32
+    item_id: cython.long
+    count: cython.long
+    type: cython.long
+    unk: cython.long
 
 
 @dataclass
 class AcquireSkillInfo(GameServerPacket):
-    type: Int8 = field(default=193, init=False, repr=False)
+    type: cython.char = field(default=193, init=False, repr=False)
     requirements: typing.List[Requirement]
-    id: Int32
-    level: Int32
-    sp_cost: Int32
-    mode: Int32
+    id: cython.long
+    level: cython.long
+    sp_cost: cython.long
+    mode: cython.long
 
     def encode(self, session):
         encoded = self.type.encode()
@@ -29,7 +29,7 @@ class AcquireSkillInfo(GameServerPacket):
             self.level,
             self.sp_cost,
             self.mode,
-            Int32(len(self.requirements)),
+            cython.long(len(self.requirements)),
         ]
 
         for requirement in self.requirements:

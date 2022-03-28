@@ -9,23 +9,23 @@ from game.models.structures.character.template import CharacterTemplateBase
 
 
 class NpcTemplate(CharacterTemplateBase):
-    id: Int32
-    template_id: Int32
+    id: cython.long
+    template_id: cython.long
     type: UTFString
     name: UTFString
-    server_side_name: Bool
+    server_side_name: cython.bint
     title: UTFString
-    server_side_title: Bool
+    server_side_title: cython.bint
     sex: UTFString
-    level: Int8
-    reward_exp: Int32
-    reward_sp: Int32
-    aggro_range: Int32
-    right_hand: Int32
-    left_hand: Int32
-    armor: Int32
+    level: cython.char
+    reward_exp: cython.long
+    reward_sp: cython.long
+    aggro_range: cython.long
+    right_hand: cython.long
+    left_hand: cython.long
+    armor: cython.long
     faction_id: UTFString
-    faction_range: Int32
-    absorb_level: Int32
-    absorb_type: Int32
-    race: Int32
+    faction_range: cython.long
+    absorb_level: cython.long
+    absorb_type: cython.long
+    race: cython.long

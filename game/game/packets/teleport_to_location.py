@@ -7,9 +7,9 @@ from .base import GameServerPacket
 
 @dataclass
 class TeleportToLocation(GameServerPacket):
-    type: Int8 = field(default=56, init=False, repr=False)
+    type: cython.char = field(default=56, init=False, repr=False)
 
-    character_id: Int32
+    character_id: cython.long
     position: Position
 
     def encode(self, session):
