@@ -1,6 +1,0 @@
-#! /bin/bash
-
-set -o allexport
-export PYTHONPATH=.
-source .env
-set +o allexport
