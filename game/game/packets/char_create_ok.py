@@ -1,9 +1,11 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
+
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class CharCreateOk(GameServerPacket):
-    type: Int8 = field(default=25, init=False, repr=False)
-    result_ok: Int16 = field(default=1, init=False, repr=False)
+    type: ctype.int8 = field(default=25, init=False, repr=False)
+    result_ok: ctype.int = field(default=1, init=False, repr=False)

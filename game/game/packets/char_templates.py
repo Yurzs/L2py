@@ -1,22 +1,21 @@
 import typing
 from dataclasses import dataclass, field
 
-from common.helpers.bytearray import ByteArray
-from data.models.character import Character
-from data.models.structures.static.character_template import StaticCharacterTemplate
+from common.ctype import ctype
+from game.static.character_template import StaticCharacterTemplate
 
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class CharTemplates(GameServerPacket):
-    type: Int8 = field(default=23, init=False, repr=False)
+    type: ctype.int8 = field(default=23, init=False, repr=False)
     templates: typing.List[StaticCharacterTemplate] = ()
 
     def encode(self, session):
-        result = ByteArray(self.type)
-        result.append(Int32(len(self.templates)))
+        result = bytearray(self.type)
+        result.extend(ctype.int32(len(self.templates)))
 
         for template in self.templates:
-            result += template.encode()
+            result.extend(template.encode())
         return result

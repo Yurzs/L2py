@@ -1,16 +1,17 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
 from game.packets.base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Snoop(GameServerPacket):
-    type: Int8 = field(default=213, init=False, repr=False)
-    conversation_id: Int32
-    receiver: UTFString
-    text_type: Int32
-    speaker: UTFString
-    message: UTFString
+    type: ctype.int8 = field(default=213, init=False, repr=False)
+    conversation_id: ctype.int32
+    receiver: str
+    text_type: ctype.int32
+    speaker: str
+    message: str
 
     def encode(self, session):
         encoded = self.type.encode()
@@ -18,7 +19,7 @@ class Snoop(GameServerPacket):
         sorted_args = [
             self.conversation_id,
             self.receiver,
-            Int32(0),
+            ctype.int32(0),
             self.text_type,
             self.speaker,
             self.message,

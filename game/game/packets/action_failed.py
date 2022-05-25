@@ -1,8 +1,10 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
+
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class ActionFailed(GameServerPacket):
-    type: Int8 = field(default=37, init=False, repr=False)
+    type: ctype.int8 = field(default=37, init=False, repr=False)

@@ -3,7 +3,7 @@ import dataclasses
 from common.packet import Packet
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(kw_only=True)
 class LoginServerPacket(Packet):
     def encode(self, session):
         return self.body

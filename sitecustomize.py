@@ -1,8 +1,6 @@
-# This file is used in `make python` command for interactive mode.
+# This file is used for loading env and data types on app startup.
 import pathlib
 import sys
 
 for module in ["common", "data", "game", "login"]:
     sys.path.append(str(pathlib.Path(module).resolve()))
-
-import common.datatypes  # noqa

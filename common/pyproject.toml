@@ -12,6 +12,7 @@ packages = [
 python = "^3.10"
 aiojsonapi = "^0.3.1633554756"
 motor = "^2.5.1"
+Cython = "^0.29.28"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,7 +1,12 @@
+import dataclasses
+
+from common.ctype import ctype
+
 from .base import GameServerPacket
 
 
+@dataclasses.dataclass(kw_only=True)
 class ExSendManorList(GameServerPacket):
-    type = Int8(254)
+    type: ctype.int8 = 254
     arg_order = ["type", "constant", ""]  # TODO custom method
-    constant = Int16(27)
+    constant: ctype.int = 27

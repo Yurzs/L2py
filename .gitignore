@@ -4,9 +4,15 @@
 *pycache*
 
 .idea
-data/data/static
+game/game/data/static
 .env
 .venv
 .vscode
 .dockerignore
 .DS_Store
+poetry.lock
+*venv*
+
+.c
+.cpp
+.so

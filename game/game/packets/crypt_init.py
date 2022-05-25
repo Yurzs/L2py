@@ -1,14 +1,15 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
 from game.packets.base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class CryptInit(GameServerPacket):
-    type: Int8 = field(default=0, repr=False, init=False)
-    # unknown1: Int32 = field(default=1, repr=False, init=False)
-    is_valid: Int8
-    xor_key: Bytes
-    unknown2: Int32 = field(default=16777216, repr=False, init=False)
-    unknown3: Int32 = field(default=16777216, repr=False, init=False)
-    # unknown4: Int8 = field(default=1, repr=False, init=False)
+    type: ctype.int8 = field(default=0, repr=False, init=False)
+    # unknown1: ctype.int32 = field(default=1, repr=False, init=False)
+    is_valid: ctype.int8
+    xor_key: bytearray
+    unknown2: ctype.int32 = field(default=16777216, repr=False, init=False)
+    unknown3: ctype.int32 = field(default=16777216, repr=False, init=False)
+    # unknown4: ctype.int8 = field(default=1, repr=False, init=False)

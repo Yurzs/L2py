@@ -1,26 +1,27 @@
 import typing
 from dataclasses import dataclass, field
 
-import data.models.structures.object.position
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
+from game.models.structures.object.position import Position
 
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Hit(BaseDataclass):
-    target_id: Int32
-    damage: Int32
-    flags: Int8 = 0
+    target_id: ctype.int32
+    damage: ctype.int32
+    flags: ctype.int8 = 0
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Attack(GameServerPacket):
-    type: Int8 = field(default=5, init=False, repr=False)
-    attacker_id: Int32
-    soulshot: Bool
-    grade: Int32
-    position: data.models.structures.object.position.Position
+    type: ctype.int8 = field(default=5, init=False, repr=False)
+    attacker_id: ctype.int32
+    soulshot: ctype.bool
+    grade: ctype.int32
+    position: Position
     hit: Hit
     hits: typing.List[Hit] = field(default_factory=list, init=False)
     Hit = Hit
@@ -31,8 +32,8 @@ class Attack(GameServerPacket):
 
     def add_hit(
         self,
-        target_id: Int32,
-        damage: Int32,
+        target_id: ctype.int32,
+        damage: ctype.int32,
         have_missed: bool,
         is_critical: bool,
         is_shielded: bool,
@@ -62,13 +63,13 @@ class Attack(GameServerPacket):
             self.position.point3d.x,
             self.position.point3d.y,
             self.position.point3d.z,
-            Int16(len(self.hits) - 1),
+            ctype.int(len(self.hits) - 1),
         ]
         for hit in self.hits:
             ordered_data += [
                 hit.target_id,
                 hit.damage,
-                Int32(hit.flags),
+                ctype.int32(hit.flags),
             ]
         for item in ordered_data:
             encoded.append(item)

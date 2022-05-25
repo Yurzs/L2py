@@ -1,9 +1,11 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
+
 from .base import LoginServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class PlayFail(LoginServerPacket):
-    type: Int8 = field(default=6, init=False, repr=False)
-    reason_id: Int8
+    type: ctype.char = field(default=6, init=False, repr=False)
+    reason_id: ctype.char

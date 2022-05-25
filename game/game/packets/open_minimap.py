@@ -1,15 +1,15 @@
 import typing
 from dataclasses import dataclass, field
 
-from data.models.character import Character
+from common.ctype import ctype
 from game.packets.base import GameServerPacket
 
 if typing.TYPE_CHECKING:
     from game.session import GameSession
 
 
-@dataclass
+@dataclass(kw_only=True)
 class OpenMinimap(GameServerPacket):
-    type: Int8 = field(default=157, init=False, repr=False)
-    map_id: Int32
-    seven_signs_period: Int32
+    type: ctype.int8 = field(default=157, init=False, repr=False)
+    map_id: ctype.int32
+    seven_signs_period: ctype.int32

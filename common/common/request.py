@@ -1,18 +1,17 @@
 import typing
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from common.dataclass import BaseDataclass
-from common.helpers.bytearray import ByteArray
 from common.session import Session
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Request(BaseDataclass):
-    raw_data: ByteArray  # Data received from socket
+    raw_data: bytearray  # Data received from socket
     session: Session  # Client connection session
-    data: ByteArray = None  # Data modified during processing
-    validated_data: typing.Dict[str, typing.Any] = None
+    data: bytearray = field(default_factory=bytearray)  # Data modified during processing
+    validated_data: typing.Dict[str, typing.Any] = field(default_factory=dict)
 
     def __post_init__(self):
-        self.data = self.data if self.data is not None else self.raw_data
+        self.data = self.raw_data
         self.validated_data = self.validated_data or {}

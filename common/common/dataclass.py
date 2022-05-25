@@ -1,171 +1,133 @@
-import collections
-import copy
 import dataclasses
-import sys
+import inspect
+import types
 import typing
-from typing import get_args, get_origin
+from dataclasses import fields, is_dataclass
 
-_DATACLASS_MAP = {}
+from typeguard import check_type
 
-
-def post_init_inheritance(dataclass_instance):
-    def find_bases(search_bases):
-        found = set()
-        for search_base in search_bases:
-            if hasattr(search_base, "__post_init__"):
-                if search_base.__post_init__ is not post_init_inheritance:
-                    found.add(search_base)
-                    continue
-                parent_bases = find_bases(search_base.__bases__)
-                if parent_bases:
-                    found.update(parent_bases)
-        return found
-
-    for base in find_bases(dataclass_instance.__class__.__bases__):
-        base.__post_init__(dataclass_instance)
+from common.ctype import ctype
+from common.misc import classproperty
 
 
-class TypedList(collections.UserList):
-    def __init__(self, items_type, iterable=()):
-        self.items_type = items_type
-        for item_n, item in enumerate(copy.copy(iterable)):
-            if isinstance(item, int) and issubclass(self.items_type, Int):
-                iterable[item_n] = self.items_type(item)
-            elif not isinstance(item, self.items_type):
-                raise ValueError(f"Wrong item type {type(item)}.")
-        super().__init__(iterable)
+class BaseDataclass:
+    @classmethod
+    def __models__(cls):
+        result = {}
+        subclasses = BaseDataclass.__subclasses__()
+        while subclasses:
+            subclass = subclasses.pop()
+            result[subclass.__name__] = subclass
+            subclasses.extend(subclass.__subclasses__())
 
-    def append(self, item) -> None:
-        if not isinstance(item, self.items_type):
-            raise ValueError("Wrong item type.")
-        return super().append(item)
+        return result
 
-    def insert(self, i: int, item) -> None:
-        if not isinstance(item, self.items_type):
-            raise ValueError("Wrong item type.")
-        return super().insert(i, item)
+    def __setattr__(self, key, value):
+        dataclass_fields = self._fields
+        if key in dataclass_fields:
+            field = dataclass_fields[key]
+            check_type(field.name, value, field.type)
+            if isinstance(value, dict) and field.type in self.__models__().values():
+                value = field.type(**value)
+            elif hasattr(field.type, "__extra__") and not is_dataclass(field.type):
+                value = field.type(value)
+            elif isinstance(value, list) and isinstance(field.type, types.GenericAlias):
+                list_items = []
+                item_type = typing.get_args(field.type)[0]
 
-    def __add__(self, other):
-        if isinstance(other, (TypedList, self.items_type)):
-            return super().__add__(other)
-        raise ValueError("Wrong item type.")
+                for item in value:
+                    if isinstance(item, item_type):
+                        list_items.append(item)
+                    else:
+                        list_items.append(item_type(**item))
+                value = list_items
+        super().__setattr__(key, value)
 
+    def __post_init__(self):
+        for field_name, field in self._fields.items():
+            value = getattr(self, field_name)
+            check_type(field_name, value, field.type)
+            if isinstance(value, dict) and field.type in self.__models__():
+                setattr(self, field_name, value)
+            elif hasattr(field.type, "__extra__") and not is_dataclass(field.type):
+                setattr(self, field_name, field.type(value))
 
-class MetaBaseDataclass(type):
-    def __new__(mcs, name, bases, namespace):
-        if bases:
-            if "__post_init__" not in namespace:
-                namespace["__post_init__"] = post_init_inheritance
-        return super().__new__(mcs, name, bases, namespace)
+    @classmethod
+    def convert_dataclasses(cls, data: dict):
+        result = {}
+        models = cls.__models__()
 
+        for field_name, field in cls._get_fields().items():
+            value = data.get(field_name)
+            if isinstance(value, dict) and field.type in models:
+                model = models[field.type]
+                result[field_name] = model(**model.convert_dataclasses(value))
+            else:
+                result[field_name] = value
+        return result
 
-@dataclasses.dataclass
-class BaseDataclass(metaclass=MetaBaseDataclass):
     @property
     def _fields(self):
-        return {field.name: field for field in dataclasses.fields(self)}
+        return {field.name: field for field in fields(self)}
+
+    @classmethod
+    def _get_fields(cls):
+        return {field.name: field for field in fields(cls)}
 
     def _get_field(self, field_name):
         return self._fields[field_name]
 
-    @classmethod
-    def ensure_field_value(cls, field, field_value):
-        """Validates that value matches provided typehint."""
+    def _get_field_type(self, field_name):
+        try:
+            return self._get_field(field_name).type
+        except KeyError:
+            if isinstance(getattr(self.__class__, field_name), property):
+                signature = str(inspect.signature(getattr(self.__class__, field_name).fget))
 
-        if field.default is None and field_value is None:
-            return None
-        elif (
-            isinstance(field.type, type)
-            and issubclass(field.type, BaseDataclass)
-            and isinstance(field_value, dict)
-        ):
-            return field.type(**field_value)
-        elif isinstance(field.type, typing._GenericAlias):
-            if get_origin(field.type) in [list, set, frozenset]:
-                if not isinstance(field_value, (list, set, TypedList)):
-                    raise ValueError(f"Wrong value type for {field.name}.")
-                items_type = field.type.__args__[0]
-                if issubclass(items_type, typing.List):
-                    field_value = TypedList(items_type, field_value)
+                _, typehint = signature.split("->")
+                typehint = typehint.strip()
+                return typehint
+
+            return type(getattr(self, field_name))
+
+    def encode(self, strings_format="utf-16-le") -> bytearray:
+        data = bytearray()
+        models = self.__models__()
+
+        for field_name in self.__encode__:
+            field_type = self._get_field_type(field_name)
+            value = getattr(self, field_name)
+
+            if isinstance(field_type, str):
+                if field_type.startswith("common.ctype."):
+                    field_type = getattr(ctype, field_type.split(".")[-1])
+                elif field_type in models.keys():
+                    field_type = models[field_type]
                 else:
-                    for item_n, item in enumerate(field_value.copy()):
-                        if isinstance(item, items_type):
-                            field_value[item_n] = item
-                        else:
-                            field_value[item_n] = items_type(item)
-                return field_value
-            elif get_origin(field.type) is dict:
-                if not isinstance(field_value, dict):
-                    raise ValueError(f"Wrong value type for {field.name}.")
-                k_type, v_type = field.type.__args__
-                new_dict = {}
-                for key, value in field_value.items():
-                    new_dict[k_type(key)] = v_type(value)
-                return new_dict
-            elif get_origin(field.type) is typing.Union:
-                if not isinstance(field_value, get_args(field.type)):
-                    raise ValueError(f"Wrong value type for {field.name}.")
-                return field_value
-        if isinstance(field_value, field.type):
-            return field_value
-        return field.type(field_value)
+                    field_type = eval(field_type, globals(), locals())
 
-    def __post_init__(self):
-        for field_name, field in self.__class__.__dataclass_fields__.items():
-            setattr(
-                self,
-                field_name,
-                self.ensure_field_value(field, getattr(self, field_name)),
-            )
-
-    def __setattr__(self, key, value):
-        if key in self._fields:
-            field = self._get_field(key)
-            return super().__setattr__(key, self.ensure_field_value(field, value))
-        raise AttributeError()
+            if issubclass(field_type, BaseDataclass):
+                data.extend(value.encode())
+            elif isinstance(value, str):
+                data.extend(value.encode(strings_format))
+            else:
+                data.extend(bytes(value))
+        return data
 
     def to_dict(self):
-        """Returns dictionary representation of dataclass."""
+        return dataclasses.asdict(self, dict_factory=encode_dataclass)
 
-        def custom_data_types_dict_factory(key_value_tuple):
-            result = {}
-            for key, value in key_value_tuple:
-                if key.startswith("__"):
-                    continue
-                if isinstance(value, Int):
-                    result[key] = int(value)
-                elif isinstance(value, String):
-                    result[key] = str(value)
-                elif isinstance(value, Bytes):
-                    result[key] = bytes(value)
-                elif isinstance(value, Float):
-                    result[key] = float(value)
-                else:
-                    result[key] = value
-            return result
+    @classproperty
+    def __extra__(cls):
+        return (cls, dict)
 
-        return dataclasses.asdict(self, dict_factory=custom_data_types_dict_factory)
 
-    def __init_subclass__(cls, **kwargs):
-        _DATACLASS_MAP[cls.__name__.lower()] = cls
+def encode_dataclass(dataclass_fields):
+    from common.json import JsonEncoder
 
-    @classmethod
-    def update_forward_refs(cls, **localns):
-        globalns = sys.modules[cls.__module__].__dict__.copy()
-        globalns.setdefault(cls.__name__, cls)
-        for f in cls.__dataclass_fields__.values():
-            cls._update_field_forward_refs(f, globalns=globalns, localns=localns)
+    result = {}
 
-    @staticmethod
-    def _update_field_forward_refs(
-        field: "ModelField", globalns: typing.Any, localns: typing.Any
-    ) -> None:
-        """
-        Try to update ForwardRefs on fields based on this ModelField, globalns and localns.
-        """
-
-        if field.type.__class__ == typing.ForwardRef:
-            field.type = field.type._eval_type(globalns, localns) or None
-            field.prepare()
-        elif field.type.__class__ == str:
-            field.type = eval(field.type, globalns, localns)
+    encoder = JsonEncoder()
+    for field, value in dataclass_fields:
+        result[field] = encoder.encode(value)
+    return result

@@ -1,22 +1,27 @@
-import asyncio
 import logging
 import time
 import typing
 from dataclasses import dataclass, field
 
 import game.constants
-import game.packets
+
+# import game.packets
+from common.application_modules.scheduler import ScheduleModule
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from data.models.character import Character
-from data.models.structures.object.object import L2Object
-from data.models.structures.object.position import Position
+from game.config import GameConfig
+from game.models.structures.object.object import L2Object
+from game.models.structures.object.position import Position
+
+if typing.TYPE_CHECKING:
+    from game.models.character import Character
+    from game.session import GameSession
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Clock:
-    ticks: int = 0
     start_time: int = field(default=int(time.time()))
     _is_night = False
     TICKS_PER_SECOND = 10
@@ -30,14 +35,17 @@ class Clock:
     def hours(self):
         return (self.get_time() / 60) % 24
 
-    async def tick(self):
-        self.ticks = int(int(time.time()) - self.start_time / self.MSEC_IN_TICK)
+    @property
+    def ticks(self):
+        return ctype.int32(int(time.time()) - self.start_time / self.MSEC_IN_TICK)
+
+    @staticmethod
+    @ScheduleModule.job("interval", hours=3)
+    async def daytime_change():
+        CLOCK.toggle_is_night()
 
     def get_time(self):
-        return Int32(self.ticks / (self.TICKS_PER_SECOND * 10))
-
-    def set_ticks(self, ticks):
-        self.ticks = ticks
+        return ctype.int32(self.ticks / (self.TICKS_PER_SECOND * 10))
 
     def is_daytime_changed(self):
         return self._is_night != self.is_night
@@ -49,12 +57,13 @@ class Clock:
 CLOCK = Clock()
 
 
-@dataclass
+@dataclass(kw_only=True)
 class World(BaseDataclass):
-    _characters: typing.Dict[Character, "GameSession"] = field(default_factory=dict)
-    _char_ids: typing.Dict[Int32, Character] = field(default_factory=dict)
-    _sessions: typing.Dict["GameSession", Character] = field(default_factory=dict)
-    _objects: typing.Dict[Int32, L2Object] = field(default_factory=dict)
+    _characters: typing.Dict["Character", "GameSession"] = field(default_factory=dict)
+    _char_ids: typing.Dict[ctype.int32, "Character"] = field(default_factory=dict)
+    _sessions: typing.Dict["GameSession", "Character"] = field(default_factory=dict)
+    _objects: typing.Dict[ctype.int32, L2Object] = field(default_factory=dict)
+    _parties = {}
 
     clock = CLOCK
 
@@ -62,10 +71,10 @@ class World(BaseDataclass):
     def characters(self):
         return list(self._characters)
 
-    def get_character_by_id(self, char_id: Int32) -> typing.Union[None, Character]:
+    def get_character_by_id(self, char_id: ctype.int32) -> typing.Union[None, "Character"]:
         return self._char_ids.get(char_id)
 
-    def find_object_by_id(self, object_id: Int32) -> typing.Union[None, L2Object]:
+    def find_object_by_id(self, object_id: ctype.int32) -> typing.Union[None, L2Object]:
         return self._objects.get(object_id)
 
     @staticmethod
@@ -77,7 +86,7 @@ class World(BaseDataclass):
             ^ 2
         ) < radius ^ 2
 
-    def enter(self, session: "GameSession", character: Character):
+    def enter(self, session: "GameSession", character: "Character"):
         self._characters[character] = session
         self._char_ids[character.id] = character
         self._sessions[session] = character
@@ -88,7 +97,7 @@ class World(BaseDataclass):
         self._characters.pop(character)
         self._char_ids.pop(character.id)
         self._objects.pop(character.id)
-        asyncio.create_task(
+        GameConfig().loop.create_task(
             character.commit_changes(
                 fields=[
                     "position",
@@ -101,9 +110,15 @@ class World(BaseDataclass):
     def notify_exit(self):
         pass  # TODO
 
-    def players_sessions_nearby(self, position: Position, me: L2Object = None, radius=1000):
+    def players_sessions_nearby(
+        self, position: Position, me: L2Object = None, radius=1000, specific_ids=()
+    ):
         sessions = []
         for char, session in self._characters.items():
+            if char.id in specific_ids:
+                sessions.append(session)
+                continue
+
             if me is None or char.id != me.id:
                 if self._inside_sphere(char, position, radius):
                     sessions.append(session)
@@ -119,24 +134,36 @@ class World(BaseDataclass):
 
     def notify_move(self, object_to_move, new_position):
         for session in self.players_sessions_nearby(object_to_move.position, object_to_move):
-            session.send_packet(game.packets.CharMoveToLocation(object_to_move, new_position))
+            session.send_packet(
+                game.packets.CharMoveToLocation(
+                    character=object_to_move, new_position=new_position
+                )
+            )
 
-    def notify_spawn(self, character: Character):
+    def notify_spawn(self, character: "Character"):
         for session in self.players_sessions_nearby(character.position, character):
-            session.send_packet(game.packets.CharInfo(character))
-            session.send_packet(game.packets.CharMoveToLocation(character, character.position))
+            session.send_packet(game.packets.CharInfo(character=character))
+            session.send_packet(
+                game.packets.CharMoveToLocation(
+                    character=character, new_position=character.position
+                )
+            )
 
     def notify_me_about_others_nearby(self, session, character):
         for character in self.objects_nearby(character):
-            session.send_packet(game.packets.CharInfo(character))
-            session.send_packet(game.packets.CharMoveToLocation(character, character.position))
+            session.send_packet(game.packets.CharInfo(character=character))
+            session.send_packet(
+                game.packets.CharMoveToLocation(
+                    character=character, new_position=character.position
+                )
+            )
 
     def broadcast_snoop(
         self,
         creature: L2Object,
-        text_type: Int32,
-        character_name: UTFString,
-        text: UTFString,
+        text_type: ctype.int32,
+        character_name: str,
+        text: str,
     ):
         snoop = game.packets.Snoop(creature.id, creature.name, text_type, character_name, text)
         for session in self.players_sessions_nearby(creature.position, creature):
@@ -147,7 +174,12 @@ class World(BaseDataclass):
             session.send_packet(packet)
 
     def say(self, creature, text_type, character_name, text, session=None):
-        packet = game.packets.CreatureSay(creature.id, text_type, character_name, text)
+        packet = game.packets.CreatureSay(
+            object_id=creature.id,
+            text_type=text_type,
+            character_name=character_name,
+            text=text,
+        )
         if session is not None:
             session.send_packet(packet)
         self.broadcast_say(creature, packet)
@@ -165,7 +197,7 @@ class World(BaseDataclass):
         if self.clock.is_daytime_changed():
             pass  # TODO: night and day units spawn
 
-    def broadcast(self, me: L2Object, packet, also_for_me=True):
+    def _broadcast(self, me: L2Object, packet, also_for_me=True):
         for session in self.players_sessions_nearby(me.position, None if also_for_me else me, 700):
             session.send_packet(packet)
 
@@ -175,7 +207,9 @@ class World(BaseDataclass):
 
     def broadcast_target_unselect(self, me):
         for session in self.players_sessions_nearby(me.position, me, 500):
-            session.send_packet(game.packets.TargetUnselected(me.id, me.position))
+            session.send_packet(
+                game.packets.TargetUnselected(target_id=me.id, position=me.position)
+            )
 
     def broadcast_attack(self, me: L2Object, attack_packet: "game.packets.Attack"):
         for session in self.players_sessions_nearby(me.position, me, 500):

@@ -2,6 +2,8 @@ import abc
 
 
 class ApplicationModule(abc.ABC):
+    """Application extension module base."""
+
     name: str
 
     def __init__(self, name):
@@ -9,4 +11,4 @@ class ApplicationModule(abc.ABC):
 
     @abc.abstractmethod
     async def start(self, config, loop):
-        pass
+        """Initializes application module. MUST be set in each module."""

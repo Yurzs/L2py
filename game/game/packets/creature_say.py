@@ -1,12 +1,30 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
+from common.misc import extend_bytearray
 from game.packets.base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class CreatureSay(GameServerPacket):
-    type: Int8 = field(default=74, init=False, repr=False)
-    object_id: Int32
-    text_type: Int32
-    character_name: UTFString
-    text: UTFString
+    type: ctype.int8 = field(default=74, init=False, repr=False)
+    object_id: ctype.int32
+    text_type: ctype.int32
+    character_name: str
+    text: str
+
+    def encode(self, session):
+        encoded = bytearray()
+
+        extend_bytearray(
+            encoded,
+            [
+                self.type,
+                self.object_id,
+                self.text_type,
+                self.character_name,
+                self.text,
+            ],
+        )
+
+        return encoded

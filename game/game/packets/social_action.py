@@ -1,13 +1,12 @@
 from dataclasses import dataclass, field
 
-from data.models.structures.object.object import L2Object
-from data.models.structures.object.position import Position
+from common.ctype import ctype
 from game.packets.base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class SocialAction(GameServerPacket):
-    type: Int8 = field(default=45, init=False, repr=False)
+    type: ctype.int8 = field(default=45, init=False, repr=False)
 
-    character_id: Int32
-    action_id: Int32
+    character_id: ctype.int32
+    action_id: ctype.int32

@@ -2,8 +2,6 @@ import os
 
 from blowfish import Cipher
 
-from common.helpers.bytearray import ByteArray
-
 
 class BlowfishKey:
     static = bytes(
@@ -38,11 +36,11 @@ class BlowfishKey:
         return cls(os.urandom(16))
 
     def decrypt(self, data):
-        return ByteArray(b"".join(self.encoder.decrypt_ecb(bytes(data))))
+        return bytearray(b"".join(self.encoder.decrypt_ecb(bytes(data))))
 
-    def encrypt(self, data: ByteArray, static_key=False):
+    def encrypt(self, data: bytearray, static_key=False):
         if static_key:
-            encrypted = ByteArray(b"".join(self.static_encoder.encrypt_ecb(bytes(data))))
+            encrypted = bytearray(b"".join(self.static_encoder.encrypt_ecb(data)))
         else:
-            encrypted = ByteArray(b"".join(self.encoder.encrypt_ecb(bytes(data))))
+            encrypted = bytearray(b"".join(self.encoder.encrypt_ecb(bytes(data))))
         return encrypted

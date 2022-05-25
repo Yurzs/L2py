@@ -4,8 +4,6 @@ import logging
 from abc import ABCMeta, abstractmethod
 from asyncio import transports
 
-from common import exceptions
-from common.helpers.bytearray import ByteArray
 from common.request import Request
 from common.response import Response
 from common.session import Session
@@ -41,14 +39,6 @@ class TCPProtocol(asyncio.Protocol, metaclass=ABCMeta):
     def connection_made(self, transport: transports.BaseTransport) -> None:
         self.session = self.session_cls(self)
         self.transport = PacketTransport(transport, self.session, self.middleware)
-
-    def format_data(self, raw_data: bytes) -> request_cls:
-        data = ByteArray(raw_data)
-        packet_length = Int16.decode(data[:2]) - 2
-        if packet_length == len(data):
-            raise exceptions.RequestLengthDoesntMatch()
-        data = data[2:]
-        return self.request_cls(ByteArray(raw_data), data, self.session)
 
     @abstractmethod
     async def data_received(self, data: bytes) -> None:

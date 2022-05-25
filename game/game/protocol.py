@@ -1,10 +1,9 @@
 import logging
 
 from common.api_handlers import handle_request
-from common.packet import Packet
-from common.response import Response
 from common.transport.protocol import TCPProtocol
-from game.models.world import WORLD
+from game.config import GameConfig
+from game.request import GameRequest
 from game.session import GameSession
 from game.states import Connected
 
@@ -25,7 +24,10 @@ class Lineage2GameProtocol(TCPProtocol):
 
     @TCPProtocol.make_async
     async def data_received(self, data: bytes):
-        request = self.transport.read(data)
+        for request in self.transport.read(data, request_cls=GameRequest):
+            GameConfig().loop.create_task(self.proceed_request(request))
+
+    async def proceed_request(self, request):
         response = await handle_request(request)
         if response:
             LOG.debug(
@@ -33,10 +35,6 @@ class Lineage2GameProtocol(TCPProtocol):
                 *self.transport.peer,
             )
             self.transport.write(response)
-            for action in response.actions_after:
-                action_result = await action
-                if isinstance(action_result, Packet):
-                    self.transport.write(Response(action_result, self.session))
 
     def connection_lost(self, exc) -> None:
         self.session.logout_character()

@@ -1,13 +1,13 @@
-import dataclasses
 from abc import abstractmethod
+from dataclasses import dataclass
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.bytearray import ByteArray
 
 
-@dataclasses.dataclass
+@dataclass(kw_only=True)
 class Packet(BaseDataclass):
-    type: Int8
+    type: ctype.int8
 
     @abstractmethod
     def encode(self):
@@ -15,9 +15,17 @@ class Packet(BaseDataclass):
 
     @property
     def body(self):
-        data = ByteArray(b"")
-        for arg in self._fields.keys():
-            data.extend(getattr(self, arg).encode())
+        data = bytearray()
+        for field_name, field in self._fields.items():
+            value = getattr(self, field_name)
+            if isinstance(value, str):
+                data.extend(bytearray(value, "utf-8"))
+            elif isinstance(value, bytearray):
+                data.extend(value)
+            elif isinstance(value, bytes):
+                data.extend(value)
+            else:
+                data.extend(value)
         return data
 
     @classmethod

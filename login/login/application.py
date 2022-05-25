@@ -1,10 +1,10 @@
 import common
+import common.middleware.length
 import login.middleware
 from common.application import Application
 from common.application_modules.http import HTTPServerModule
 from common.application_modules.tcp import TCPServerModule
 from common.json import JsonDecoder, JsonEncoder
-from login.game_watcher import GameServersChecker
 from login.protocol import Lineage2LoginProtocol
 
 LOGIN_SERVER_APPLICATION = Application(
@@ -21,6 +21,5 @@ LOGIN_SERVER_APPLICATION = Application(
                 login.middleware.PaddingMiddleware,
             ],
         ),
-        GameServersChecker("game_checker"),
     ]
 )

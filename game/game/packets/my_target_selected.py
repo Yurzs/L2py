@@ -1,12 +1,11 @@
 from dataclasses import dataclass, field
 
-from data.models.character import Character
-from data.models.structures.object.object import L2Object
+from common.ctype import ctype
 from game.packets.base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class MyTargetSelected(GameServerPacket):
-    type: Int8 = field(default=166, init=False, repr=False)
-    object_id: Int32
-    color: Int16
+    type: ctype.int8 = field(default=166, init=False, repr=False)
+    object_id: ctype.int32
+    color: ctype.int
