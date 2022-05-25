@@ -7,9 +7,7 @@ from common.ctype import ctype
 
 class GameXorKey:
     CRYPT_KEYS_COUNT = 20
-    CRYPT_KEYS: typing.List[bytearray] = [
-        bytearray(b"\x00" * 16) for _ in range(CRYPT_KEYS_COUNT)
-    ]
+    CRYPT_KEYS: typing.List[bytearray] = [bytearray(b"\x00" * 16) for _ in range(CRYPT_KEYS_COUNT)]
 
     for i in range(CRYPT_KEYS_COUNT):
         # for j in range(len(CRYPT_KEYS[i])):

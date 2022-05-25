@@ -16,9 +16,7 @@ class ServerList(LoginServerPacket):
         account = session.account
         arr = bytearray(self.type)
         arr.extend(ctype.char(len(self.servers)))
-        arr.extend(
-            ctype.char(0) if account.last_server is None else account.last_server
-        )
+        arr.extend(ctype.char(0) if account.last_server is None else account.last_server)
         for server in self.servers:
             arr.extend(server.encode(strings_format="utf8"))
         print("Arr len", len(arr))

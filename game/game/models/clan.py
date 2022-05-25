@@ -16,6 +16,4 @@ class Clan(Document):
 
     def create_indexes(self):
         self.sync_collection().create_index([("name", pymongo.ASCENDING)], unique=True)
-        self.sync_collection().create_index(
-            [("leader", pymongo.ASCENDING)], unique=True
-        )
+        self.sync_collection().create_index([("leader", pymongo.ASCENDING)], unique=True)

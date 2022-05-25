@@ -127,6 +127,4 @@ class MetaDocumentMixin(type):
         for field in dataclasses.fields(Document):
             field.kw_only = True
             fields.append((field.name, field.type, field))
-        return dataclasses.make_dataclass(
-            name, fields=fields, bases=bases, namespace=namespace
-        )
+        return dataclasses.make_dataclass(name, fields=fields, bases=bases, namespace=namespace)

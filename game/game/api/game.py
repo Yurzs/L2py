@@ -24,21 +24,15 @@ async def protocol_version(request):
         request.validated_data["protocol_version"] != 746
         and request.validated_data["protocol_version"] != 251
     ):
-        return game.packets.CryptInit(
-            is_valid=False, xor_key=request.session.xor_key.outgoing_key
-        )
+        return game.packets.CryptInit(is_valid=False, xor_key=request.session.xor_key.outgoing_key)
 
     elif request.validated_data["protocol_version"] == -1:
-        return game.packets.CryptInit(
-            is_valid=False, xor_key=request.session.xor_key.outgoing_key
-        )
+        return game.packets.CryptInit(is_valid=False, xor_key=request.session.xor_key.outgoing_key)
 
     else:
         request.session.set_state(WaitingAuthentication)
         request.session.send_packet(
-            game.packets.CryptInit(
-                is_valid=True, xor_key=request.session.xor_key.outgoing_key
-            )
+            game.packets.CryptInit(is_valid=True, xor_key=request.session.xor_key.outgoing_key)
         )
         request.session.encryption_enabled = True
 
@@ -51,18 +45,14 @@ async def protocol_version(request):
             Parameter(id="play_ok2", start="$login.stop", length=4, type=ctype.int),
             Parameter(id="play_ok1", start="$play_ok2.stop", length=4, type=ctype.int),
             Parameter(id="login_ok1", start="$play_ok1.stop", length=4, type=ctype.int),
-            Parameter(
-                id="login_ok2", start="$login_ok1.stop", length=4, type=ctype.int
-            ),
+            Parameter(id="login_ok2", start="$login_ok1.stop", length=4, type=ctype.int),
         ]
     ),
     states=[WaitingAuthentication],
 )
 async def auth_login(request):
 
-    account = await Account.one(
-        username=request.validated_data["login"], required=False
-    )
+    account = await Account.one(username=request.validated_data["login"], required=False)
     if account is not None:
         if (
             account.game_auth.login_ok1 == request.validated_data["login_ok1"]
@@ -79,6 +69,4 @@ async def auth_login(request):
         return game.packets.AuthLoginFail(
             reason_id=game.constants.GAME_AUTH_LOGIN_FAIL_PASSWORD_DOESNT_MATCH
         )
-    return game.packets.AuthLoginFail(
-        reason_id=game.constants.GAME_AUTH_LOGIN_FAIL_DEFAULT
-    )
+    return game.packets.AuthLoginFail(reason_id=game.constants.GAME_AUTH_LOGIN_FAIL_DEFAULT)

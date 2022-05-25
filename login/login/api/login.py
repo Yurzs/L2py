@@ -9,12 +9,7 @@ from common.models import Account, GameServer
 from common.template import Parameter, Template
 from login.api.handlers import verify_secrets
 from login.packets import GGAuth, LoginFail, LoginOk, PlayFail, PlayOk, ServerList
-from login.state import (
-    Authenticated,
-    Connected,
-    GGAuthenticated,
-    WaitingGameServerSelect,
-)
+from login.state import Authenticated, Connected, GGAuthenticated, WaitingGameServerSelect
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 

@@ -21,9 +21,7 @@ class IDFactory(Document):
 
     @classmethod
     async def get_new_id(cls, object_type_name: str):
-        item_id_factory = await cls.one(
-            add_query={"name": object_type_name}, required=False
-        )
+        item_id_factory = await cls.one(add_query={"name": object_type_name}, required=False)
         if item_id_factory is None:
             item_id_factory = cls(name=object_type_name, _id=str(bson.ObjectId()))
             await item_id_factory.insert()

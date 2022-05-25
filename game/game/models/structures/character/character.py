@@ -94,9 +94,7 @@ class Character(Playable):
     async def use_social_action(self, action_id):
         pass
 
-    @Broadcaster.broadcast(
-        packet_constructor=lambda self: game.packets.CharInfo(character=self)
-    )
+    @Broadcaster.broadcast(packet_constructor=lambda self: game.packets.CharInfo(character=self))
     @Broadcaster.broadcast(
         packet_constructor=lambda self: game.packets.CharMoveToLocation(
             character=self, new_position=self.position

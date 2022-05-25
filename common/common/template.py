@@ -21,9 +21,7 @@ class Parameter:
         if self.repeat is None:
             repeat_count = 1
         else:
-            repeat_count = (
-                self.repeat if isinstance(self.repeat, int) else namespace[self.repeat]
-            )
+            repeat_count = self.repeat if isinstance(self.repeat, int) else namespace[self.repeat]
 
         result = []
         total_len = 0
@@ -50,9 +48,7 @@ class Parameter:
 
 class Template:
     def __init__(self, parameters: typing.List[Parameter]):
-        self.template = {
-            f"${parameter.id}": parameter for parameter in parameters.copy()
-        }
+        self.template = {f"${parameter.id}": parameter for parameter in parameters.copy()}
         self.parameters = parameters
 
     def get_start(self, parameter_id):

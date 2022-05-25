@@ -16,9 +16,7 @@ from common.template import Parameter, Template
                 type=str,
                 func=decode_str(),
             ),
-            Parameter(
-                id="item_distribution", start="$text.stop", length=4, type=ctype.int32
-            ),
+            Parameter(id="item_distribution", start="$text.stop", length=4, type=ctype.int32),
         ]
     ),
 )

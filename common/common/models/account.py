@@ -60,9 +60,7 @@ class Account(Document):
         return acc
 
     @classmethod
-    async def one(
-        cls, document_id=None, username=None, add_query=None, **kwargs
-    ) -> "Account":
+    async def one(cls, document_id=None, username=None, add_query=None, **kwargs) -> "Account":
         """Finds one account."""
 
         query = {}
@@ -82,9 +80,7 @@ class Account(Document):
         """
         salt = base64.b64encode(os.urandom(20)).decode()
         salted_password = password + salt
-        self.password = base64.b64encode(
-            sha3_512(salted_password.encode()).digest()
-        ).decode()
+        self.password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
         self.salt = salt
         await self.commit_changes(fields=["salt", "password"])
 
@@ -96,9 +92,7 @@ class Account(Document):
         """
 
         salted_password = password + self.salt
-        hashed_password = base64.b64encode(
-            sha3_512(salted_password.encode()).digest()
-        ).decode()
+        hashed_password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
         return self.password == hashed_password
 
     @classmethod
@@ -110,9 +104,7 @@ class Account(Document):
             unique=True,
         )
 
-    async def login_authenticated(
-        self, server_id, play_ok1, play_ok2, login_ok1, login_ok2
-    ):
+    async def login_authenticated(self, server_id, play_ok1, play_ok2, login_ok1, login_ok2):
         """Saves information for game server auth."""
 
         self.game_auth = GameAuth(

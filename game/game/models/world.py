@@ -71,9 +71,7 @@ class World(BaseDataclass):
     def characters(self):
         return list(self._characters)
 
-    def get_character_by_id(
-        self, char_id: ctype.int32
-    ) -> typing.Union[None, "Character"]:
+    def get_character_by_id(self, char_id: ctype.int32) -> typing.Union[None, "Character"]:
         return self._char_ids.get(char_id)
 
     def find_object_by_id(self, object_id: ctype.int32) -> typing.Union[None, L2Object]:
@@ -135,9 +133,7 @@ class World(BaseDataclass):
         return objects
 
     def notify_move(self, object_to_move, new_position):
-        for session in self.players_sessions_nearby(
-            object_to_move.position, object_to_move
-        ):
+        for session in self.players_sessions_nearby(object_to_move.position, object_to_move):
             session.send_packet(
                 game.packets.CharMoveToLocation(
                     character=object_to_move, new_position=new_position
@@ -169,16 +165,12 @@ class World(BaseDataclass):
         character_name: str,
         text: str,
     ):
-        snoop = game.packets.Snoop(
-            creature.id, creature.name, text_type, character_name, text
-        )
+        snoop = game.packets.Snoop(creature.id, creature.name, text_type, character_name, text)
         for session in self.players_sessions_nearby(creature.position, creature):
             session.send_packet(snoop)
 
     def broadcast_say(self, creature, packet):
-        for session in self.players_sessions_nearby(
-            creature.position, creature, radius=50
-        ):
+        for session in self.players_sessions_nearby(creature.position, creature, radius=50):
             session.send_packet(packet)
 
     def say(self, creature, text_type, character_name, text, session=None):
@@ -206,9 +198,7 @@ class World(BaseDataclass):
             pass  # TODO: night and day units spawn
 
     def _broadcast(self, me: L2Object, packet, also_for_me=True):
-        for session in self.players_sessions_nearby(
-            me.position, None if also_for_me else me, 700
-        ):
+        for session in self.players_sessions_nearby(me.position, None if also_for_me else me, 700):
             session.send_packet(packet)
 
     def broadcast_target_select(self, me: L2Object, other: L2Object):
