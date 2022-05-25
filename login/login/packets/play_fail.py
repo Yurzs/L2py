@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
 
-import cython
+from common.ctype import ctype
 
 from .base import LoginServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class PlayFail(LoginServerPacket):
-    type: cython.char = field(default=6, init=False, repr=False)
-    reason_id: cython.char
+    type: ctype.char = field(default=6, init=False, repr=False)
+    reason_id: ctype.char

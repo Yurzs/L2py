@@ -1,9 +1,9 @@
+import dataclasses
 import typing
-from dataclasses import dataclass, field
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.cython import cython
-from game.models.structures.object.object import L2Object, L2ObjectBases, L2ObjectDefaults
+from game.models.structures.object.object import L2Object
 from game.models.structures.skill.skill import Skill
 
 
@@ -14,73 +14,73 @@ class Type:
 
 
 class SpecialType:
-    weapon = cython.long(0)
-    shield = cython.long(1)
-    accessory = cython.long(2)
-    quest = cython.long(3)
-    money = cython.long(4)
-    other = cython.long(5)
-    pet_wolf = cython.long(6)
-    pet_hatchling = cython.long(7)
-    pet_strider = cython.long(8)
-    pet_baby = cython.long(9)
+    weapon: ctype.int32 = 0
+    shield: ctype.int32 = 1
+    accessory: ctype.int32 = 2
+    quest: ctype.int32 = 3
+    money: ctype.int32 = 4
+    other: ctype.int32 = 5
+    pet_wolf: ctype.int32 = 6
+    pet_hatchling: ctype.int32 = 7
+    pet_strider: ctype.int32 = 8
+    pet_baby: ctype.int32 = 9
 
 
 class Materials:
-    steel = cython.long(0)
-    fine_steel = cython.long(1)
-    blood_steel = cython.long(2)
-    bronze = cython.long(3)
-    silver = cython.long(4)
-    gold = cython.long(5)
-    mithril = cython.long(6)
-    oriharukon = cython.long(7)
-    paper = cython.long(8)
-    wood = cython.long(9)
-    cloth = cython.long(10)
-    leather = cython.long(11)
-    bone = cython.long(12)
-    damascus = cython.long(13)
-    adamantaite = cython.long(14)
-    chrysolite = cython.long(15)
-    crystal = cython.long(16)
-    liquid = cython.long(17)
-    scale_of_dragon = cython.long(18)
-    dyestuff = cython.long(19)
-    coweb = cython.long(20)
-    seed = cython.long(21)
+    steel: ctype.int32 = 0
+    fine_steel: ctype.int32 = 1
+    blood_steel: ctype.int32 = 2
+    bronze: ctype.int32 = 3
+    silver: ctype.int32 = 4
+    gold: ctype.int32 = 5
+    mithril: ctype.int32 = 6
+    oriharukon: ctype.int32 = 7
+    paper: ctype.int32 = 8
+    wood: ctype.int32 = 9
+    cloth: ctype.int32 = 10
+    leather: ctype.int32 = 11
+    bone: ctype.int32 = 12
+    damascus: ctype.int32 = 13
+    adamantaite: ctype.int32 = 14
+    chrysolite: ctype.int32 = 15
+    crystal: ctype.int32 = 16
+    liquid: ctype.int32 = 17
+    scale_of_dragon: ctype.int32 = 18
+    dyestuff: ctype.int32 = 19
+    coweb: ctype.int32 = 20
+    seed: ctype.int32 = 21
 
 
 class CrystalType:
-    D = cython.long(1)
-    C = cython.long(2)
-    B = cython.long(3)
-    A = cython.long(4)
-    S = cython.long(5)
+    D: ctype.int32 = 1
+    C: ctype.int32 = 2
+    B: ctype.int32 = 3
+    A: ctype.int32 = 4
+    S: ctype.int32 = 5
 
 
 class CrystalItem:
-    D = cython.long(1458)
-    C = cython.long(1459)
-    B = cython.long(1460)
-    A = cython.long(1461)
-    S = cython.long(1462)
+    D: ctype.int32 = 1458
+    C: ctype.int32 = 1459
+    B: ctype.int32 = 1460
+    A: ctype.int32 = 1461
+    S: ctype.int32 = 1462
 
 
 class CrystalEnchantBonusArmor:
-    D = cython.long(11)
-    C = cython.long(6)
-    B = cython.long(11)
-    A = cython.long(19)
-    S = cython.long(25)
+    D: ctype.int32 = 11
+    C: ctype.int32 = 6
+    B: ctype.int32 = 11
+    A: ctype.int32 = 19
+    S: ctype.int32 = 25
 
 
 class CrystalEnchantBonusWeapon:
-    D = cython.long(90)
-    C = cython.long(45)
-    B = cython.long(67)
-    A = cython.long(144)
-    S = cython.long(250)
+    D: ctype.int32 = 90
+    C: ctype.int32 = 45
+    B: ctype.int32 = 67
+    A: ctype.int32 = 144
+    S: ctype.int32 = 250
 
 
 class Crystal:
@@ -102,94 +102,72 @@ class ItemLocation:
     FREIGHT = 8
 
 
-@dataclass
-class ItemPropertiesBases:
-    crystallizable: cython.bint
-    stackable: cython.bint
-    sellable: cython.bint
-    droppable: cython.bint
-    destroyable: cython.bint
-    tradable: cython.bint
-    degradable: cython.bint
+@dataclasses.dataclass(kw_only=True)
+class ItemProperties(BaseDataclass):
+    crystallizable: ctype.bool
+    stackable: ctype.bool
+    sellable: ctype.bool
+    droppable: ctype.bool
+    destroyable: ctype.bool
+    tradable: ctype.bool
+    degradable: ctype.bool
 
 
-@dataclass
-class ItemProperties(BaseDataclass, ItemPropertiesBases):
-    pass
-
-
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class Crystallization:
-    type: cython.long = 0
-    count: cython.long = 0
+    type: ctype.int32 = 0
+    count: ctype.int32 = 0
 
 
-@dataclass
-class ItemTemplateBases(L2ObjectBases):
-    type: cython.long
-    inventory_type: cython.long
-    special_type: cython.long
-    weight: cython.long
-    material: cython.long
+@dataclasses.dataclass(kw_only=True)
+class ItemTemplate(L2Object):
+    type: ctype.int32
+    inventory_type: ctype.int32
+    special_type: ctype.int32
+    weight: ctype.int32
+    material: ctype.int32
     crystallization: Crystallization
-    duration: cython.long
+    duration: ctype.int32
     body_part: str
-    price: cython.long
+    price: ctype.int32
     properties: ItemProperties
 
+    skills: typing.List[Skill]
+    object_id: ctype.int32
 
-@dataclass
-class ItemTemplateDefaults(L2ObjectDefaults):
-    skills: typing.List[Skill] = field(default_factory=list)
-    object_id: cython.long = field(default_factory=cython.long)
-
-
-@dataclass
-class ItemTemplate(L2Object, ItemTemplateDefaults, ItemTemplateBases):
     def validate_material(self):
         if self.material not in Materials.__dict__:
             raise Exception("Unknown material")
 
 
-ItemTemplate.update_forward_refs()
+@dataclasses.dataclass(kw_only=True)
+class Item(ItemTemplate):
+    owner_id: ctype.int32
+    count: ctype.int32
+    initial_count: ctype.int32
+    usage_time: ctype.int32
+    item_template: ItemTemplate
+    location: ctype.int32
+    slot: ctype.int32
+    enchant: ctype.int32
+    price_sell: ctype.int32
+    price_buy: ctype.int32
+    wear: ctype.bool
+    drop_time: ctype.int32
+    protected: ctype.bool
 
-
-@dataclass
-class ItemDefaults(ItemTemplateDefaults):
-    decrease: cython.bint = False
-    augmentation: cython.long = None
-    mana: cython.long = -1
-    consuming_mana: cython.bint = False
+    decrease: ctype.bool = False
+    augmentation: ctype.int32 = None
+    mana: ctype.int32 = -1
+    consuming_mana: ctype.bool = False
     mana_consumption_rate = 60000
 
-    charged_soulshot: cython.long = 0
-    charged_spiritshot: cython.long = 0
-    charged_fishshot: cython.bint = False
+    charged_soulshot: ctype.int32 = 0
+    charged_spiritshot: ctype.int32 = 0
+    charged_fishshot: ctype.bool = False
 
-    last_change: cython.long = 2
+    last_change: ctype.int32 = 2
 
-    is_equipped: cython.bint = False
-    enchant_level: cython.long = 0
-    crystal_type: cython.char = 0
-
-
-@dataclass
-class ItemBases(ItemTemplateBases):
-    owner_id: cython.long
-    count: cython.long
-    initial_count: cython.long
-    usage_time: cython.long
-    item_template: ItemTemplate
-    location: cython.long
-    slot: cython.long
-    enchant: cython.long
-    price_sell: cython.long
-    price_buy: cython.long
-    wear: cython.bint
-    drop_time: cython.long
-    protected: cython.bint
-
-
-@dataclass
-class Item(ItemTemplate, ItemDefaults, ItemBases):
-    pass
+    is_equipped: ctype.bool = False
+    enchant_level: ctype.int32 = 0
+    crystal_type: ctype.int8 = 0

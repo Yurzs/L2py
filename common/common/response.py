@@ -1,15 +1,16 @@
-from dataclasses import dataclass
+import typing
+from dataclasses import dataclass, field
 
-from common.helpers.bytearray import ByteArray
 from common.packet import Packet
 from common.session import Session
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Response:
     packet: Packet  # Packet response.
     session: Session  # Client connection session
-    data: bytearray = None  # packet in bytearray format.
+    data: typing.Optional[bytearray] = None  # packet in bytearray format.
+    encode: bool = field(default=True)
 
     def __post_init__(self):
         self.data = self.packet.encode(self.session) if self.data is None else self.data

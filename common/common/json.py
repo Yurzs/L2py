@@ -2,39 +2,32 @@ import json
 from typing import Any
 
 import bson
-import pymongo.results
 
-from common.dataclass import _DATACLASS_MAP, BaseDataclass, TypedList
+from common.ctype import _Numeric, extras
+from common.dataclass import BaseDataclass
 
 
 class JsonEncoder(json.JSONEncoder):
     def encode(self, o: Any):
         if isinstance(o, BaseDataclass):
-            result = o.to_dict()
-            result["$model"] = o.__class__.__name__.lower()
-            return result
+            return o.to_dict()
         elif isinstance(o, (bytes, str)):
             return str(o)
-        elif isinstance(o, Int):
+        elif isinstance(o, int):
             return int(o)
         elif isinstance(o, bson.ObjectId):
             return {"$oid": str(o)}
-        elif isinstance(o, TypedList):
-            return list(o)
-        elif isinstance(o, pymongo.results.InsertOneResult):
-            return {
-                "__insert_one_result__": {
-                    "inserted_id": o.inserted_id,
-                    "acknowledged": o.acknowledged,
-                }
-            }
-        elif isinstance(o, pymongo.results.UpdateResult):
-            return {
-                "__update_result__": {
-                    "raw_result": o.raw_result,
-                    "acknowledged": o.acknowledged,
-                }
-            }
+        elif isinstance(o, list):
+            return [self.encode(item) for item in o]
+        elif isinstance(o, _Numeric):
+            value = o.value
+            if isinstance(o.value, bytes):
+                value = int.from_bytes(o.value, "big")
+            return extras[o.__class__][0](value)
+        if isinstance(o, dict):
+            return o
+        if o is None:
+            return None
         return super().default(o)
 
 
@@ -43,16 +36,9 @@ class JsonDecoder(json.JSONDecoder):
         super().__init__(object_hook=self.object_hook, *args, **kwargs)
 
     def object_hook(self, data):
-        from common.models.account import Account  # noqa: F401
-        from common.models.game_server import GameServer  # noqa: F401
-
         if isinstance(data, dict):
             if "$oid" in data:
                 return bson.ObjectId(data["$oid"])
             elif "$model" in data:
-                return _DATACLASS_MAP[data.pop("$model")](**data)
-            elif "__insert_one_result__" in data:
-                return pymongo.results.InsertOneResult(**data["__insert_one_result__"])
-            elif "__update_result__" in data:
-                return pymongo.results.UpdateResult(**data["__update_result__"])
+                return BaseDataclass.__models__()[data.pop("$model")](**data)
         return data

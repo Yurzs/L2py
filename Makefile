@@ -41,9 +41,6 @@ install: install_requirements
 docker-build-common:
 	cd common && $(DOCKER) build -t $(PROJECT_NAME)_common --no-cache .
 
-docker-build-data:
-	cd data && $(DOCKER)  build -t $(PROJECT_NAME)_data --no-cache .
-
 docker-build-login:
 	cd login && $(DOCKER)  build -t $(PROJECT_NAME)_login --no-cache .
 
@@ -55,8 +52,14 @@ docker-build: docker-build-common docker-build-data docker-build-models docker-b
 compose-build:
 	$(COMPOSE) build
 
+compose-exec:
+	$(COMPOSE) exec $0 poetry exec bin/$1
+
 python:
 	PYTHONSTARTUP=.pythonrc python
+
+compose-exec-%:
+	$(COMPOSE) exec login poetry run $(filter-out $@,$(MAKECMDGOALS))
 
 help:
 	$(info compose-build)

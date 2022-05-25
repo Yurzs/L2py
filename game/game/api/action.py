@@ -4,6 +4,7 @@ import game.constants
 import game.packets
 import game.states
 from common.api_handlers import l2_request_handler
+from common.ctype import ctype
 from common.response import Response
 from common.template import Parameter, Template
 from game.models.world import WORLD
@@ -15,8 +16,11 @@ LOG = logging.getLogger(f"l2py.{__name__}")
     game.constants.GAME_REQUEST_ACTION,
     Template(
         [
-            Parameter("object_id", start=0, length=4, type=cython.long),
-            Parameter("action_id", start=16, length=4, type=cython.long),
+            Parameter(id="object_id", start=0, length=4, type=ctype.int32),
+            Parameter(id="orig_x", start=4, length=4, type=ctype.int32),
+            Parameter(id="orig_y", start=8, length=4, type=ctype.int32),
+            Parameter(id="orig_z", start=12, length=4, type=ctype.int32),
+            Parameter(id="shift_flag", start=16, length=1, type=ctype.int8),
         ]
     ),
 )
@@ -27,6 +31,11 @@ async def action(request):
     obj = WORLD.find_object_by_id(object_id)
     if obj is None:
         return game.packets.ActionFailed()
+
+    await character.set_target(obj)
+    request.session.send_packet(game.packets.MyTargetSelected(object_id=object_id, color=0))
+
+    return
 
     match request.validated_data["action_id"]:
         case game.constants.ACTION_TARGET:
@@ -43,25 +52,26 @@ async def action(request):
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_TARGET_CANCEL,
-    Template([Parameter("unselect", start=0, length=2, type=cython.int)]),
+    Template([Parameter(id="unselect", start=0, length=2, type=ctype.int16)]),
 )
 async def target_cancel(request):
-    request.session.character.set_target(None)
+    await request.session.character.unset_target()
     request.session.send_packet(
         game.packets.TargetUnselected(
-            request.session.character.id, request.session.character.position
+            target_id=request.session.character.id, position=request.session.character.position
         )
     )
-    WORLD.broadcast_target_unselect(request.session.character)
+
+    # WORLD.broadcast_target_unselect(request.session.character)
 
 
 @l2_request_handler(
     game.constants.GAME_REQUEST_ACTION_USE,
     Template(
         [
-            Parameter("action_id", start=0, length=4, type=cython.long),
-            Parameter("with_ctrl", start=4, length=4, type=cython.long),
-            Parameter("with_shift", start=8, length=4, type=cython.long),
+            Parameter(id="action_id", start=0, length=4, type=ctype.int32),
+            Parameter(id="with_ctrl", start=4, length=4, type=ctype.int32),
+            Parameter(id="with_shift", start=8, length=1, type=ctype.int8),
         ]
     ),
 )
@@ -72,16 +82,20 @@ async def action_use(request):
     match action:
         case game.constants.ACTION_RUN:
             character.status.is_running = not character.status.is_running
-            WORLD.broadcast(
+            WORLD._broadcast(
                 character,
-                game.packets.ChangeMoveType(character.id, character.status.is_running),
+                game.packets.ChangeMoveType(
+                    character_id=character.id, move_type=ctype.int32(character.status.is_running)
+                ),
             )
         case game.constants.ACTION_SIT:
             character.status.is_sitting = not character.status.is_sitting
             packet = game.packets.ChangeWaitType(
-                character.id, cython.bint(not character.status.is_sitting), character.position
+                character_id=character.id,
+                move_type=not character.status.is_sitting,
+                position=character.position,
             )
-            WORLD.broadcast(character, packet)
+            WORLD._broadcast(character, packet)
         case game.constants.ACTION_FAKE_DEATH_START:
             pass
         case game.constants.ACTION_FAKE_DEATH_STOP:
@@ -94,19 +108,9 @@ async def action_use(request):
     game.constants.GAME_REQUEST_SOCIAL_ACTION,
     Template(
         [
-            Parameter("action_id", start=0, length=4, type=cython.long),
+            Parameter(id="action_id", start=0, length=4, type=ctype.int32),
         ]
     ),
 )
 async def social_action(request):
-    action_id = request.validated_data["action_id"]
-    character = request.session.character
-
-    if action_id in game.constants.PUBLIC_SOCIAL_ACTIONS:
-        WORLD.broadcast(
-            request.session.character,
-            game.packets.SocialAction(
-                character.id,
-                action_id,
-            ),
-        )
+    await request.session.character.use_social_action(request.validated_data["action_id"])

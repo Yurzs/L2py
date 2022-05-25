@@ -12,3 +12,7 @@ game/game/data/static
 .DS_Store
 poetry.lock
 *venv*
+
+.c
+.cpp
+.so

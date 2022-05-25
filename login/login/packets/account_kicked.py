@@ -1,20 +1,20 @@
-from common.helpers.cython import cython
+from common.ctype import ctype
 
 from .base import LoginServerPacket
 
 
 class Reason:
-    DATA_STEALER: cython.char = 1
-    GENERIC_VIOLATION: cython.char = 8
-    SEVEN_DAYS_PASSED: cython.char = 16
-    ACCOUNT_BANNED: cython.char = 32
+    DATA_STEALER: ctype.int8 = 1
+    GENERIC_VIOLATION: ctype.int8 = 8
+    SEVEN_DAYS_PASSED: ctype.int8 = 16
+    ACCOUNT_BANNED: ctype.int8 = 32
 
 
 class AccountKicked(LoginServerPacket):
-    type: cython.char = 2
+    type: ctype.int8 = 2
     arg_order = ["type", "kick_reason"]
 
     REASON = Reason
 
     def __init__(self, kick_reason_id):
-        self.kick_reason: cython.long = kick_reason_id
+        self.kick_reason: ctype.int32 = kick_reason_id

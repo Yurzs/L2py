@@ -1,23 +1,25 @@
-from dataclasses import dataclass, field
+import dataclasses
+from dataclasses import field
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class EquippedItems(BaseDataclass):
-    under: cython.long = field(default=0)
-    left_ear: cython.long = field(default=0)
-    right_ear: cython.long = field(default=0)
-    necklace: cython.long = field(default=0)
-    right_finger: cython.long = field(default=0)
-    left_finger: cython.long = field(default=0)
-    head: cython.long = field(default=0)
-    right_hand: cython.long = field(default=0)
-    left_hand: cython.long = field(default=0)
-    gloves: cython.long = field(default=0)
-    chest: cython.long = field(default=0)
-    legs: cython.long = field(default=0)
-    feet: cython.long = field(default=0)
-    back: cython.long = field(default=0)
-    double_handed: cython.long = field(default=0)
-    hair: cython.long = field(default=0)
+    under: ctype.int32 = field(default=0)
+    left_ear: ctype.int32 = field(default=0)
+    right_ear: ctype.int32 = field(default=0)
+    necklace: ctype.int32 = field(default=0)
+    right_finger: ctype.int32 = field(default=0)
+    left_finger: ctype.int32 = field(default=0)
+    head: ctype.int32 = field(default=0)
+    right_hand: ctype.int32 = field(default=0)
+    left_hand: ctype.int32 = field(default=0)
+    gloves: ctype.int32 = field(default=0)
+    chest: ctype.int32 = field(default=0)
+    legs: ctype.int32 = field(default=0)
+    feet: ctype.int32 = field(default=0)
+    back: ctype.int32 = field(default=0)
+    double_handed: ctype.int32 = field(default=0)
+    hair: ctype.int32 = field(default=0)

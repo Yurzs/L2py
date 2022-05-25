@@ -2,23 +2,20 @@ from dataclasses import dataclass, field
 
 import pymongo
 
-from common.document import Document, DocumentBases, DocumentDefaults
+from common.ctype import ctype
+from common.document import Document, DocumentBase
 
 
-@dataclass
-class ClanBases(DocumentBases):
-    name: UTFString
-    leader: cython.long
+@dataclass(kw_only=True)
+class Clan(Document):
+    name: str
+    leader: ctype.int32
 
+    __collection__ = "clans"
+    __database__ = "l2py"
 
-@dataclass
-class ClanDefaults(DocumentDefaults):
-    __collection__: str = field(default="clans", init=False, repr=False)
-    __database__: str = field(default="l2py", init=False, repr=False)
-
-
-@dataclass
-class Clan(Document, ClanDefaults, ClanBases):
     def create_indexes(self):
         self.sync_collection().create_index([("name", pymongo.ASCENDING)], unique=True)
-        self.sync_collection().create_index([("leader", pymongo.ASCENDING)], unique=True)
+        self.sync_collection().create_index(
+            [("leader", pymongo.ASCENDING)], unique=True
+        )

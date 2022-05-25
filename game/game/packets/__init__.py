@@ -21,6 +21,7 @@ from .ex_storage_max_count import ExStorageMaxCount
 from .item_list import ItemList
 from .leave_world import LeaveWorld
 from .logout_ok import LogoutOk
+from .macros_list import MacrosList
 from .move_to_location import MoveToLocation
 from .my_target_selected import MyTargetSelected
 from .net_ping_request import NetPingRequest

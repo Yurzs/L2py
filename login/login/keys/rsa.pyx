@@ -58,4 +58,4 @@ class L2RsaKey(RSA.RsaKey):
     def private_decrypt(self, data: bytearray):
         cipher_int = int.from_bytes(data, "big")
         plain_int = pow(cipher_int, self.d, self.n)
-        return plain_int.to_bytes((self._n.bit_length() - 1) // 8 + 1, "big")
+        return plain_int.to_bytes((self.n.bit_length() - 1) // 8 + 1, "big")

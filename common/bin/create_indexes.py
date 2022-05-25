@@ -1,6 +1,6 @@
 import asyncio
 
-import common.models  # noqa
+import common.modelsx  # noqa
 from common.document import Document
 
 

@@ -3,6 +3,7 @@ import logging
 from common.api_handlers import handle_request
 from common.transport.protocol import TCPProtocol
 from game.config import GameConfig
+from game.request import GameRequest
 from game.session import GameSession
 from game.states import Connected
 
@@ -23,7 +24,7 @@ class Lineage2GameProtocol(TCPProtocol):
 
     @TCPProtocol.make_async
     async def data_received(self, data: bytes):
-        for request in self.transport.read(data):
+        for request in self.transport.read(data, request_cls=GameRequest):
             GameConfig().loop.create_task(self.proceed_request(request))
 
     async def proceed_request(self, request):

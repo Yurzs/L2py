@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
 from game.packets.base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class LeaveWorld(GameServerPacket):
-    type: cython.char = field(default=126, init=False, repr=False)
+    type: ctype.int8 = field(default=126, init=False, repr=False)

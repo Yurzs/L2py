@@ -1,36 +1,54 @@
-from dataclasses import dataclass, field
+# from __future__ import annotations
 
-from common.document import Document, DocumentDefaults
-from common.helpers.cython import cython
+import dataclasses
+import time
+
+from common.ctype import ctype
+from common.document import Document
 
 
-@dataclass
-class GameServerBase:
-    id: cython.char
+@dataclasses.dataclass(kw_only=True)
+class GameServer(Document):
+    __collection__ = "game_servers"
+    __database__ = "l2py"
+
+    id: ctype.char
     host: str
-    port: cython.long
+    port: ctype.int
 
+    age_limit: ctype.char = 13
+    is_pvp: ctype.bool = False
+    online_count: ctype.short = 0
+    max_online: ctype.short = 1000
+    is_online: ctype.bool = False
+    type: ctype.int = 1
+    brackets: ctype.char = False
+    last_alive: ctype.long = 0
 
-@dataclass
-class GameServerDefaults(DocumentDefaults):
-    age_limit: cython.char = 13
-    is_pvp: cython.bint = False
-    online_count: cython.int = 0
-    max_online: cython.int = 500
-    is_online: cython.bint = False
-    type: cython.long = 1
-    brackets: cython.char = 0
-    last_alive: cython.long = 0
-
-
-@dataclass
-class GameServer(Document, GameServerDefaults, GameServerBase):
-    __collection__: str = field(default="game_servers", repr=False, init=False)
-    __database__: str = field(default="l2py", repr=False, init=False)
+    __encode__ = (
+        "id",
+        "host_as_bytearray",
+        "port",
+        "age_limit",
+        "is_pvp",
+        "online_count",
+        "max_online",
+        "server_is_alive",
+        "type",
+        "brackets",
+    )
 
     @property
-    def is_full(self):
+    def is_full(self) -> ctype.bool:
         return self.online_count >= self.max_online
+
+    @property
+    def host_as_bytearray(self) -> bytearray:
+        return bytearray([int(i) for i in self.host.split(".")])
+
+    @property
+    def server_is_alive(self) -> ctype.bool:
+        return ctype.bool(self.last_alive >= time.time() - 15)
 
     @classmethod
     async def one(cls, server_id, **kwargs) -> "GameServer":

@@ -7,6 +7,11 @@ LOG = logging.getLogger(f"L2py.{__name__}")
 
 
 class TCPServerModule(ApplicationModule):
+    """TCP requests handler module.
+
+    Serves requests passed to TCP port.
+    """
+
     def __init__(self, name, protocol, middleware=None):
         super().__init__(name)
         self.protocol = protocol

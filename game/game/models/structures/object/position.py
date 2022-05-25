@@ -1,16 +1,13 @@
-from dataclasses import dataclass, field
+import dataclasses
 
-import game.models.structures.object.point3d
-import game.models.structures.world_region
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.cython import cython
+from game.models.structures.object.point3d import Point3D
+from game.models.structures.world_region import WorldRegion
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class Position(BaseDataclass):
-    heading_angle: cython.long = field(default=0)
-    point3d: game.models.structures.object.point3d.Point3D = (
-        game.models.structures.object.point3d.Point3D()
-    )
-    region: game.models.structures.world_region.WorldRegion = None
-    object: "game.models.structures.object.object.L2Object" = field(default=None)
+    heading_angle: ctype.int32
+    point3d: Point3D
+    region: WorldRegion = dataclasses.field(default_factory=WorldRegion)

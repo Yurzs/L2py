@@ -1,17 +1,17 @@
 import functools
 
-from common.helpers.cython import cython
+from common.ctype import ctype
 
 
 def xor_encrypt_login(func):
-    def xor(data: bytearray, key: cython.long):
+    def xor(data: bytearray, key: ctype.int32):
 
-        stop: cython.long = len(data) - 8
-        start: cython.long = 4
-        ecx: cython.long = key
+        stop: ctype.int32 = len(data) - 8
+        start: ctype.int32 = 4
+        ecx: ctype.int32 = key
 
         for pos in range(start, stop, 4):
-            edx: cython.long = data[pos] & 255
+            edx: ctype.int32 = data[pos] & 255
             edx |= (data[pos + 1] & 255) << 8
             edx |= (data[pos + 2] & 255) << 16
             edx |= (data[pos + 3] & 255) << 24
@@ -34,13 +34,13 @@ def xor_encrypt_login(func):
 
 
 def xor_decrypt_login(func):
-    def xor(raw: bytearray, key: cython.long):
-        stop: cython.long = 2
-        pos: cython.long = len(raw) - 12
-        ecx: cython.long = key
+    def xor(raw: bytearray, key: ctype.int32):
+        stop: ctype.int32 = 2
+        pos: ctype.int32 = len(raw) - 12
+        ecx: ctype.int32 = key
 
         while stop < pos:
-            edx: cython.long = raw[pos] & 255
+            edx: ctype.int32 = raw[pos] & 255
             edx |= (raw[pos + 1] & 255) << 8
             edx |= (raw[pos + 2] & 255) << 16
             edx |= (raw[pos + 3] & 255) << 24

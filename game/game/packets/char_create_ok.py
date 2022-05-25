@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
 
-from common.helpers.cython import cython
+from common.ctype import ctype
 
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class CharCreateOk(GameServerPacket):
-    type: cython.char = field(default=25, init=False, repr=False)
-    result_ok: cython.int = field(default=1, init=False, repr=False)
+    type: ctype.int8 = field(default=25, init=False, repr=False)
+    result_ok: ctype.int = field(default=1, init=False, repr=False)

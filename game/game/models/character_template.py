@@ -5,6 +5,8 @@ from common.dataclass import BaseDataclass
 from common.document import Document
 
 
-@dataclass
+@dataclass(kw_only=True)
 class CharacterTemplate(Document):
-    pass
+    @classmethod
+    def from_static_template(cls, template, sex):
+        pass

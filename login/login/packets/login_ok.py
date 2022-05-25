@@ -1,15 +1,15 @@
 from dataclasses import dataclass, field
 
-import cython
+from common.ctype import ctype
 
 from .base import LoginServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class LoginOk(LoginServerPacket):
-    type: cython.char = field(default=3, repr=False, init=False)
-    login_ok1: cython.int
-    login_ok2: cython.int
+    type: ctype.char = field(default=3, repr=False, init=False)
+    login_ok1: ctype.int
+    login_ok2: ctype.int
     unknown_bytes: bytes = field(
         default=b"\x00\x00\x00\x00"
         b"\x00\x00\x00\x00"

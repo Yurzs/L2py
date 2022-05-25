@@ -4,8 +4,6 @@ import logging
 from abc import ABCMeta, abstractmethod
 from asyncio import transports
 
-from common import exceptions
-from common.helpers.bytearray import ByteArray
 from common.request import Request
 from common.response import Response
 from common.session import Session

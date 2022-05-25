@@ -1,45 +1,41 @@
 import base64
+import dataclasses
 import os
-from dataclasses import dataclass, field
+from dataclasses import field
 from hashlib import sha3_512
 
-import cython
 import pymongo
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.document import Document, DocumentDefaults
+from common.document import Document
+from common.models.id_factory import IDFactory
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class GameAuth(BaseDataclass):
-    server_id: cython.char
-    play_ok1: cython.long
-    play_ok2: cython.long
-    login_ok1: cython.long
-    login_ok2: cython.long
+    server_id: ctype.char = 0
+    play_ok1: ctype.int32 = field(default_factory=ctype.int.random)
+    play_ok2: ctype.int32 = field(default_factory=ctype.int.random)
+    login_ok1: ctype.int32 = field(default_factory=ctype.int.random)
+    login_ok2: ctype.int32 = field(default_factory=ctype.int.random)
 
 
-@dataclass
-class AccountDefaults(DocumentDefaults):
-    last_server: cython.char = None
-    last_character: str = None
-    salt: str = field(default=None, repr=False)
-    email: str = None
-    game_auth: GameAuth = None
-
-
-@dataclass
-class AccountBase:
-    id: str
+@dataclasses.dataclass(kw_only=True)
+class Account(Document):
+    id: ctype.int32
     username: str
-    password: str = field(repr=False)
-    status: cython.char
+    password: str
 
-
-@dataclass
-class Account(Document, AccountDefaults, AccountBase):
     __collection__ = "accounts"
     __database__ = "l2py"
+
+    status: ctype.char = 0
+    last_server: ctype.char = 0
+    last_character: str = ""
+    email: str = ""
+    salt: str = ""
+    game_auth: GameAuth = field(default_factory=GameAuth)
 
     @classmethod
     async def create_index(cls):
@@ -50,7 +46,23 @@ class Account(Document, AccountDefaults, AccountBase):
         )
 
     @classmethod
-    async def one(cls, document_id=None, username=None, add_query=None, **kwargs) -> "Account":
+    async def new(cls, username: str, password: str):
+        """Constructs new account."""
+
+        new_id = await IDFactory.get_new_id(IDFactory.NAME_ACCOUNTS)
+        acc = Account(
+            id=new_id,
+            username=username,
+            password="",
+        )
+        await acc.insert()
+        await acc.set_new_password(password=password)
+        return acc
+
+    @classmethod
+    async def one(
+        cls, document_id=None, username=None, add_query=None, **kwargs
+    ) -> "Account":
         """Finds one account."""
 
         query = {}
@@ -70,7 +82,9 @@ class Account(Document, AccountDefaults, AccountBase):
         """
         salt = base64.b64encode(os.urandom(20)).decode()
         salted_password = password + salt
-        self.password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
+        self.password = base64.b64encode(
+            sha3_512(salted_password.encode()).digest()
+        ).decode()
         self.salt = salt
         await self.commit_changes(fields=["salt", "password"])
 
@@ -82,7 +96,9 @@ class Account(Document, AccountDefaults, AccountBase):
         """
 
         salted_password = password + self.salt
-        hashed_password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
+        hashed_password = base64.b64encode(
+            sha3_512(salted_password.encode()).digest()
+        ).decode()
         return self.password == hashed_password
 
     @classmethod
@@ -94,14 +110,18 @@ class Account(Document, AccountDefaults, AccountBase):
             unique=True,
         )
 
-    async def login_authenticated(self, server_id, play_ok1, play_ok2, login_ok1, login_ok2):
+    async def login_authenticated(
+        self, server_id, play_ok1, play_ok2, login_ok1, login_ok2
+    ):
         """Saves information for game server auth."""
 
         self.game_auth = GameAuth(
-            server_id,
-            play_ok1,
-            play_ok2,
-            login_ok1,
-            login_ok2,
+            server_id=server_id,
+            play_ok1=play_ok1,
+            play_ok2=play_ok2,
+            login_ok1=login_ok1,
+            login_ok2=login_ok2,
         )
-        await self.commit_changes(fields=["game_auth"])
+
+        self.last_server = server_id
+        await self.commit_changes(fields=["game_auth", "last_server"])

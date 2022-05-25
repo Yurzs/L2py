@@ -1,42 +1,42 @@
-from dataclasses import dataclass, field
+import dataclasses
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.cython import cython
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class Status(BaseDataclass):
-    cp: cython.long = 0
-    hp: cython.long = 0
-    mp: cython.long = 0
+    cp: ctype.int32 = 0
+    hp: ctype.int32 = 0
+    mp: ctype.int32 = 0
 
-    weight_load: cython.long = 0
+    weight_load: ctype.int32 = 0
 
-    is_faking_death: cython.bint = field(default=False)
-    is_in_combat: cython.bint = field(default=False)
-    is_pvp: cython.bint = field(default=False)
-    is_running: cython.bint = field(default=False)
-    is_sitting: cython.bint = field(default=False)
-    is_hero: cython.bint = field(default=False)
-    is_noble: cython.bint = field(default=False)
-    is_private_store: cython.bint = field(default=False)
-    is_dwarf_craft_store: cython.bint = field(default=False)
-    is_mounted: cython.bint = field(default=False)
-    is_fishing: cython.bint = field(default=False)
-    is_invulnerable: cython.bint = field(default=False)
-    is_teleporting: cython.bint = field(default=False)
-    is_betrayed: cython.bint = field(default=False)
-    is_afraid: cython.bint = field(default=False)
-    is_confused: cython.bint = field(default=False)
-    is_flying: cython.bint = field(default=False)
-    is_muted: cython.bint = field(default=False)
-    is_physically_muted: cython.bint = field(default=False)
-    is_dead: cython.bint = field(default=False)
-    is_immobilized: cython.bint = field(default=False)
-    is_overloaded: cython.bint = field(default=False)
-    is_paralyzed: cython.bint = field(default=False)
-    is_riding: cython.bint = field(default=False)
-    is_pending_revive: cython.bint = field(default=False)
-    is_rooted: cython.bint = field(default=False)
-    is_sleeping: cython.bint = field(default=False)
-    is_stunned: cython.bint = field(default=False)
+    is_faking_death: ctype.bool = False
+    is_in_combat: ctype.bool = False
+    is_pvp: ctype.bool = False
+    is_running: ctype.bool = False
+    is_sitting: ctype.bool = False
+    is_hero: ctype.bool = False
+    is_noble: ctype.bool = False
+    is_private_store: ctype.bool = False
+    is_dwarf_craft_store: ctype.bool = False
+    is_mounted: ctype.bool = False
+    is_fishing: ctype.bool = False
+    is_invulnerable: ctype.bool = False
+    is_teleporting: ctype.bool = False
+    is_betrayed: ctype.bool = False
+    is_afraid: ctype.bool = False
+    is_confused: ctype.bool = False
+    is_flying: ctype.bool = False
+    is_muted: ctype.bool = False
+    is_physically_muted: ctype.bool = False
+    is_dead: ctype.bool = False
+    is_immobilized: ctype.bool = False
+    is_overloaded: ctype.bool = False
+    is_paralyzed: ctype.bool = False
+    is_riding: ctype.bool = False
+    is_pending_revive: ctype.bool = False
+    is_rooted: ctype.bool = False
+    is_sleeping: ctype.bool = False
+    is_stunned: ctype.bool = False

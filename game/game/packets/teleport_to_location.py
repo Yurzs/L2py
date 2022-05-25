@@ -1,19 +1,20 @@
 from dataclasses import dataclass, field
 
-from game.models.structures.object.position import Position
+from common.ctype import ctype
 
+from ..models.structures.object.position import Position
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class TeleportToLocation(GameServerPacket):
-    type: cython.char = field(default=56, init=False, repr=False)
+    type: ctype.int8 = field(default=56, init=False, repr=False)
 
-    character_id: cython.long
+    character_id: ctype.int32
     position: Position
 
     def encode(self, session):
-        encoded = self.type.encode()
+        encoded = bytearray(self.type)
 
         encoded.extend(
             [

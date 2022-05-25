@@ -1,11 +1,11 @@
-from dataclasses import dataclass, field
+import dataclasses
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.cython import cython
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class UpdateChecks(BaseDataclass):
-    increase: cython.longlong = field(default=0)
-    decrease: cython.longlong = field(default=0)
-    interval: cython.longlong = field(default=0)
+    increase: ctype.int64 = 0
+    decrease: ctype.int64 = 0
+    interval: ctype.int64 = 0

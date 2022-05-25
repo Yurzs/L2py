@@ -21,7 +21,7 @@ else:
     # This function will be executed in setup.py:
     def build(setup_kwargs):
         # The file you want to compile
-        extensions = ["login/runner.py"]
+        extensions = ["login/**"]
 
         # gcc arguments hack: enable optimizations
         os.environ["CFLAGS"] = "-O3"

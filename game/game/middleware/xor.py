@@ -1,35 +1,39 @@
+import game.session
+from common.ctype import ctype
 from common.middleware.middleware import Middleware
+from common.response import Response
 
 
 class XORGameMiddleware(Middleware):
     @classmethod
-    def before(cls, session, request):
+    def before(cls, session: game.session.GameSession, request: Response):
         with session.lock_before:
             if session.encryption_enabled:
-                temp1 = cython.long(0)
+                temp1 = ctype.uint32(0)
+
                 for i in range(0, len(request.data)):
-                    temp2 = cython.long(request.data[i]) & 0xFF
-                    request.data[i] = cython.char(
+                    temp2 = ctype.uint8(request.data[i])
+                    request.data[i] = int(
                         temp2 ^ session.xor_key.incoming_key[i & 15] ^ temp1
                     )
                     temp1 = temp2
-                session.xor_key.incoming_key[8:12] = cython.long(
-                    session.xor_key.incoming_key[8:12]
-                ) + cython.long(len(request.data))
+                key_chunk = ctype.uint32(session.xor_key.incoming_key[8:12])
+                key_chunk += len(request.data)
+                session.xor_key.incoming_key[8:12] = bytes(key_chunk)
 
     @classmethod
-    def after(cls, session, response):
+    def after(cls, session: game.session.GameSession, response: Response):
         with session.lock_after:
             if session.encryption_enabled:
-                temp1 = cython.long(0)
+                temp1 = ctype.uint32(0)
 
                 for i in range(0, len(response.data)):
-                    temp2 = cython.long(response.data[i] & 0xFF)
-                    response.data[i] = cython.char(
+                    temp2 = ctype.uint8(response.data[i])
+                    response.data[i] = int(
                         temp2 ^ session.xor_key.outgoing_key[i & 15] ^ temp1
                     )
                     temp1 = response.data[i]
 
-                session.xor_key.outgoing_key[8:12] = cython.long(
-                    session.xor_key.outgoing_key[8:12]
-                ) + cython.long(len(response.data))
+                key_chunk = ctype.uint32(session.xor_key.outgoing_key[8:12])
+                key_chunk += len(response.data)
+                session.xor_key.outgoing_key[8:12] = bytes(key_chunk)

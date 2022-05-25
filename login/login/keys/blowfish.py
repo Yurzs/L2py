@@ -2,8 +2,6 @@ import os
 
 from blowfish import Cipher
 
-from common.helpers.bytearray import ByteArray
-
 
 class BlowfishKey:
     static = bytes(

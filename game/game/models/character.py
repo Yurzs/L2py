@@ -1,74 +1,78 @@
+import dataclasses
 import time
-import typing
-from dataclasses import dataclass, field
 
+import game.packets
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.document import Document, DocumentDefaults
+from common.document import DocumentBase, MetaDocumentMixin
 from common.models import IDFactory
-from game.models.structures.character.character import Character as CharacterStructure
-from game.models.structures.character.character import CharacterBase as CharacterBaseStructure
-from game.models.structures.character.character import (
-    CharacterDefaults as CharacterDefaultsStructure,
-)
+from game.models.structures.character.appearance import CharacterAppearance
+from game.models.structures.character.character import Character as CharStructure
 from game.models.structures.character.status import Status
 from game.models.structures.character.template import CharacterTemplate
 from game.models.structures.item.inventory import Inventory
+from game.models.structures.macro import Macro
 from game.models.structures.object.position import Position
 
 
-@dataclass
-class Buff(BaseDataclass):
+class Buff:
     pass
 
 
-@dataclass
-class CharacterBase(CharacterBaseStructure):
-    account_username: String
-
-    sex: cython.long
-    race: cython.long
-    base_class: cython.long
-    active_class: cython.long
-
-    hair_style: cython.long
-    hair_color: cython.long
-    face: cython.long
+@dataclasses.dataclass(kw_only=True)
+class AccountShort(BaseDataclass):
+    _id: str
+    username: str
+    id: ctype.int32
 
 
-@dataclass
-class CharacterDefaults(DocumentDefaults, CharacterDefaultsStructure):
-    __collection__: str = field(default="characters", init=False, repr=False)
-    __database__: str = field(default="l2py", init=False, repr=False)
+@dataclasses.dataclass(kw_only=True)
+class CharacterBase(CharStructure):
+    account: AccountShort
 
-    delete_at: cython.long = field(default=0)
-    friends: typing.List[cython.long] = field(default_factory=list)
-    inventory: Inventory = Inventory()
+    race: ctype.int32
+    base_class: ctype.int32
+    active_class: ctype.int32
 
-    active: cython.long = True
-    karma: cython.long = 0
+    appearance: CharacterAppearance
 
-    pk_kills: cython.long = 0
-    pvp_kills: cython.long = 0
+    delete_at: ctype.int32 = 0
+    friends: list[ctype.int32] = dataclasses.field(default_factory=list)
+    inventory: Inventory = dataclasses.field(default_factory=Inventory)
 
+    active: ctype.int32 = 0
+    karma: ctype.int32 = 0
 
-@dataclass
-class Character(
-    CharacterStructure,
-    Document,
-    CharacterDefaults,
-    CharacterBase,
-):
+    pk_kills: ctype.int32 = 0
+    pvp_kills: ctype.int32 = 0
+
+    macros: list[Macro] = dataclasses.field(default_factory=list)
+    macros_revision = 0
+
+    __database__ = "l2py"
+    __collection__ = "characters"
+
     @property
-    def time_until_deletion(self):
-        return cython.long(cython.long(self.delete_at - time.time()) if self.delete_at else 0)
+    def time_until_deletion(self) -> ctype.int32:
+        return ctype.int32(self.delete_at - time.time() if self.delete_at else 0)
 
     @classmethod
     async def all(cls, account_username=None, **kwargs):
-        return await super().all(add_query={"account_username": account_username}, **kwargs)
+        return await super().all(
+            add_query={"account.username": account_username}, **kwargs
+        )
 
     @classmethod
     async def from_template(
-        cls, template: CharacterTemplate, name, account, sex, race, face, hair_style, hair_color
+        cls,
+        template: CharacterTemplate,
+        name,
+        account,
+        sex,
+        race,
+        face,
+        hair_style,
+        hair_color,
     ):
 
         status = Status(
@@ -77,24 +81,32 @@ class Character(
             mp=template.stats.max_cp,
         )
 
-        position = Position(point3d=template.spawn)
+        position = Position(point3d=template.spawn, heading_angle=0)
+
+        appearance = CharacterAppearance(
+            face_id=face,
+            hair_style=hair_style,
+            hair_color=hair_color,
+            sex=sex,
+        )
 
         return cls(
             id=await IDFactory.get_new_id(IDFactory.NAME_CHARACTERS),
-            account_username=account.username,
+            account=AccountShort(
+                username=account.username,
+                id=account.id,
+                _id=account._id,
+            ),
             is_visible=True,
             name=name,
             status=status,
             template=template,
             position=position,
             stats=template.stats,
-            sex=sex,
             race=race,
             base_class=template.class_info.id,
             active_class=template.class_info.id,
-            hair_style=hair_style,
-            hair_color=hair_color,
-            face=face,
+            appearance=appearance,
         )
 
     async def mark_deleted(self):
@@ -107,3 +119,30 @@ class Character(
 
     def __hash__(self):
         return hash(f"{self.id}_{self.name}")
+
+    def notify_macros(self, session):
+        if self.macros:
+            for macro in self.macros:
+                session.send_packet(
+                    game.packets.MacrosList(
+                        macro=macro,
+                        revision=self.macros_revision,
+                        total_macros=len(self.macros),
+                    )
+                )
+        else:
+            session.send_packet(
+                game.packets.MacrosList(
+                    macro=None,
+                    revision=self.macros_revision,
+                    total_macros=len(self.macros),
+                )
+            )
+
+
+@dataclasses.dataclass(kw_only=True)
+class Character(CharacterBase, DocumentBase, metaclass=MetaDocumentMixin):
+    pass
+
+    def __hash__(self):
+        return hash(self.id)

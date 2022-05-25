@@ -1,24 +1,28 @@
 import typing
 from dataclasses import dataclass, field
 
-from game.models.character import Character
+from common.ctype import ctype
+from common.misc import extend_bytearray
 
 if typing.TYPE_CHECKING:
+    from game.models.character import Character
     from game.session import GameSession
 
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class UserInfo(GameServerPacket):
-    type: cython.char = field(default=4, init=False, repr=False)
-    character: Character
+    type: ctype.int8 = field(default=4, init=False, repr=False)
+    character: "Character"
 
     def encode(self, session: "GameSession"):
-        encoded = self.type.encode()
+        encoded = bytearray()
 
-        encoded.extend(
+        extend_bytearray(
+            encoded,
             [
+                self.type,
                 self.character.position.point3d.x,
                 self.character.position.point3d.y,
                 self.character.position.point3d.z,
@@ -26,16 +30,16 @@ class UserInfo(GameServerPacket):
                 self.character.id,
                 self.character.name,
                 self.character.race,
-                self.character.sex,
+                ctype.int32(self.character.appearance.sex),
                 self.character.active_class,
                 self.character.stats.level,
                 self.character.stats.exp,
-                self.character.stats.base.str,
-                self.character.stats.base.dex,
-                self.character.stats.base.con,
-                self.character.stats.base.int,
-                self.character.stats.base.wit,
-                self.character.stats.base.men,
+                self.character.stats.base.STR,
+                self.character.stats.base.DEX,
+                self.character.stats.base.CON,
+                self.character.stats.base.INT,
+                self.character.stats.base.WIT,
+                self.character.stats.base.MEN,
                 self.character.stats.max_hp,
                 self.character.status.hp,
                 self.character.stats.max_mp,
@@ -44,17 +48,17 @@ class UserInfo(GameServerPacket):
                 self.character.status.weight_load,
                 self.character.template.load,
                 *self.character.inventory.encode(),
-                *[cython.int(0) for _ in range(14)],
-                # right hand augment
-                self.character.inventory.equipped_items.right_hand.augmentation
-                if self.character.inventory.equipped_items.right_hand is not None
-                else cython.long(0),
-                *[cython.int(0) for _ in range(12)],
-                # left hand augment
-                self.character.inventory.equipped_items.left_hand.augmentation
-                if self.character.inventory.equipped_items.left_hand is not None
-                else cython.long(0),
-                *[cython.int(0) for _ in range(6)],
+                *[ctype.int32(0) for _ in range(18)],
+                # # right hand augment
+                # self.character.inventory.equipped_items.right_hand.augmentation
+                # if self.character.inventory.equipped_items.right_hand is not None
+                # else ctype.int32(0),
+                # *[ctype.int32(0) for _ in range(12)],
+                # # left hand augment
+                # self.character.inventory.equipped_items.left_hand.augmentation
+                # if self.character.inventory.equipped_items.left_hand is not None
+                # else ctype.int32(0),
+                # *[ctype.int32(0) for _ in range(6)],
                 self.character.stats.physical_attack,
                 self.character.stats.physical_attack_speed,
                 self.character.stats.physical_defense,
@@ -65,7 +69,7 @@ class UserInfo(GameServerPacket):
                 self.character.stats.magic_attack_speed,
                 self.character.stats.physical_attack_speed,
                 self.character.stats.magic_defense,
-                cython.long(self.character.status.is_pvp),
+                ctype.int32(self.character.status.is_pvp),
                 self.character.karma,
                 self.character.stats.run_speed,
                 self.character.stats.walk_speed,
@@ -79,52 +83,52 @@ class UserInfo(GameServerPacket):
                 self.character.stats.attack_speed_multiplier,
                 self.character.template.collision_radius,
                 self.character.template.collision_height,
-                self.character.hair_style,
-                self.character.hair_color,
-                self.character.face,
-                cython.long(0),  # TODO Access level
-                self.character.title if self.character.is_visible else UTFString("Invisible"),
-                cython.long(0),  # TODO clan id
-                cython.long(0),  # TODO clan crest id
-                cython.long(0),  # TODO ally id
-                cython.long(0),  # TODO ally crest id
-                cython.long(0),  # TODO clan leader
+                self.character.appearance.hair_style,
+                self.character.appearance.hair_color,
+                self.character.appearance.face_id,
+                ctype.int32(0),  # TODO Access level
+                self.character.title if self.character.is_visible else str("Invisible"),
+                ctype.int32(0),  # TODO clan id
+                ctype.int32(0),  # TODO clan crest id
+                ctype.int32(0),  # TODO ally id
+                ctype.int32(0),  # TODO ally crest id
+                ctype.int32(0),  # TODO clan leader
                 self.character.status.is_mounted,
                 self.character.status.is_private_store,
                 self.character.status.is_dwarf_craft_store,
                 self.character.pk_kills,
                 self.character.pvp_kills,
-                cython.int(0),  # TODO cubics
-                cython.bint(0),  # 1 - to find party members
-                cython.long(0),  # TODO abnormal effect
-                cython.char(0),
-                cython.long(0),  # TODO clan privileges
-                cython.int(self.character.stats.recommends_left),
-                cython.int(self.character.stats.recommends_received),
-                cython.long(0),
-                cython.int(self.character.inventory_max),
+                ctype.int16(0),  # TODO cubics
+                ctype.bool(0),  # 1 - to find party members
+                ctype.int32(0),  # TODO abnormal effect
+                ctype.int8(0),
+                ctype.int32(0),  # TODO clan privileges
+                self.character.stats.recommends_left,
+                self.character.stats.recommends_received,
+                ctype.int32(0),
+                self.character.inventory_max,
                 self.character.base_class,
-                cython.long(0),
+                ctype.int32(0),
                 self.character.stats.max_cp,
                 self.character.status.cp,
                 self.character.status.is_mounted,
                 # TODO circles
-                cython.char(0),
-                cython.long(0),  # TODO clan large crest id
+                ctype.int8(0),
+                ctype.int32(0),  # TODO clan large crest id
                 self.character.status.is_noble,
                 self.character.status.is_hero,
                 self.character.status.is_fishing,
-                cython.long(0),  # TODO fish x
-                cython.long(0),  # TODO fish y
-                cython.long(0),  # TODO fish z
+                ctype.int32(0),  # TODO fish x
+                ctype.int32(0),  # TODO fish y
+                ctype.int32(0),  # TODO fish z
                 self.character.name_color,  # TODO name color
                 self.character.status.is_running,  # TODO is running
-                cython.long(0),  # TODO pledge class
-                cython.long(0),
+                ctype.int32(0),  # TODO pledge class
+                ctype.int32(0),
                 self.character.title_color,
                 # TODO cursed weapons
-                cython.long(0),
-                cython.long(0),
-            ]
+                ctype.int32(0),
+                ctype.int32(0),
+            ],
         )
         return encoded

@@ -1,6 +1,8 @@
+from common.ctype import ctype
+
 from .base import GameServerPacket
 
 
 class LogoutOk(GameServerPacket):
-    type = cython.char(126)
+    type: ctype.int8 = 126
     arg_order = ["type"]

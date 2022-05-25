@@ -1,36 +1,29 @@
+import dataclasses
 import typing
-from dataclasses import dataclass, field
 
+from common.ctype import ctype
 from game.models.structures.skill.skill import Skill
 
-from .item import Item, ItemTemplateBases, ItemTemplateDefaults
+from .item import Item
 
 
-@dataclass
-class WeaponBases(ItemTemplateBases):
-    soulshot_count: cython.long
-    spiritshot_count: cython.long
-    physical_damage: cython.long
-    random_damage: cython.long
-    critical: cython.long
-    hit_modifier: cython.double
-    avoid_modifier: cython.long
-    shield_defense_rate: cython.double
-    attack_speed: cython.long
-    attack_reuse: cython.long
-    mp_consumption: cython.long
-    magic_damage: cython.long
+@dataclasses.dataclass(kw_only=True)
+class Weapon(Item):
+    soulshot_count: ctype.int32
+    spiritshot_count: ctype.int32
+    physical_damage: ctype.int32
+    random_damage: ctype.int32
+    critical: ctype.int32
+    hit_modifier: ctype.double
+    avoid_modifier: ctype.int32
+    shield_defense_rate: ctype.double
+    attack_speed: ctype.int32
+    attack_reuse: ctype.int32
+    mp_consumption: ctype.int32
+    magic_damage: ctype.int32
 
-
-@dataclass
-class WeaponDefaults(ItemTemplateDefaults):
     passive_skill: typing.Union[None, Skill] = None
     enchant4_skill: typing.Union[None, Skill] = None
 
-    skills_on_hit: typing.List[Skill] = field(default_factory=list)
-    skills_on_cast: typing.List[Skill] = field(default_factory=list)
-
-
-@dataclass
-class Weapon(Item, WeaponDefaults, WeaponBases):
-    pass
+    skills_on_hit: typing.List[Skill] = ()
+    skills_on_cast: typing.List[Skill] = ()

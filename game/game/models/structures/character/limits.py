@@ -1,14 +1,15 @@
-from dataclasses import dataclass, field
+import dataclasses
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class Limits(BaseDataclass):
-    inventory: cython.long
-    warehouse: cython.long
-    freight: cython.long
-    sell: cython.long
-    buy: cython.long
-    dwarf_recipe: cython.long
-    common_recipe: cython.long
+    inventory: ctype.int32
+    warehouse: ctype.int32
+    freight: ctype.int32
+    sell: ctype.int32
+    buy: ctype.int32
+    dwarf_recipe: ctype.int32
+    common_recipe: ctype.int32

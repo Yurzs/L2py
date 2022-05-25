@@ -1,24 +1,15 @@
-from dataclasses import dataclass, field
+import dataclasses
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.cython import cython
 from game.models.structures.object.poly import ObjectPolymorph
 from game.models.structures.object.position import Position
 
 
-@dataclass
-class L2ObjectBases:
-    id: cython.long
+@dataclasses.dataclass(kw_only=True)
+class L2Object(BaseDataclass):
+    id: ctype.int32
     name: str
     position: Position
-
-
-@dataclass
-class L2ObjectDefaults:
-    is_visible: cython.bint = field(default=True)
-    poly: ObjectPolymorph = field(default=ObjectPolymorph())
-
-
-@dataclass
-class L2Object(BaseDataclass, L2ObjectDefaults, L2ObjectBases):
-    pass
+    is_visible: ctype.bool
+    poly: ObjectPolymorph = dataclasses.field(default_factory=ObjectPolymorph)

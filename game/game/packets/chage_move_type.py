@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
 
-from common.helpers.cython import cython
+from common.ctype import ctype
 
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class ChangeMoveType(GameServerPacket):
-    type: cython.char = field(default=46, init=False, repr=False)
+    type: ctype.int8 = field(default=46, init=False, repr=False)
 
-    character_id: cython.long
-    move_type: cython.long
-    constant: cython.long = field(default=0, init=False, repr=False)
+    character_id: ctype.int32
+    move_type: ctype.int32
+    constant: ctype.int32 = field(default=0, init=False, repr=False)

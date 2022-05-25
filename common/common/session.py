@@ -25,5 +25,5 @@ class Session:
     def send_packet(self, packet):
         from common.response import Response
 
-        response = Response(packet, self)
+        response = Response(packet=packet, session=self)
         return self.protocol.transport.write(response)

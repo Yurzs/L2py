@@ -1,13 +1,14 @@
+import dataclasses
 import json
 from collections import defaultdict
 
+from common.dataclass import BaseDataclass
 from common.json import JsonDecoder
 from common.misc import Singleton
 
 
-class StaticDataCache(metaclass=Singleton):
-    def __init__(self):
-        self.data = defaultdict(list)
+class StaticDataCache(BaseDataclass, metaclass=Singleton):
+    data = defaultdict(list)
 
     def read(self, filepath, static_model):
         if filepath not in self.data:

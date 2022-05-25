@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
 
-import cython
+from common.ctype import ctype
 
 from .base import LoginServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class LoginFail(LoginServerPacket):
-    type: cython.char = field(default=1, init=False, repr=False)
-    reason_id: cython.long
+    type: ctype.char = field(default=1, init=False, repr=False)
+    reason_id: ctype.long

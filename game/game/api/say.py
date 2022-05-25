@@ -1,8 +1,9 @@
 import game.constants
 import game.states
 from common.api_handlers import l2_request_handler
+from common.ctype import ctype
+from common.misc import decode_str
 from common.template import Parameter, Template
-from game.models.world import WORLD
 
 
 @l2_request_handler(
@@ -10,21 +11,16 @@ from game.models.world import WORLD
     Template(
         [
             Parameter(
-                "text",
+                id="text",
                 start=0,
-                type=UTFString,
-                func=UTFString.read,
+                type=str,
+                func=decode_str(),
             ),
-            Parameter("type", start="$text.stop", length=4, type=cython.long),
+            Parameter(id="type", start="$text.stop", length=4, type=ctype.int32),
         ]
     ),
 )
 async def say2(request):
-    character = request.session.character
-    WORLD.say(
-        character,
-        request.validated_data["type"],
-        character.name,
-        request.validated_data["text"],
-        session=request.session,
+    await request.session.character.say(
+        request.validated_data["type"], request.validated_data["text"]
     )

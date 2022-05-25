@@ -1,27 +1,17 @@
+import dataclasses
 import typing
-from dataclasses import dataclass
 
-import cython
-
+from common.ctype import ctype
+from game.models.structures.item.item import Item
 from game.models.structures.skill.skill import Skill
 
-from .item import Item, ItemTemplateBases, ItemTemplateDefaults
 
+@dataclasses.dataclass(kw_only=True)
+class Armor(Item):
+    avoid_modifier: ctype.int32 = 0
+    physical_defense: ctype.int32 = 0
+    magic_defense: ctype.int32 = 0
+    mp_bonus: ctype.int32 = 0
+    hp_bonus: ctype.int32 = 0
 
-@dataclass
-class ArmorBases(ItemTemplateBases):
-    avoid_modifier: cython.long
-    physical_defense: cython.long
-    magic_defense: cython.long
-    mp_bonus: cython.long
-    hp_bonus: cython.long
-
-
-@dataclass
-class ArmorDefaults(ItemTemplateDefaults):
     passive_skill: typing.Union[None, Skill] = None
-
-
-@dataclass
-class Armor(Item, ArmorDefaults, ArmorBases):
-    pass

@@ -1,17 +1,18 @@
-from dataclasses import dataclass, field
+import dataclasses
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class WeaponVulnerabilities(BaseDataclass):
-    shield: cython.long
-    sword: cython.long
-    blunt: cython.long
-    dagger: cython.long
-    bow: cython.long
-    pole: cython.long
-    etc: cython.long
-    fist: cython.long
-    dual: cython.long
-    dual_fist: cython.long
+    shield: ctype.int32 = 0
+    sword: ctype.int32 = 0
+    blunt: ctype.int32 = 0
+    dagger: ctype.int32 = 0
+    bow: ctype.int32 = 0
+    pole: ctype.int32 = 0
+    etc: ctype.int32 = 0
+    fist: ctype.int32 = 0
+    dual: ctype.int32 = 0
+    dual_fist: ctype.int32 = 0

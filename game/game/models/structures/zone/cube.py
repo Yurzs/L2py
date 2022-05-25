@@ -1,13 +1,14 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
 from game.models.structures.zone.farm import ZoneFarm
 
 
-@dataclass
+@dataclass(kw_only=True)
 class ZoneCube(ZoneFarm):
-    x1: cython.long
-    x2: cython.long
-    y1: cython.long
-    y2: cython.long
-    z1: cython.long
-    z2: cython.long
+    x1: ctype.int32
+    x2: ctype.int32
+    y1: ctype.int32
+    y2: ctype.int32
+    z1: ctype.int32
+    z2: ctype.int32

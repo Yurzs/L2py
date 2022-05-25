@@ -13,6 +13,4 @@ LOGIN_SERVER_PORT = os.environ.get("LOGIN_SERVER_PORT", 2106)
 LOGIN_SERVER_API_HOST = os.environ.get("LOGIN_SERVER_API_HOST", "0.0.0.0")
 LOGIN_SERVER_API_PORT = os.environ.get("SERVER_API_PORT", 2107)
 
-# Data server config
-DATA_SERVER_HOST = os.environ["DATA_SERVER_HOST"]
-DATA_SERVER_PORT = os.environ.get("DATA_SERVER_PORT", 2108)
+DEBUG = os.environ.get("DEBUG", False)

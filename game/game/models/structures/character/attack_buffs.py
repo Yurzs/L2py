@@ -1,13 +1,14 @@
-from dataclasses import dataclass, field
+import dataclasses
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class AttacksBuffs(BaseDataclass):
-    physical_plants: cython.long
-    physical_insects: cython.long
-    physical_animals: cython.long
-    physical_monsters: cython.long
-    physical_dragons: cython.long
-    physical_undead: cython.long
+    physical_plants: ctype.int32
+    physical_insects: ctype.int32
+    physical_animals: ctype.int32
+    physical_monsters: ctype.int32
+    physical_dragons: ctype.int32
+    physical_undead: ctype.int32

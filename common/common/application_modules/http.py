@@ -9,6 +9,11 @@ LOG = logging.getLogger(f"L2py.{__name__}")
 
 
 class HTTPServerModule(ApplicationModule):
+    """JSON HTTP application module.
+
+    Serves web API requests.
+    """
+
     def __init__(
         self,
         name,

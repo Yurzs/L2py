@@ -1,19 +1,20 @@
-from dataclasses import dataclass, field
+import dataclasses
+from dataclasses import field
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.cython import cython
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class Resists(BaseDataclass):
-    breath: cython.long = field(default=0)
-    aggression: cython.long = field(default=0)
-    confusion: cython.long = field(default=0)
-    movement: cython.long = field(default=0)
-    sleep: cython.long = field(default=0)
-    fire: cython.long = field(default=0)
-    wind: cython.long = field(default=0)
-    water: cython.long = field(default=0)
-    earth: cython.long = field(default=0)
-    holy: cython.long = field(default=0)
-    dark: cython.long = field(default=0)
+    breath: ctype.int32 = field(default=0)
+    aggression: ctype.int32 = field(default=0)
+    confusion: ctype.int32 = field(default=0)
+    movement: ctype.int32 = field(default=0)
+    sleep: ctype.int32 = field(default=0)
+    fire: ctype.int32 = field(default=0)
+    wind: ctype.int32 = field(default=0)
+    water: ctype.int32 = field(default=0)
+    earth: ctype.int32 = field(default=0)
+    holy: ctype.int32 = field(default=0)
+    dark: ctype.int32 = field(default=0)

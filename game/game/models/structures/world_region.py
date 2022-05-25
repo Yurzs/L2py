@@ -1,25 +1,16 @@
-from __future__ import annotations
+import dataclasses
+from dataclasses import field
 
-import typing
-from dataclasses import dataclass, field
-
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.cython import cython
-
-# import game.models.structures.object.object
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class WorldRegion(BaseDataclass):
-    playable_objects: typing.List["L2Object"]
-    visible_objects: typing.List["game.models.structures.object.object.L2Object"]
-    neighbours: typing.List["WorldRegion"]
-    tile_x: cython.long
-    tile_y: cython.long
-    active: cython.bint
-    zone_manager: None
+    tile_x: ctype.int32 = 0
+    tile_y: ctype.int32 = 0
+    active: ctype.int32 = 0
 
-
-WorldRegion.update_forward_refs(
-    # **{"game.models.structures.object.object.L2Object": game.models.structures.object.object.L2Object}
-)
+    playable_objects: list[ctype.int32] = field(default_factory=list)
+    visible_objects: list[ctype.int32] = field(default_factory=list)
+    neighbours: list["WorldRegion"] = field(default_factory=list)

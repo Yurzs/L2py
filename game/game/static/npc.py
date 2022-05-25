@@ -1,54 +1,55 @@
 import typing
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
 from game.models.structures.character.stats import BaseStats, Stats
 from game.models.structures.object.point3d import Point3D
 from game.static.static import StaticData
 
 
-@dataclass
+@dataclass(kw_only=True)
 class NpcStatic(StaticData):
-    id: cython.long
-    name: UTFString
-    title: UTFString
-    cls: UTFString
-    collision_radius: cython.long
-    collision_height: cython.long
-    level: cython.long
-    sex: cython.long
-    type: UTFString
-    attackrange: cython.long
-    hp: cython.long
-    mp: cython.long
-    hp_regeneration: cython.float
-    mp_regeneration: cython.float
-    str: cython.long
-    con: cython.long
-    dex: cython.long
-    int: cython.long
-    wit: cython.long
-    men: cython.long
-    exp: cython.long
-    sp: cython.long
-    patk: cython.long
-    pdef: cython.long
-    matk: cython.long
-    mdef: cython.long
-    atkspd: cython.long
-    aggro: cython.bint
-    matkspd: cython.long
-    rhand: cython.long
-    lhand: cython.long
-    armor: cython.long
-    walkspd: cython.long
-    runspd: cython.long
-    faction_id: typing.Optional[cython.long]
-    faction_range: cython.long
-    absorb_level: cython.long
-    absorb_type: UTFString
-    id_template: cython.long
-    server_side_name: cython.long
-    server_side_title: cython.long
-    is_undead: cython.bint
+    id: ctype.int32
+    name: str
+    title: str
+    cls: str
+    collision_radius: ctype.int32
+    collision_height: ctype.int32
+    level: ctype.int32
+    sex: ctype.int32
+    type: str
+    attackrange: ctype.int32
+    hp: ctype.int32
+    mp: ctype.int32
+    hp_regeneration: ctype.float
+    mp_regeneration: ctype.float
+    STR: ctype.int32
+    CON: ctype.int32
+    DEX: ctype.int32
+    INT: ctype.int32
+    WIT: ctype.int32
+    MEN: ctype.int32
+    exp: ctype.int32
+    sp: ctype.int32
+    patk: ctype.int32
+    pdef: ctype.int32
+    matk: ctype.int32
+    mdef: ctype.int32
+    atkspd: ctype.int32
+    aggro: ctype.bool
+    matkspd: ctype.int32
+    rhand: ctype.int32
+    lhand: ctype.int32
+    armor: ctype.int32
+    walkspd: ctype.int32
+    runspd: ctype.int32
+    faction_id: typing.Optional[ctype.int32]
+    faction_range: ctype.int32
+    absorb_level: ctype.int32
+    absorb_type: str
+    id_template: ctype.int32
+    server_side_name: ctype.int32
+    server_side_title: ctype.int32
+    is_undead: ctype.bool
 
     __filepath__ = "static/sql/npc.json"

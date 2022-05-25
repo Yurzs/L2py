@@ -2,11 +2,10 @@ import logging
 
 import pyximport
 
-pyximport.install(language_level=3)
+pyximport.install(language_level=3, build_in_temp=True)  # noqa
 
 import common  # noqa: F401
-import login.api.http  # noqa: F401
-import login.api.l2  # noqa: F401
+import login.api  # noqa: F401
 from login.application import LOGIN_SERVER_APPLICATION
 from login.config import (
     LOGIN_SERVER_API_HOST,

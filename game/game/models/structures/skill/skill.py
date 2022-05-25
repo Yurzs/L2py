@@ -1,10 +1,14 @@
-from dataclasses import dataclass, field
+import dataclasses
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class Skill(BaseDataclass):
-    activation_type: str
-    target_type: None
-    type: None
+    id: ctype.int32 = 0
+    activation_type: str = ""
+    target_type: ctype.int32 = 0
+    type: ctype.int32 = 0
+
+    __encode__ = ["id"]

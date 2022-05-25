@@ -1,11 +1,13 @@
-from dataclasses import dataclass, field
+import dataclasses
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
-from common.helpers.cython import cython
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class Point3D(BaseDataclass):
-    x: cython.long = field(default=0)
-    y: cython.long = field(default=0)
-    z: cython.long = field(default=0)
+    x: ctype.int32
+    y: ctype.int32
+    z: ctype.int32
+
+    __encode__ = ["x", "y", "z"]

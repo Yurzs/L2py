@@ -4,5 +4,3 @@ import sys
 
 for module in ["common", "data", "game", "login"]:
     sys.path.append(str(pathlib.Path(module).resolve()))
-
-import common.datatypes  # noqa

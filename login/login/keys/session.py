@@ -1,23 +1,28 @@
 import random
 
-from common.helpers.cython import cython, get_random
+from common.ctype import ctype
 
 
 class SessionKey:
     def __init__(
         self,
-        login_ok1: cython.long = None,
-        login_ok2: cython.long = None,
-        play_ok1: cython.long = None,
-        play_ok2: cython.long = None,
+        login_ok1: ctype.int = None,
+        login_ok2: ctype.int = None,
+        play_ok1: ctype.int = None,
+        play_ok2: ctype.int = None,
     ):
-        self.login_ok1: cython.long = get_random(cython.long) if login_ok1 is None else login_ok1
-        self.login_ok2: cython.long = get_random(cython.long) if login_ok2 is None else login_ok2
-        self.login_ok2: cython.long = (
-            cython.long(random.randrange(0, 2 ** 64)) if login_ok2 is None else login_ok2
+        self.login_ok1: ctype.int = (
+            ctype.int.random() if login_ok1 is None else login_ok1
         )
-        self.play_ok1: cython.long = get_random(cython.long) if play_ok1 is None else play_ok1
-        self.play_ok2: cython.long = get_random(cython.long) if play_ok2 is None else play_ok2
+        self.login_ok2: ctype.int = (
+            ctype.int.random() if login_ok2 is None else login_ok2
+        )
+
+        self.login_ok2: ctype.int = (
+            ctype.int.random() if login_ok2 is None else login_ok2
+        )
+        self.play_ok1: ctype.int = ctype.int.random() if play_ok1 is None else play_ok1
+        self.play_ok2: ctype.int = ctype.int.random() if play_ok2 is None else play_ok2
 
     def __eq__(self, other):
         if isinstance(other, SessionKey):

@@ -1,6 +1,6 @@
+import dataclasses
 import json
 import typing
-from dataclasses import dataclass, field
 
 import bson
 import pymongo
@@ -12,19 +12,7 @@ from common.dataclass import BaseDataclass
 from common.json import JsonEncoder
 
 
-@dataclass
-class DocumentBases:
-    __collection__: str = field(init=False, repr=False)
-    __database__: str = field(init=False, repr=False)
-
-
-@dataclass
-class DocumentDefaults:
-    _id: str = field(default_factory=lambda: str(bson.ObjectId()))
-
-
-@dataclass
-class Document(BaseDataclass, DocumentDefaults, DocumentBases):
+class DocumentBase(BaseDataclass):
     __primary_key__ = "_id"
 
     NotFoundError = exceptions.DocumentNotFound
@@ -69,7 +57,7 @@ class Document(BaseDataclass, DocumentDefaults, DocumentBases):
 
         result = await cls.collection().find_one(query, **kwargs)
         if result is not None:
-            return cls(**result)
+            return cls(**cls.convert_dataclasses(result))
         elif required:
             raise cls.NotFoundError()
 
@@ -119,17 +107,26 @@ class Document(BaseDataclass, DocumentDefaults, DocumentBases):
 
         for field in fields:
             value = getattr(self, field)
-            update_query["$set"].update(
-                {
-                    field: value.to_dict()
-                    if isinstance(value, BaseDataclass)
-                    else json.dumps(value, cls=JsonEncoder)
-                }
-            )
-
+            update_query["$set"].update({field: json.dumps(value, cls=JsonEncoder)})
         return await self.collection().update_one(search_query, update_query)
 
     async def insert(self):
         """Inserts document into collection."""
 
         return await self.collection().insert_one(self.to_dict())
+
+
+@dataclasses.dataclass(kw_only=True)
+class Document(DocumentBase):
+    _id: str = dataclasses.field(default_factory=lambda: str(bson.ObjectId()))
+
+
+class MetaDocumentMixin(type):
+    def __new__(mcs, name, bases, namespace):
+        fields = []
+        for field in dataclasses.fields(Document):
+            field.kw_only = True
+            fields.append((field.name, field.type, field))
+        return dataclasses.make_dataclass(
+            name, fields=fields, bases=bases, namespace=namespace
+        )

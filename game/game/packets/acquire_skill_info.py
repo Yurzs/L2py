@@ -1,25 +1,27 @@
 import typing
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
+
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Requirement:
-    item_id: cython.long
-    count: cython.long
-    type: cython.long
-    unk: cython.long
+    item_id: ctype.int32
+    count: ctype.int32
+    type: ctype.int32
+    unk: ctype.int32
 
 
-@dataclass
+@dataclass(kw_only=True)
 class AcquireSkillInfo(GameServerPacket):
-    type: cython.char = field(default=193, init=False, repr=False)
+    type: ctype.int8 = field(default=193, init=False, repr=False)
     requirements: typing.List[Requirement]
-    id: cython.long
-    level: cython.long
-    sp_cost: cython.long
-    mode: cython.long
+    id: ctype.int32
+    level: ctype.int32
+    sp_cost: ctype.int32
+    mode: ctype.int32
 
     def encode(self, session):
         encoded = self.type.encode()
@@ -29,7 +31,7 @@ class AcquireSkillInfo(GameServerPacket):
             self.level,
             self.sp_cost,
             self.mode,
-            cython.long(len(self.requirements)),
+            ctype.int32(len(self.requirements)),
         ]
 
         for requirement in self.requirements:

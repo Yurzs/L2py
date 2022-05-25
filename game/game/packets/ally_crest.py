@@ -1,13 +1,14 @@
 from dataclasses import dataclass, field
 
+from common.ctype import ctype
 from game.models.crest import Crest
 
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class AllyCrest(GameServerPacket):
-    type: cython.char = field(default=174, init=False, repr=False)
+    type: ctype.int8 = field(default=174, init=False, repr=False)
     crest: Crest
 
     def encode(self, session):

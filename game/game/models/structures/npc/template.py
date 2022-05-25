@@ -1,6 +1,6 @@
-from dataclasses import dataclass, field
+import dataclasses
 
-from common.dataclass import BaseDataclass
+from common.ctype import ctype
 from game.models.structures.character.template import CharacterTemplateBase
 
 #
@@ -8,24 +8,25 @@ from game.models.structures.character.template import CharacterTemplateBase
 #     name:
 
 
+@dataclasses.dataclass(kw_only=True)
 class NpcTemplate(CharacterTemplateBase):
-    id: cython.long
-    template_id: cython.long
-    type: UTFString
-    name: UTFString
-    server_side_name: cython.bint
-    title: UTFString
-    server_side_title: cython.bint
-    sex: UTFString
-    level: cython.char
-    reward_exp: cython.long
-    reward_sp: cython.long
-    aggro_range: cython.long
-    right_hand: cython.long
-    left_hand: cython.long
-    armor: cython.long
-    faction_id: UTFString
-    faction_range: cython.long
-    absorb_level: cython.long
-    absorb_type: cython.long
-    race: cython.long
+    id: ctype.int32
+    template_id: ctype.int32
+    type: str
+    name: str
+    server_side_name: ctype.bool
+    title: str
+    server_side_title: ctype.bool
+    sex: str
+    level: ctype.int8
+    reward_exp: ctype.int32
+    reward_sp: ctype.int32
+    aggro_range: ctype.int32
+    right_hand: ctype.int32
+    left_hand: ctype.int32
+    armor: ctype.int32
+    faction_id: str
+    faction_range: ctype.int32
+    absorb_level: ctype.int32
+    absorb_type: ctype.int32
+    race: ctype.int32

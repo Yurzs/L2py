@@ -1,9 +1,9 @@
-from dataclasses import dataclass, field
+import dataclasses
 
-from common.dataclass import BaseDataclass
+from common.ctype import ctype
 
 
-@dataclass
-class ConsumeRates(BaseDataclass):
-    mp: cython.long
-    hp: cython.long
+@dataclasses.dataclass(kw_only=True)
+class ConsumeRates:
+    mp: ctype.int32
+    hp: ctype.int32

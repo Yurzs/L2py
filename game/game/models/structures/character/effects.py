@@ -1,23 +1,25 @@
-from dataclasses import dataclass, field
+import dataclasses
+from dataclasses import field
 
+from common.ctype import ctype
 from common.dataclass import BaseDataclass
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class Effects(BaseDataclass):
-    is_afraid: cython.bint = field(default=False)
-    is_confused: cython.bint = field(default=False)
-    is_faking_death: cython.bint = field(default=False)
-    is_flying: cython.bint = field(default=False)
-    is_muted: cython.bint = field(default=False)
-    is_physically_muted: cython.bint = field(default=False)
-    is_dead: cython.bint = field(default=False)
-    is_immobilized: cython.bint = field(default=False)
-    is_overloaded: cython.bint = field(default=False)
-    is_paralyzed: cython.bint = field(default=False)
-    is_riding: cython.bint = field(default=False)
-    is_pending_revive: cython.bint = field(default=False)
-    is_rooted: cython.bint = field(default=False)
-    is_sleeping: cython.bint = field(default=False)
-    is_stunned: cython.bint = field(default=False)
-    is_betrayed: cython.bint = field(default=False)
+    is_afraid: ctype.bool = field(default=False)
+    is_confused: ctype.bool = field(default=False)
+    is_faking_death: ctype.bool = field(default=False)
+    is_flying: ctype.bool = field(default=False)
+    is_muted: ctype.bool = field(default=False)
+    is_physically_muted: ctype.bool = field(default=False)
+    is_dead: ctype.bool = field(default=False)
+    is_immobilized: ctype.bool = field(default=False)
+    is_overloaded: ctype.bool = field(default=False)
+    is_paralyzed: ctype.bool = field(default=False)
+    is_riding: ctype.bool = field(default=False)
+    is_pending_revive: ctype.bool = field(default=False)
+    is_rooted: ctype.bool = field(default=False)
+    is_sleeping: ctype.bool = field(default=False)
+    is_stunned: ctype.bool = field(default=False)
+    is_betrayed: ctype.bool = field(default=False)

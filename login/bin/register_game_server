@@ -5,14 +5,14 @@ import asyncio
 import ipaddress
 import random
 
-from common.models.game_server import GameServer
+from common.modelsx.game_server import GameServer
 
 
 async def create_server(args):
 
     server = GameServer(
-        random.randrange(1, 255),
-        args.host,
+        args.server_id,
+        str(args.host),
         args.port,
         is_pvp=args.pvp if args.pvp is not None else False,
         max_online=args.max_online if args.max_online is not None else 1000,
@@ -26,8 +26,9 @@ async def create_server(args):
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("host", help="game server host IP address", type=ipaddress.IPv4Address)
+    parser.add_argument("host", help="game server host IP address")
     parser.add_argument("port", help="game server port", type=int)
+    parser.add_argument("server-id", help="game server id", type=int)
     parser.add_argument("--pvp")
     parser.add_argument("--max-online", type=int)
     parser.add_argument("--brackets", type=bool)

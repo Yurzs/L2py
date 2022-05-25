@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+import dataclasses
 
 from .item import Item
 
@@ -19,12 +19,8 @@ class EtcItemType:
     HERB = 12
 
 
-@dataclass
+@dataclasses.dataclass(kw_only=True)
 class EtcItem(Item):
     @property
     def is_consumable(self):
-        match self.type:
-            case EtcItemType.SHOT | EtcItemType.POTION:
-                return True
-            case _:
-                return False
+        return self.type in [EtcItemType.SHOT, EtcItemType.POTION]

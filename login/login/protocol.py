@@ -24,13 +24,13 @@ class Lineage2LoginProtocol(TCPProtocol):
         )
 
         response = Response(
-            Init(
-                self.session.id,
-                self.session.protocol_version,
-                self.session.rsa_key.scramble_mod(),
-                self.session.blowfish_key.key,
+            packet=Init(
+                session_id=self.session.id,
+                protocol_version=self.session.protocol_version,
+                rsa_key=self.session.rsa_key.scramble_mod(),
+                blowfish_key=self.session.blowfish_key.key,
             ),
-            self.session,
+            session=self.session,
         )
         self.transport.write(response)
         self.session.blowfish_enabled = True

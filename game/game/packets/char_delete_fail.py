@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
 
-from common.helpers.cython import cython
+from common.ctype import ctype
 
 from .base import GameServerPacket
 
 
-@dataclass
+@dataclass(kw_only=True)
 class CharDeleteFail(GameServerPacket):
-    type: cython.char = field(default=36, init=False, repr=False)
+    type: ctype.int8 = field(default=36, init=False, repr=False)
