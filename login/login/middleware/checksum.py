@@ -1,4 +1,5 @@
 from common import exceptions
+from common.ctype import ctype
 from common.middleware.middleware import Middleware
 from common.request import Request
 from common.response import Response
@@ -13,20 +14,12 @@ class ChecksumMiddleware(Middleware):
         if len(data) % 4 != 0:
             return False
 
-        cdef unsigned int checksum = 0
-        cdef unsigned int check
-        cdef int i
+        checksum = ctype.int32(0)
 
         for i in range(0, len(data) - 4, 4):
-            check = data[i] & 0xFF
-            check |= (data[i + 1] << 8) & 0xFF00
-            check |= (data[i + 2] << 0x10) & 0xFF0000
-            check |= (data[i + 3] << 0x18) & 0xFF000000
+            checksum ^= ctype.int32(data[i: i + 4])
 
-            print(check, checksum)
-            checksum ^= check
-
-        check = int.from_bytes(data[-4:], "little")
+        check = ctype.int32(data[-4:])
 
         return check == checksum
 
@@ -34,19 +27,12 @@ class ChecksumMiddleware(Middleware):
     def add_checksum(response_data: bytearray):
         """Adds checksum to response."""
 
-        cdef unsigned int checksum = 0
-        cdef unsigned int check
-        cdef int i
+        checksum = ctype.int32(0)
 
         for i in range(0, len(response_data) - 4, 4):
-            check = response_data[i] & 0xFF
-            check |= (response_data[i + 1] << 8) & 0xFF00
-            check |= (response_data[i + 2] << 16) & 0xFF0000
-            check |= (response_data[i + 3] << 24) & 0xFF000000
+            checksum ^= ctype.int32(response_data[i: i + 4])
 
-            checksum ^= check
-
-        response_data[-4:] = bytearray(checksum.to_bytes(4, "little"))
+        response_data[-4:] = bytearray(bytes(checksum))
 
     @classmethod
     def before(cls, session: LoginSession, request: Request):
