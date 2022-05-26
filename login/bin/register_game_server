@@ -2,18 +2,17 @@
 
 import argparse
 import asyncio
-import ipaddress
-import random
 
-from common.modelsx.game_server import GameServer
+import sitecustomize  # noqa
+from common.models.game_server import GameServer
 
 
 async def create_server(args):
 
     server = GameServer(
-        args.server_id,
-        str(args.host),
-        args.port,
+        id=args.server_id,
+        host=str(args.host),
+        port=args.port,
         is_pvp=args.pvp if args.pvp is not None else False,
         max_online=args.max_online if args.max_online is not None else 1000,
         brackets=args.brackets if args.brackets is not None else False,
@@ -28,7 +27,7 @@ def main():
 
     parser.add_argument("host", help="game server host IP address")
     parser.add_argument("port", help="game server port", type=int)
-    parser.add_argument("server-id", help="game server id", type=int)
+    parser.add_argument("server_id", help="game server id", type=int)
     parser.add_argument("--pvp")
     parser.add_argument("--max-online", type=int)
     parser.add_argument("--brackets", type=bool)
