@@ -6,7 +6,7 @@ from login.session import LoginSession
 class PaddingMiddleware(Middleware):
     @classmethod
     def after(cls, session: LoginSession, response: Response):
-        cdef char pad_length = 4
+        pad_length = 4
 
         if not session.xor_key.initiated:
             pad_length += 4

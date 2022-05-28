@@ -1,8 +1,10 @@
 import asyncio
-import dataclasses
+import dotenv
 import os
 
 from common.misc import Singleton
+
+dotenv.load_dotenv()
 
 
 class Config(metaclass=Singleton):

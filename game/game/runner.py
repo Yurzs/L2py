@@ -1,9 +1,5 @@
 import logging
 
-import pyximport
-
-pyximport.install(language_level=3, build_in_temp=True)  # noqa
-
 import common  # noqa: F401
 import game.api  # noqa: F401
 import game.periodic_tasks  # noqa: F401

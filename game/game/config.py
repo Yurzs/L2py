@@ -11,4 +11,4 @@ class GameConfig(Config):
         self.GAME_SERVER_PORT = os.environ.get("GAME_SERVER_PORT", 7777)
         self.GAME_API_SERVER_HOST = os.environ.get("GAME_API_SERVER_HOST", "0.0.0.0")
         self.GAME_API_SERVER_PORT = os.environ.get("GAME_API_SERVER_PORT", 7778)
-        self.SERVER_ID = os.environ["SERVER_ID"]
+        self.GAME_SERVER_ID = os.environ["GAME_SERVER_ID"]

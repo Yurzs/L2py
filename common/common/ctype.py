@@ -61,7 +61,10 @@ class _Numeric:
         return self.__class__(self.value + other)
 
     def __iadd__(self, other):
-        self.value = self.value + other
+        other_value = other
+        if isinstance(other, _Numeric):
+            other_value = other.value
+        self.value = self.value + other_value
         return self
 
     def __radd__(self, other):
