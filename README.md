@@ -25,25 +25,36 @@ Feel free to join developing our server:
 * Or join our [Discord server](https://discord.gg/AwV3yQKR)
 
 How to start developing
------------------------
+=======================
 
-- Create python environment `make venv`
-- Activate python environment `. .venv/bin/activate`
-- Install requirements `make install_requirements` (Note: on macOS homebrew is required)
-- Run mongo on localhost (`docker run -d -p 27017:27017 mongo`)
-- Copy `.evn.example` to `.env`
-- Set environment variables using `. bin/activate`
-- Create game server using `bin/register_game_server`
-- Start data, login, game services `python <service>/<service>/runner.py`
+* Copy `.env.example` to `.env`.
+* Set environment variables as you need in `.env`
+
+Using docker-compose
+------------
+
+* Build docker images `make docker-create`
+* Start containers `docker-compose up -d`
+* Register game server in database `make compose-exec-login register_game_server <GAME_SERVER_HOST> <GAME_SERVER_PORT> <GAME_SERVER_ID>`.
+
+Without docker-compose
+--------------
+
+* Install poetry using `make install`
+* Run `poetry install`
+* Start mongodb in container or using other methods.
+* Activate virtual environment `. .venv/bin/activate`
+* Register game server in database `login/bin/register_game_server <GAME_SERVER_HOST> <GAME_SERVER_PORT> <GAME_SERVER_ID>`
+* Start login server `python login/login/runner.py`
+* Start game server `python game/game/runner.py`
 
 Emulator server architecture
 ----------------
 
-Project is split to 3 components:
+Project is split to 2 components:
 
 - `Login Server` - L2 login service + basic HTTP API
 - `Game Server` - L2 game service + basic HTTP API
-- `Data Server` - HTTP API which handles all DB communications
 
 All those services have own instances of `common.application.Application` 
 with specific modules (for example game server have `TCPServerModule`, `HTTPServerModule`, `ScheduleModule`).
@@ -68,8 +79,3 @@ Data types
 ----------
 
 Most of the custom data types derive from ctypes (At least numeric ones.)
-
-For readability improvement they've been added to globals (builtins). 
-
-So to fix warnings in your IDE please add all datata types from `common.datatypes` 
-to your ignore unresolved list.

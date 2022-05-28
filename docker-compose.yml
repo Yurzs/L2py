@@ -3,25 +3,13 @@ version: "3"
 services:
   mongo:
     image: mongo
-    ports:
-      - 27017:27017
-  common:
-    image: l2py_common
-    build:
-      context: ./common
-  data:
-    build:
-      context: ./data
-    restart: always
-    environment:
-      MONGO_URI: mongo
 
   login:
     build:
       context: ./login
     restart: always
-    environment:
-      MONGO_URI: mongo
+    env_file:
+      - .env
     ports:
       - 2106:2106
 
@@ -29,9 +17,7 @@ services:
     build:
       context: ./game
     restart: always
-    environment:
-      LOGIN_SERVER_API_HOST: login
-      MONGO_URI: mongo
-      SERVER_ID: 1
+    env_file:
+      - .env
     ports:
       - 7777:7777

@@ -21,16 +21,16 @@ format:
 test:
 	pytest .
 
-install_requirements:
-ifeq ($(UNAME),Darwin)
-	brew install openssl; \
-	brew install swig; \
-	export LDFLAGS="-L$(brew --prefix openssl)/lib" \
-	CFLAGS="-I$(brew --prefix openssl)/include" \
-	SWIG_FEATURES="-cpperraswarn -includeall -I$(brew --prefix openssl)/include"
-endif
+#install_requirements:
+#ifeq ($(UNAME),Darwin)
+#	brew install openssl; \
+#	brew install swig; \
+#	export LDFLAGS="-L$(brew --prefix openssl)/lib" \
+#	CFLAGS="-I$(brew --prefix openssl)/include" \
+#	SWIG_FEATURES="-cpperraswarn -includeall -I$(brew --prefix openssl)/include"
+#endif
 
-install: install_requirements
+install:
 	$(info Installing poetry:)
 	curl -sSL https://install.python-poetry.org | $(PYTHON) -
 	@PATH="/root/.local/bin:$(PATH)"
@@ -47,7 +47,7 @@ docker-build-login:
 docker-build-game:
 	cd game && $(DOCKER)  build -t $(PROJECT_NAME)_game --no-cache .
 
-docker-build: docker-build-common docker-build-data docker-build-models docker-build-login docker-build-game
+docker-build: docker-build-common docker-build-login docker-build-game
 
 compose-build:
 	$(COMPOSE) build
