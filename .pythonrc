@@ -2,5 +2,5 @@
 import pathlib
 import sys
 
-for module in ["common", "data", "game", "login"]:
+for module in ["common", "game", "login"]:
     sys.path.append(str(pathlib.Path(module).resolve()))
