@@ -12,7 +12,8 @@ packages = [
 python = "^3.10"
 aiojsonapi = "^0.3.1633554756"
 motor = "^2.5.1"
-Cython = "^0.29.28"
+typeguard = "^2.13.3"
+python-dotenv = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,9 +1,5 @@
 import logging
 
-import pyximport
-
-pyximport.install(language_level=3, build_in_temp=True)  # noqa
-
 import common  # noqa: F401
 import login.api  # noqa: F401
 from login.application import LOGIN_SERVER_APPLICATION
