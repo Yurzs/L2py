@@ -22,7 +22,7 @@ Contribute
 Feel free to join developing our server:
 * If you have some suggestions - please [open an Issue](https://github.com/Yurzs/L2py/issues/new/choose).
 * If you want to implement some features - check [Project page](https://github.com/Yurzs/L2py/projects/1).
-* Or join our [Discord server](https://discord.gg/AwV3yQKR)
+* Or join our [Discord server](https://discord.gg/hgdFQYxtvm)
 
 How to start developing
 =======================
