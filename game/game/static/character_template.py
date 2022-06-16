@@ -25,8 +25,8 @@ class StaticCharacterTemplate(StaticData):
     male_collision_height: ctype.double
     female_unk1: ctype.float
     female_unk2: ctype.float
-    female_collision_radius: ctype.float
-    female_collision_height: ctype.float
+    female_collision_radius: ctype.double
+    female_collision_height: ctype.double
     level_up_gain: LevelUpGain
     base_level: ctype.int32
 
