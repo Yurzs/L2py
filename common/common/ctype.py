@@ -157,7 +157,7 @@ def _make_ctype_from_ctypes(ctypes_type):
 
     return type(
         ctypes_type.__name__.replace("c_", ""),
-        tuple([_Numeric, *ctypes.c_bool.__bases__]),
+        tuple([_Numeric, *ctypes_type.__bases__]),
         namespace,
     )
 
