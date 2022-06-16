@@ -26,7 +26,11 @@ class BaseDataclass:
         dataclass_fields = self._fields
         if key in dataclass_fields:
             field = dataclass_fields[key]
-            check_type(field.name, value, field.type)
+            try:
+                check_type(field.name, value, field.type)
+            except TypeError as e:
+                e.args = (f"{e.args[0]} ({field.type.__name__})", *e.args[1:])
+                raise e
             if isinstance(value, dict) and field.type in self.__models__().values():
                 value = field.type(**value)
             elif hasattr(field.type, "__extra__") and not is_dataclass(field.type):
@@ -38,6 +42,8 @@ class BaseDataclass:
                 for item in value:
                     if isinstance(item, item_type):
                         list_items.append(item)
+                    elif not dataclasses.is_dataclass(item_type):
+                        list_items.append(item_type(item))
                     else:
                         list_items.append(item_type(**item))
                 value = list_items
@@ -82,7 +88,9 @@ class BaseDataclass:
             return self._get_field(field_name).type
         except KeyError:
             if isinstance(getattr(self.__class__, field_name), property):
-                signature = str(inspect.signature(getattr(self.__class__, field_name).fget))
+                signature = str(
+                    inspect.signature(getattr(self.__class__, field_name).fget)
+                )
 
                 _, typehint = signature.split("->")
                 typehint = typehint.strip()
