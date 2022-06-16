@@ -1,4 +1,5 @@
 import dataclasses
+import typing
 from dataclasses import field
 
 import game.packets
@@ -20,7 +21,7 @@ class Character(Playable):
     template: CharacterTemplate
     attacked_by: list = field(default_factory=list)
 
-    last_skill: Skill = field(default_factory=Skill)
+    last_skill: typing.Optional[Skill] = None
     last_heal_amount: ctype.int32 = 0
     title: str = ""
     ai_class: str = ""
@@ -94,7 +95,9 @@ class Character(Playable):
     async def use_social_action(self, action_id):
         pass
 
-    @Broadcaster.broadcast(packet_constructor=lambda self: game.packets.CharInfo(character=self))
+    @Broadcaster.broadcast(
+        packet_constructor=lambda self: game.packets.CharInfo(character=self)
+    )
     @Broadcaster.broadcast(
         packet_constructor=lambda self: game.packets.CharMoveToLocation(
             character=self, new_position=self.position
