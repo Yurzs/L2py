@@ -1,4 +1,5 @@
 import dataclasses
+import math
 import time
 
 import game.packets
@@ -58,7 +59,9 @@ class CharacterBase(CharStructure):
 
     @classmethod
     async def all(cls, account_username=None, **kwargs):
-        return await super().all(add_query={"account.username": account_username}, **kwargs)
+        return await super().all(
+            add_query={"account.username": account_username}, **kwargs
+        )
 
     @classmethod
     async def from_template(
@@ -108,11 +111,11 @@ class CharacterBase(CharStructure):
         )
 
     async def mark_deleted(self):
-        self.delete_at = time.time() + 7 * 24 * 60 * 60
+        self.delete_at = ctype.int32(math.floor(time.time() + 7 * 24 * 60 * 60))
         await self.commit_changes(fields=["delete_at"])
 
     async def remove_deleted_mark(self):
-        self.delete_at = 0
+        self.delete_at = ctype.int32(0)
         await self.commit_changes(fields=["delete_at"])
 
     def __hash__(self):
