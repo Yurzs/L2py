@@ -45,8 +45,8 @@ Without docker-compose
 * Start mongodb in container or using other methods.
 * Activate virtual environment `. .venv/bin/activate`
 * Register game server in database `login/bin/register_game_server <GAME_SERVER_HOST> <GAME_SERVER_PORT> <GAME_SERVER_ID>`
-* Start login server `python login/login/runner.py`
-* Start game server `python game/game/runner.py`
+* Start login server `python game_runner.py`
+* Start game server `python login_runner.py`
 
 Emulator server architecture
 ----------------

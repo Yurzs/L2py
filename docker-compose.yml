@@ -6,7 +6,7 @@ services:
 
   login:
     build:
-      context: ./login
+      context: src/login
     restart: always
     env_file:
       - .env
@@ -15,7 +15,7 @@ services:
 
   game:
     build:
-      context: ./game
+      context: src/game
     restart: always
     env_file:
       - .env

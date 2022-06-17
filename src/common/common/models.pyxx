@@ -1,0 +1,1208 @@
+"""
+This module has all models in project due to current cython dataclass implementation.
+Should be split to different files when possible.
+"""
+import asyncio
+import base64
+import dataclasses
+import json
+import os
+import time
+import typing
+from hashlib import sha3_512
+
+import bson
+import cython
+import pymongo
+from motor.motor_asyncio import AsyncIOMotorClient
+
+from common import exceptions
+from src.common.common.config import Config
+from src.common.common.dataclass cimport BaseDataclass
+from src.common.common.json import JsonEncoder
+
+
+@cython.cclass
+cdef class DocumentBase(BaseDataclass):
+    __primary_key__ = "_id"
+
+    NotFoundError = exceptions.DocumentNotFound
+
+    @property
+    def primary_key(self):
+        return getattr(self, self.__primary_key__)
+
+    @classmethod
+    def client(cls):
+        return AsyncIOMotorClient(Config().MONGO_URI)
+
+    @classmethod
+    def sync_client(cls):
+        return pymongo.MongoClient(Config().MONGO_URI)
+
+    @classmethod
+    def database(cls):
+        return cls.client()[cls.__database__]
+
+    @classmethod
+    def sync_database(cls):
+        return cls.sync_client()[cls.__database__]
+
+    @classmethod
+    def collection(cls):
+        return cls.database()[cls.__collection__]
+
+    @classmethod
+    def sync_collection(cls):
+        return cls.sync_database()[cls.__collection__]
+
+    @classmethod
+    async def one(cls, document_id=None, add_query=None, required=True, **kwargs):
+        """Finds one document by ID."""
+
+        query = {}
+        if document_id is not None:
+            query["_id"] = document_id
+        if add_query is not None:
+            query.update(add_query)
+
+        result = await cls.collection().find_one(query, **kwargs)
+        if result is not None:
+            return cls(**cls.convert_dataclasses(result))
+        elif required:
+            raise cls.NotFoundError()
+
+    @classmethod
+    async def all(cls, document_ids=None, add_query=None, **kwargs):
+        """Finds all documents based in IDs."""
+
+        query = {}
+        if document_ids is not None:
+            query["_id"] = {"$in": document_ids}
+        if add_query is not None:
+            query.update(add_query)
+
+        documents = []
+        async_for = True
+
+        cursor = cls.collection().find(query, **kwargs)
+        if isinstance(cursor, typing.Coroutine):
+            cursor = await cursor
+            async_for = False
+
+        if async_for:
+            async for document in cursor:
+                documents.append(cls(**document))
+        else:
+            for document in cursor:
+                documents.append(cls(**document))
+        return documents
+
+    def delete(self):
+        """Deletes document from collection."""
+
+        return self.collection().delete_one(
+            {self.__primary_key__: getattr(self, self.__primary_key__)}
+        )
+
+    async def commit_changes(self, fields=None):
+        """Saves changed document to collection."""
+
+        search_query = {self.__primary_key__: getattr(self, self.__primary_key__)}
+        update_query = {"$set": {}}
+        fields = (
+            fields
+            if fields is not None
+            else [field for field in self._fields if not field.startswith("__")]
+        )
+
+        for field in fields:
+            value = getattr(self, field)
+            update_query["$set"].update(
+                {
+                    field: value.to_dict()
+                    if isinstance(value, BaseDataclass)
+                    else json.dumps(value, cls=JsonEncoder)
+                }
+            )
+        print(search_query, update_query)
+        return await self.collection().update_one(search_query, update_query)
+
+    async def insert(self):
+        """Inserts document into collection."""
+
+        return await self.collection().insert_one(self.to_dict())
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Document(DocumentBase):
+    _id: str = cython.dataclasses.field(default_factory=lambda: str(bson.ObjectId()))
+
+
+class MetaDocumentMixin(type):
+    def __new__(mcs, name, bases, namespace):
+        fields = []
+        for field in dataclasses.fields(Document):
+            field.kw_only = True
+            fields.append((field.name, field.type, field))
+        return dataclasses.make_dataclass(
+            name, fields=fields, bases=bases, namespace=namespace
+        )
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class GameAuth(BaseDataclass):
+    server_id: cython.char
+    play_ok1: cython.long
+    play_ok2: cython.long
+    login_ok1: cython.long
+    login_ok2: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Account(Document):
+    id: cython.int
+    username: str
+    password: str
+
+    __collection__ = "accounts"
+    __database__ = "l2py"
+
+    status: cython.char = 0
+    last_server: cython.long = 0
+    last_character: str = ""
+    email: str = ""
+    salt: str = ""
+    game_auth: GameAuth = None
+
+    @classmethod
+    async def create_index(cls):
+        return await cls.collection().create_index(
+            [
+                ("username", pymongo.ASCENDING),
+            ]
+        )
+
+    @classmethod
+    async def new(cls, username: str, password: str):
+        """Constructs new account."""
+
+        new_id = await IDFactory.get_new_id(IDFactory.NAME_ACCOUNTS)
+        acc = Account(
+            id=new_id,
+            username=username,
+            password="",
+        )
+        await acc.insert()
+        await acc.set_new_password(password=password)
+        return acc
+
+    @classmethod
+    async def one(
+        cls, document_id=None, username=None, add_query=None, **kwargs
+    ) -> Account:
+        """Finds one account."""
+
+        query = {}
+        if document_id is not None:
+            query["_id"] = document_id
+        if username is not None:
+            query["username"] = username
+
+        query.update(add_query or {})
+
+        return await super().one(add_query=query, **kwargs)
+
+    async def set_new_password(self, password: str):
+        """Sets new password for user.
+
+        :param password: User defined password.
+        """
+        salt = base64.b64encode(os.urandom(20)).decode()
+        salted_password = password + salt
+        self.password = base64.b64encode(
+            sha3_512(salted_password.encode()).digest()
+        ).decode()
+        self.salt = salt
+        await self.commit_changes(fields=["salt", "password"])
+
+    def authenticate(self, password) -> bool:
+        """Checks that provided password matches database one.
+
+        :param password: User defined password.
+        :return: are passwords match
+        """
+
+        salted_password = password + self.salt
+        hashed_password = base64.b64encode(
+            sha3_512(salted_password.encode()).digest()
+        ).decode()
+        return self.password == hashed_password
+
+    @classmethod
+    async def create_indexes(cls):
+        await cls.collection().create_index(
+            [
+                ("username", pymongo.ASCENDING),
+            ],
+            unique=True,
+        )
+
+    async def login_authenticated(
+        self, server_id, play_ok1, play_ok2, login_ok1, login_ok2
+    ):
+        """Saves information for game server auth."""
+
+        self.game_auth = GameAuth(
+            server_id=server_id,
+            play_ok1=play_ok1,
+            play_ok2=play_ok2,
+            login_ok1=login_ok1,
+            login_ok2=login_ok2,
+        )
+        print(self.game_auth)
+        await self.commit_changes(fields=["game_auth"])
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+class GameServer(Document):
+    __collection__ = "game_servers"
+    __database__ = "l2py"
+
+    __encode__ = (
+        "id",
+        "host_as_bytearray",
+        "port",
+        "age_limit",
+        "is_pvp",
+        "online_count",
+        "max_online",
+        "server_is_alive",
+        "type",
+        "brackets",
+    )
+
+    @property
+    def is_full(self) -> cython.bint:
+        return self.online_count >= self.max_online
+
+    @property
+    def host_as_bytearray(self) -> bytearray:
+        return bytearray([int(i) for i in self.host.split(".")])
+
+    @property
+    def server_is_alive(self) -> cython.bint:
+        return self.last_alive >= time.time() - 15
+
+    @classmethod
+    async def one(cls, server_id, **kwargs) -> GameServer:
+        return await super().one(add_query={"id": int(server_id)}, **kwargs)
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class IDFactory(Document):
+    __collection__ = "id_factory"
+    __database__ = "l2py"
+
+    NAME_ITEMS = "items"
+    NAME_CHARACTERS = "characters"
+    NAME_ACCOUNTS = "accounts"
+
+    name: str
+    counter: cython.long = 1
+
+    @classmethod
+    async def get_new_id(cls, object_type_name: str):
+        item_id_factory = await cls.one(
+            add_query={"name": object_type_name}, required=False
+        )
+        if item_id_factory is None:
+            item_id_factory = cls(name=object_type_name, _id=str(bson.ObjectId()))
+            await item_id_factory.insert()
+        asyncio.Task(item_id_factory.increment())
+        return item_id_factory.counter
+
+    async def increment(self):
+        self.collection().update_one({"_id": self._id}, {"$inc": {"counter": 1}})
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class CharacterBase(CharacterStructure):
+    account_username: str
+
+    sex: cython.long
+    race: cython.long
+    base_class: cython.long
+    active_class: cython.long
+
+    appearance: CharacterAppearance
+
+    delete_at: cython.long
+    friends: list[cython.long]
+    inventory: Inventory
+
+    active: cython.long = 0
+    karma: cython.long = 0
+
+    pk_kills: cython.long = 0
+    pvp_kills: cython.long = 0
+
+    __database__ = "l2py"
+    __collection__ = "characters"
+
+    @property
+    def time_until_deletion(self) -> cython.long:
+        return self.delete_at - time.time() if self.delete_at else 0
+
+    @classmethod
+    async def all(cls, account_username=None, **kwargs):
+        return await super().all(
+            add_query={"account_username": account_username}, **kwargs
+        )
+
+    @classmethod
+    async def from_template(
+        cls,
+        template: CharacterTemplate,
+        name,
+        account,
+        sex,
+        race,
+        face,
+        hair_style,
+        hair_color,
+    ):
+
+        status = Status(
+            hp=template.stats.max_hp,
+            cp=template.stats.max_cp,
+            mp=template.stats.max_cp,
+        )
+
+        position = Position(point3d=template.spawn)
+
+        return cls(
+            id=await IDFactory.get_new_id(IDFactory.NAME_CHARACTERS),
+            account_username=account.username,
+            is_visible=True,
+            name=name,
+            status=status,
+            template=template,
+            position=position,
+            stats=template.stats,
+            sex=sex,
+            race=race,
+            base_class=template.class_info.id,
+            active_class=template.class_info.id,
+            hair_style=hair_style,
+            hair_color=hair_color,
+            face=face,
+        )
+
+    async def mark_deleted(self):
+        self.delete_at = time.time() + 7 * 24 * 60 * 60
+        await self.commit_changes(fields=["delete_at"])
+
+    async def remove_deleted_mark(self):
+        self.delete_at = 0
+        await self.commit_changes(fields=["delete_at"])
+
+    def __hash__(self):
+        return hash(f"{self.id}_{self.name}")
+
+
+@dataclasses.dataclass(kw_only=True)
+class Character(CharacterBase, DocumentBase, metaclass=MetaDocumentMixin):
+    pass
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class L2Object(BaseDataclass):
+    id: cython.long
+    name: str
+    position: Position
+    is_visible: cython.bint
+    poly: ObjectPolymorph
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Playable(L2Object):
+    target: Playable = None
+
+    def set_target(self, target: Playable):
+        self.target = target
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Point3D(BaseDataclass):
+    x: cython.long
+    y: cython.long
+    z: cython.long
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class ObjectPolymorph(BaseDataclass):
+    id: cython.long
+    type: cython.long
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Position(BaseDataclass):
+    heading_angle: cython.long
+    point3d: Point3D
+    region: WorldRegion
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Armor(Item):
+    avoid_modifier: cython.long
+    physical_defense: cython.long
+    magic_defense: cython.long
+    mp_bonus: cython.long
+    hp_bonus: cython.long
+
+    passive_skill: typing.Union[None, Skill] = None
+
+
+cdef class EtcItemType:
+    ARROW = 0
+    MATERIAL = 1
+    PET_COLLAR = 2
+    POTION = 3
+    RECIPE = 4
+    SCROLL = 5
+    QUEST = 6
+    MONEY = 7
+    OTHER = 8
+    SPELLBOOK = 9
+    SEED = 10
+    SHOT = 11
+    HERB = 12
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class EtcItem(Item):
+    @property
+    def is_consumable(self):
+        return self.type in [EtcItemType.SHOT, EtcItemType.POTION]
+
+PAPERDOLL_UNDER_ID: cython.long = 0
+PAPERDOLL_LEFT_EAR_ID: cython.long = 1
+PAPERDOLL_RIGHT_EAR_ID: cython.long = 2
+PAPERDOLL_NECK_ID: cython.long = 3
+PAPERDOLL_LEFT_FINGER_ID: cython.long = 4
+PAPERDOLL_RIGHT_FINGER_ID: cython.long = 5
+PAPERDOLL_HEAD_ID: cython.long = 6
+PAPERDOLL_RIGHT_HAND_ID: cython.long = 7
+PAPERDOLL_LEFT_HAND_ID: cython.long = 8
+PAPERDOLL_GLOVES_ID: cython.long = 9
+PAPERDOLL_CHEST_ID: cython.long = 10
+PAPERDOLL_LEGS_ID: cython.long = 11
+PAPERDOLL_FEET_ID: cython.long = 12
+PAPERDOLL_BACK_ID: cython.long = 13
+PAPERDOLL_DOUBLE_HANDED_ID: cython.long = 14
+PAPERDOLL_FACE_ID: cython.long = 15
+PAPERDOLL_HAIR_ID: cython.long = 16
+PAPERDOLL_DOUBLE_HAIR_ID: cython.long = 17
+PAPERDOLL_TOTAL_SLOTS_SUM: cython.long = 17
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class PaperDoll(BaseDataclass):
+    # all_items_ids = [
+    #     under_id,
+    #     left_ear_id,
+    #     right_ear_id,
+    #     neck_id,
+    #     left_finger_id,
+    #     right_finger_id,
+    #     head_id,
+    #     right_hand_id,
+    #     left_hand_id,
+    #     gloves_id,
+    #     chest_id,
+    #     legs_id,
+    #     feet_id,
+    #     back_id,
+    #     double_handed_id,
+    #     face_id,
+    #     hair_id,
+    #     double_hair_id,
+    # ]
+
+    under: Armor = None
+    left_ear: Armor = None
+    right_ear: Armor = None
+    neck: Armor = None
+    left_finger: Armor = None
+    right_finger: Armor = None
+    head: Armor = None
+    right_hand: Weapon = None
+    left_hand: Weapon = None
+    gloves: Armor = None
+    chest: Armor = None
+    legs: Armor = None
+    feet: Armor = None
+    back: Armor = None
+    face: Armor = None
+    hair: Armor = None
+    hair_all: Armor = None
+    double_handed: Weapon = None
+
+    def by_id(self, item_slot_id: cython.long):
+        """Finds item by its slot ID."""
+
+        return {
+            PAPERDOLL_UNDER_ID: self.under,
+            PAPERDOLL_LEFT_EAR_ID: self.left_ear,
+            PAPERDOLL_RIGHT_EAR_ID: self.right_ear,
+            PAPERDOLL_NECK_ID: self.neck,
+            PAPERDOLL_LEFT_FINGER_ID: self.left_finger,
+            PAPERDOLL_RIGHT_FINGER_ID: self.right_finger,
+            PAPERDOLL_HEAD_ID: self.head,
+            PAPERDOLL_RIGHT_HAND_ID: self.right_hand,
+            PAPERDOLL_LEFT_HAND_ID: self.left_hand,
+            PAPERDOLL_GLOVES_ID: self.gloves,
+            PAPERDOLL_CHEST_ID: self.chest,
+            PAPERDOLL_LEGS_ID: self.legs,
+            PAPERDOLL_FEET_ID: self.feet,
+            PAPERDOLL_BACK_ID: self.back,
+            PAPERDOLL_FACE_ID: self.face,
+            PAPERDOLL_HAIR_ID: self.hair,
+            PAPERDOLL_DOUBLE_HAIR_ID: self.hair_all,
+            PAPERDOLL_DOUBLE_HANDED_ID: self.double_handed,
+        }[item_slot_id]
+
+    def set_item(self, slot_id, item):
+        if hasattr(self, slot_id):
+            setattr(self, slot_id, item)
+
+    def by_body_part_name(self, body_part_name):
+        return {
+            PAPERDOLL_UNDER_ID: self.under,
+            PAPERDOLL_LEFT_EAR_ID: self.left_ear,
+            PAPERDOLL_RIGHT_EAR_ID: self.right_ear,
+            PAPERDOLL_NECK_ID: self.neck,
+            PAPERDOLL_LEFT_FINGER_ID: self.left_finger,
+            PAPERDOLL_RIGHT_FINGER_ID: self.right_finger,
+            PAPERDOLL_HEAD_ID: self.head,
+            PAPERDOLL_RIGHT_HAND_ID: self.right_hand,
+            PAPERDOLL_LEFT_HAND_ID: self.left_hand,
+            PAPERDOLL_GLOVES_ID: self.gloves,
+            PAPERDOLL_CHEST_ID: self.chest,
+            PAPERDOLL_LEGS_ID: self.legs,
+            PAPERDOLL_FEET_ID: self.feet,
+            PAPERDOLL_BACK_ID: self.back,
+            PAPERDOLL_FACE_ID: self.face,
+            PAPERDOLL_HAIR_ID: self.hair,
+            PAPERDOLL_DOUBLE_HAIR_ID: self.hair_all,
+            PAPERDOLL_DOUBLE_HANDED_ID: self.double_handed,
+        }[body_part_name]
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Inventory(BaseDataclass):
+    equipped_items: PaperDoll = None
+    items: typing.List[Item] = cython.dataclasses.field(default_factory=list)
+
+    @property
+    def total_weight(self):
+        weight = 0
+        for item in [*self.equipped_items, *self.items]:
+            weight += item.weight
+        return weight
+
+    def encode(self):
+        cdef list object_ids = []
+        cdef list type_ids = []
+        for item_id in self.equipped_items.all_items_ids:
+            if item_id == PaperDoll.double_handed_id:
+                continue
+            item = self.equipped_items.by_id(item_id)
+            if item is not None:
+                object_ids.append(item.id)
+                type_ids.append(item.special_type)
+            else:
+                object_ids.append(0)
+                type_ids.append(0)
+        return [*object_ids, *type_ids]
+
+    def equip(self, item, slot_id=None):
+        """Equips item."""
+
+        if slot_id is not None:
+            current_item = self.equipped_items.by_id(slot_id)
+            self.items.append(current_item)
+            self.equipped_items.set_item(slot_id, item)
+            self.items.pop(item)
+            item.is_equipped = True
+
+    def encode_other(self):
+        """Encodes inventory as other character."""
+
+        cdef list result = []
+        required_items = [
+            self.equipped_items.hair_all,
+            self.equipped_items.head,
+            self.equipped_items.right_hand,
+            self.equipped_items.left_hand,
+            self.equipped_items.gloves,
+            self.equipped_items.chest,
+            self.equipped_items.legs,
+            self.equipped_items.feet,
+            self.equipped_items.back,
+            self.equipped_items.double_handed,
+            self.equipped_items.hair,
+            self.equipped_items.face,
+        ]
+        for item in required_items:
+            if item is not None:
+                result.append(item.id)
+            else:
+                result.append(0)
+        return result
+
+class Type:
+    weapon_or_jewelry = 0
+    shield = 1
+    quest_or_adena = 4
+
+
+class SpecialType:
+    weapon: cython.long = 0
+    shield: cython.long = 1
+    accessory: cython.long = 2
+    quest: cython.long = 3
+    money: cython.long = 4
+    other: cython.long = 5
+    pet_wolf: cython.long = 6
+    pet_hatchling: cython.long = 7
+    pet_strider: cython.long = 8
+    pet_baby: cython.long = 9
+
+
+class Materials:
+    steel: cython.long = 0
+    fine_steel: cython.long = 1
+    blood_steel: cython.long = 2
+    bronze: cython.long = 3
+    silver: cython.long = 4
+    gold: cython.long = 5
+    mithril: cython.long = 6
+    oriharukon: cython.long = 7
+    paper: cython.long = 8
+    wood: cython.long = 9
+    cloth: cython.long = 10
+    leather: cython.long = 11
+    bone: cython.long = 12
+    damascus: cython.long = 13
+    adamantaite: cython.long = 14
+    chrysolite: cython.long = 15
+    crystal: cython.long = 16
+    liquid: cython.long = 17
+    scale_of_dragon: cython.long = 18
+    dyestuff: cython.long = 19
+    coweb: cython.long = 20
+    seed: cython.long = 21
+
+
+class CrystalType:
+    D: cython.long = 1
+    C: cython.long = 2
+    B: cython.long = 3
+    A: cython.long = 4
+    S: cython.long = 5
+
+
+class CrystalItem:
+    D: cython.long = 1458
+    C: cython.long = 1459
+    B: cython.long = 1460
+    A: cython.long = 1461
+    S: cython.long = 1462
+
+
+class CrystalEnchantBonusArmor:
+    D: cython.long = 11
+    C: cython.long = 6
+    B: cython.long = 11
+    A: cython.long = 19
+    S: cython.long = 25
+
+
+class CrystalEnchantBonusWeapon:
+    D: cython.long = 90
+    C: cython.long = 45
+    B: cython.long = 67
+    A: cython.long = 144
+    S: cython.long = 250
+
+
+class Crystal:
+    TYPE = CrystalType
+    ITEM = CrystalItem
+    BONUS_WEAPON = CrystalEnchantBonusWeapon
+    BONUS_ARMOR = CrystalEnchantBonusArmor
+
+
+class ItemLocation:
+    VOID = 0
+    INVENTORY = 1
+    PAPERDOLL = 2
+    WAREHOUSE = 3
+    CLAN_WAREHOUSE = 4
+    PET = 5
+    PET_EQUIPMENT = 6
+    LEASE = 7
+    FREIGHT = 8
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class ItemProperties(BaseDataclass):
+    crystallizable: cython.bint
+    stackable: cython.bint
+    sellable: cython.bint
+    droppable: cython.bint
+    destroyable: cython.bint
+    tradable: cython.bint
+    degradable: cython.bint
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Crystallization(BaseDataclass):
+    type: cython.long = 0
+    count: cython.long = 0
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class ItemTemplate(L2Object):
+    type: cython.long
+    inventory_type: cython.long
+    special_type: cython.long
+    weight: cython.long
+    material: cython.long
+    crystallization: Crystallization
+    duration: cython.long
+    body_part: str
+    price: cython.long
+    properties: ItemProperties
+
+    skills: typing.List[Skill]
+    object_id: cython.long
+
+    def validate_material(self):
+        if self.material not in Materials.__dict__:
+            raise Exception("Unknown material")
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Item(ItemTemplate):
+    owner_id: cython.long
+    count: cython.long
+    initial_count: cython.long
+    usage_time: cython.long
+    item_template: ItemTemplate
+    location: cython.long
+    slot: cython.long
+    enchant: cython.long
+    price_sell: cython.long
+    price_buy: cython.long
+    wear: cython.bint
+    drop_time: cython.long
+    protected: cython.bint
+
+    decrease: cython.bint = False
+    augmentation: cython.long = None
+    mana: cython.long = -1
+    consuming_mana: cython.bint = False
+    mana_consumption_rate = 60000
+
+    charged_soulshot: cython.long = 0
+    charged_spiritshot: cython.long = 0
+    charged_fishshot: cython.bint = False
+
+    last_change: cython.long = 2
+
+    is_equipped: cython.bint = False
+    enchant_level: cython.long = 0
+    crystal_type: cython.char = 0
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Weapon(Item):
+    soulshot_count: cython.long
+    spiritshot_count: cython.long
+    physical_damage: cython.long
+    random_damage: cython.long
+    critical: cython.long
+    hit_modifier: cython.double
+    avoid_modifier: cython.long
+    shield_defense_rate: cython.double
+    attack_speed: cython.long
+    attack_reuse: cython.long
+    mp_consumption: cython.long
+    magic_damage: cython.long
+
+    passive_skill: typing.Union[None, Skill] = None
+    enchant4_skill: typing.Union[None, Skill] = None
+
+    skills_on_hit: typing.List[Skill] = ()
+    skills_on_cast: typing.List[Skill] = ()
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class CharacterAppearance(BaseDataclass):
+    face_id: cython.long
+    hair_style: cython.long
+    hair_color: cython.long
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class AttacksBuffs(BaseDataclass):
+    physical_plants: cython.long = 0
+    physical_insects: cython.long = 0
+    physical_animals: cython.long = 0
+    physical_monsters: cython.long = 0
+    physical_dragons: cython.long = 0
+    physical_undead: cython.long = 0
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class CharacterStructure(Playable):
+    last_skill: Skill = None
+    last_heal_amount: cython.long = 0
+    title: str = None
+    ai_class: str = None
+    hp_updates: UpdateChecks = None
+    skills: list[Skill] = cython.dataclasses.field(default_factory=list)
+    current_zone: WorldRegion = None
+    name_color: cython.long = 2147483647
+    title_color: cython.long = 2147483647
+
+    # TODO: Find a better place for those properties
+    @property
+    def weight_penalty(self) -> cython.long:
+        return 0
+
+    @property
+    def exp_penalty(self) -> cython.long:
+        return 0
+
+    @property
+    def exp_protected(self) -> cython.long:
+        return 0
+
+    @property
+    def death_penalty(self) -> cython.long:
+        return 0
+
+    @property
+    def inventory_max(self) -> cython.long:
+        return 80
+
+    @property
+    def warehouse_max(self) -> cython.long:
+        return 80
+
+    @property
+    def private_sell_max(self) -> cython.long:
+        return 80
+
+    @property
+    def private_buy_max(self) -> cython.long:
+        return 80
+
+    @property
+    def freight_max(self) -> cython.long:
+        return 80
+
+    @property
+    def dwarf_receipt_max(self) -> cython.long:
+        return 80
+
+    @property
+    def common_receipt_max(self) -> cython.long:
+        return 80
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class ConsumeRates(BaseDataclass):
+    mp: cython.long
+    hp: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Effects(BaseDataclass):
+    is_afraid: cython.bint = False
+    is_confused: cython.bint = False
+    is_faking_death: cython.bint = False
+    is_flying: cython.bint = False
+    is_muted: cython.bint = False
+    is_physically_muted: cython.bint = False
+    is_dead: cython.bint = False
+    is_immobilized: cython.bint = False
+    is_overloaded: cython.bint = False
+    is_paralyzed: cython.bint = False
+    is_riding: cython.bint = False
+    is_pending_revive: cython.bint = False
+    is_rooted: cython.bint = False
+    is_sleeping: cython.bint = False
+    is_stunned: cython.bint = False
+    is_betrayed: cython.bint = False
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class EquippedItems(BaseDataclass):
+    under: cython.long
+    left_ear: cython.long
+    right_ear: cython.long
+    necklace: cython.long
+    right_finger: cython.long
+    left_finger: cython.long
+    head: cython.long
+    right_hand: cython.long
+    left_hand: cython.long
+    gloves: cython.long
+    chest: cython.long
+    legs: cython.long
+    feet: cython.long
+    back: cython.long
+    double_handed: cython.long
+    hair: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Limits(BaseDataclass):
+    inventory: cython.long
+    warehouse: cython.long
+    freight: cython.long
+    sell: cython.long
+    buy: cython.long
+    dwarf_recipe: cython.long
+    common_recipe: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Reflections(BaseDataclass):
+    damage_percent: cython.long
+    magic_skill: cython.long
+    physical_skill: cython.long
+    absorb_percent: cython.long
+    transfer_percent: cython.long
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Resists(BaseDataclass):
+    breath: cython.long
+    aggression: cython.long
+    confusion: cython.long
+    movement: cython.long
+    sleep: cython.long
+    fire: cython.long
+    wind: cython.long
+    water: cython.long
+    earth: cython.long
+    holy: cython.long
+    dark: cython.long
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class BaseStats(BaseDataclass):
+    STR: cython.long
+    CON: cython.long
+    DEX: cython.long
+    INT: cython.long
+    WIT: cython.long
+    MEN: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Stats(BaseDataclass):
+    max_hp: cython.long
+    max_mp: cython.long
+    max_cp: cython.long
+    regen_hp: cython.double
+    regen_mp: cython.double
+    regen_cp: cython.double
+    gain_mp: cython.double
+    gain_hp: cython.double
+    physical_defense: cython.long
+    magic_defense: cython.long
+    physical_attack: cython.long
+    magic_attack: cython.long
+    physical_attack_speed: cython.long
+    magic_attack_speed: cython.long
+    magic_reuse_rate: cython.long
+    shield_defense: cython.long
+    critical_damage: cython.long
+    pvp_physical_damage: cython.long
+    pvp_magic_damage: cython.long
+    pvp_physical_skill_damage: cython.long
+    accuracy: cython.long
+    physical_attack_range: cython.long
+    magic_attack_range: cython.long
+    physical_attack_angle: cython.long
+    attack_count_max: cython.long
+    run_speed: cython.long
+    walk_speed: cython.long
+    swim_run_speed: cython.long
+    swim_walk_speed: cython.long
+    ride_run_speed: cython.long
+    ride_walk_speed: cython.long
+    fly_run_speed: cython.long
+    fly_walk_speed: cython.long
+    base: BaseStats
+    resists: Resists
+    exp: cython.longlong
+    sp: cython.long
+    level: cython.long
+    evasion: cython.long
+    recommends_received: cython.int
+    recommends_left: cython.char
+    move_multiplier: cython.double
+    attack_speed_multiplier: cython.double
+    karma: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Status(BaseDataclass):
+    cp: cython.long
+    hp: cython.long
+    mp: cython.long
+
+    weight_load: cython.long
+
+    is_faking_death: cython.bint
+    is_in_combat: cython.bint
+    is_pvp: cython.bint
+    is_running: cython.bint
+    is_sitting: cython.bint
+    is_hero: cython.bint
+    is_noble: cython.bint
+    is_private_store: cython.bint
+    is_dwarf_craft_store: cython.bint
+    is_mounted: cython.bint
+    is_fishing: cython.bint
+    is_invulnerable: cython.bint
+    is_teleporting: cython.bint
+    is_betrayed: cython.bint
+    is_afraid: cython.bint
+    is_confused: cython.bint
+    is_flying: cython.bint
+    is_muted: cython.bint
+    is_physically_muted: cython.bint
+    is_dead: cython.bint
+    is_immobilized: cython.bint
+    is_overloaded: cython.bint
+    is_paralyzed: cython.bint
+    is_riding: cython.bint
+    is_pending_revive: cython.bint
+    is_rooted: cython.bint
+    is_sleeping: cython.bint
+    is_stunned: cython.bint
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class LevelUpIncrease(BaseDataclass):
+    base: cython.float
+    add: cython.float
+    mod: cython.float
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class LevelUpGain(BaseDataclass):
+    level: cython.long
+    hp: LevelUpIncrease
+    cp: LevelUpIncrease
+    mp: LevelUpIncrease
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class ClassInfo(BaseDataclass):
+    id: cython.char
+    name: str
+    base_level: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class CharacterTemplate(BaseDataclass):
+    class_info: ClassInfo
+    stats: Stats
+    race: cython.char
+    level_up_gain: LevelUpGain
+    spawn: Point3D
+
+    collision_radius: cython.double
+    collision_height: cython.double
+    load: cython.long
+
+    mp_consume_rate: cython.long
+    hp_consume_rate: cython.long
+
+    items: list
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class UpdateChecks(BaseDataclass):
+    increase: cython.longlong
+    decrease: cython.longlong
+    interval: cython.longlong
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class WeaponVulnerabilities(BaseDataclass):
+    shield: cython.long
+    sword: cython.long
+    blunt: cython.long
+    dagger: cython.long
+    bow: cython.long
+    pole: cython.long
+    etc: cython.long
+    fist: cython.long
+    dual: cython.long
+    dual_fist: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class Skill(BaseDataclass):
+    activation_type: str
+    target_type: cython.long
+    type: cython.long
+
+
+@cython.dataclasses.dataclass(kw_only=True)
+@cython.cclass
+cdef class WorldRegion(BaseDataclass):
+    playable_objects: list[Playable] = cython.dataclasses.field(default_factory=list)
+    visible_objects: list[Playable] = cython.dataclasses.field(default_factory=list)
+    neighbours: list[WorldRegion] = cython.dataclasses.field(default_factory=list)
+    tile_x: cython.long
+    tile_y: cython.long
+    active: cython.bint
