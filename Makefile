@@ -56,10 +56,13 @@ compose-exec:
 	$(COMPOSE) exec $0 poetry exec bin/$1
 
 python:
-	PYTHONSTARTUP=.pythonrc python
+	PYTHONSTARTUP=.pythonrc \
+	PYTHONPATH=$(pwd):$(pwd)/common:$(pwd)/login:$(pwd)/game \
+	python $(filter-out $@,$(MAKECMDGOALS))
 
 compose-exec-%:
 	$(COMPOSE) exec login poetry run $(filter-out $@,$(MAKECMDGOALS))
+
 
 help:
 	$(info compose-build)
