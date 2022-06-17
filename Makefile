@@ -6,6 +6,7 @@ DOCKER = $(shell which docker)
 COMPOSE = $(shell which docker-compose)
 POETRY = $(shell which poetry)
 PYTHON = $(shell which python$(PYTHON_VERSION))
+PWD = $(shell pwd)
 
 REQUIRED_PACKAGES := swig openssl
 
@@ -57,7 +58,7 @@ compose-exec:
 
 python:
 	PYTHONSTARTUP=.pythonrc \
-	PYTHONPATH=$(pwd):$(pwd)/common:$(pwd)/login:$(pwd)/game \
+	PYTHONPATH=$(PWD):$(PWD)/common:$(PWD)/login:$(PWD)/game \
 	python $(filter-out $@,$(MAKECMDGOALS))
 
 compose-exec-%:
