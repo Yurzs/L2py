@@ -22,7 +22,7 @@ class PacketTransport:
         requests = []
         while True:
             if data:
-                packet_len: ctype.int16 = int.from_bytes(data[0:2], "big")
+                packet_len: ctype.int16 = int(ctype.uint16(data[0:2]))
                 request = request_cls(raw_data=data[:packet_len], session=self.session)
                 requests.append(request)
                 data = data[packet_len:]
