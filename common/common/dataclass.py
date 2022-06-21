@@ -29,7 +29,13 @@ class BaseDataclass:
             try:
                 check_type(field.name, value, field.type)
             except TypeError as e:
-                e.args = (f"{e.args[0]} ({field.type.__name__})", *e.args[1:])
+                if hasattr(field.type, "__extra__"):
+                    message = e.args[0].replace(
+                        "must be tuple",
+                        "must be in "
+                        f"{[cls.__name__ for cls in field.type.__extra__]}",
+                    )
+                    e.args = (message, *e.args[1:])
                 raise e
             if isinstance(value, dict) and field.type in self.__models__().values():
                 value = field.type(**value)
