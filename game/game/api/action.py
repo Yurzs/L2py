@@ -33,7 +33,9 @@ async def action(request):
         return game.packets.ActionFailed()
 
     await character.set_target(obj)
-    request.session.send_packet(game.packets.MyTargetSelected(object_id=object_id, color=0))
+    request.session.send_packet(
+        game.packets.MyTargetSelected(object_id=object_id, color=0)
+    )
 
     return
 
@@ -58,7 +60,8 @@ async def target_cancel(request):
     await request.session.character.unset_target()
     request.session.send_packet(
         game.packets.TargetUnselected(
-            target_id=request.session.character.id, position=request.session.character.position
+            target_id=request.session.character.id,
+            position=request.session.character.position,
         )
     )
 
@@ -85,7 +88,8 @@ async def action_use(request):
             WORLD._broadcast(
                 character,
                 game.packets.ChangeMoveType(
-                    character_id=character.id, move_type=ctype.int32(character.status.is_running)
+                    character_id=character.id,
+                    move_type=ctype.int32(character.status.is_running),
                 ),
             )
         case game.constants.ACTION_SIT:
@@ -113,4 +117,6 @@ async def action_use(request):
     ),
 )
 async def social_action(request):
-    await request.session.character.use_social_action(request.validated_data["action_id"])
+    await request.session.character.use_social_action(
+        request.validated_data["action_id"]
+    )
