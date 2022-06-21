@@ -19,7 +19,7 @@ class LoginSession(Session):
         self.state: typing.Type[State, None] = None
 
         if DEBUG:
-            self.id: ctype.int = 1
+            self.id = ctype.int32(1)
             self.state: typing.Type[State, None] = None
             self.rsa_key: L2RsaKey = L2RsaKey(
                 n=114864864492067965740896094499845788661704547603461946041788430244130842942327562108037881765257637001470002088493469466590330012894850351298499234054400902909094648545037681203002379437662692263023086237588859126444600832405209700229179654815477929362986913374184282884226518004040399737373993652540837590413,
@@ -48,7 +48,7 @@ class LoginSession(Session):
             self.session_key: SessionKey = SessionKey()
             self.xor_key: LoginXorKey = LoginXorKey()
 
-        self.protocol_version: ctype.int = 50721
+        self.protocol_version: ctype.int32 = 50721
         self.blowfish_enabled: ctype.bool = False
         self.account = None
 

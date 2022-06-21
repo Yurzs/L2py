@@ -9,7 +9,9 @@ from common.session import Session
 class Request(BaseDataclass):
     raw_data: bytearray  # Data received from socket
     session: Session  # Client connection session
-    data: bytearray = field(default_factory=bytearray)  # Data modified during processing
+    data: bytearray = field(
+        default_factory=bytearray
+    )  # Data modified during processing
     validated_data: typing.Dict[str, typing.Any] = field(default_factory=dict)
 
     def __post_init__(self):

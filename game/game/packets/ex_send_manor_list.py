@@ -9,4 +9,4 @@ from .base import GameServerPacket
 class ExSendManorList(GameServerPacket):
     type: ctype.int8 = 254
     arg_order = ["type", "constant", ""]  # TODO custom method
-    constant: ctype.int = 27
+    constant: ctype.int8 = 27

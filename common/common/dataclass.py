@@ -32,8 +32,7 @@ class BaseDataclass:
                 if hasattr(field.type, "__extra__"):
                     message = e.args[0].replace(
                         "must be tuple",
-                        "must be in "
-                        f"{[cls.__name__ for cls in field.type.__extra__]}",
+                        "must be in " f"{field.type.__extra__}",
                     )
                     e.args = (message, *e.args[1:])
                 raise e

@@ -7,8 +7,8 @@ from login.packets.base import LoginServerPacket
 @dataclass(kw_only=True)
 class Init(LoginServerPacket):
     type: ctype.char = field(default=0, init=False, repr=False)
-    session_id: ctype.int
-    protocol_version: ctype.int
+    session_id: ctype.int32
+    protocol_version: ctype.int32
     rsa_key: bytes
     unknown1: ctype.uint = field(default=0x29DD954E, init=False, repr=False)
     unknown2: ctype.uint = field(default=0x77C39CFC, init=False, repr=False)

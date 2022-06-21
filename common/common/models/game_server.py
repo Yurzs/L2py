@@ -14,14 +14,14 @@ class GameServer(Document):
 
     id: ctype.char
     host: str
-    port: ctype.int
+    port: ctype.uint32
 
     age_limit: ctype.char = 13
     is_pvp: ctype.bool = False
     online_count: ctype.short = 0
     max_online: ctype.short = 1000
     is_online: ctype.bool = False
-    type: ctype.int = 1
+    type: ctype.int32 = 1
     brackets: ctype.char = False
     last_alive: ctype.long = 0
 
