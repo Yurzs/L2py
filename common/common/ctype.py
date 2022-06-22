@@ -5,6 +5,14 @@ import struct
 from common.misc import classproperty
 
 
+class _Integer:
+    pass
+
+
+class _Float:
+    pass
+
+
 class _Numeric:
     _type_: str
 
@@ -13,8 +21,10 @@ class _Numeric:
             value = struct.unpack(self._type_, value)[0]
         if isinstance(value, _Numeric):
             value = value.value
-        if "int" in self.__class__.__name__:
+        if isinstance(self, _Integer):
             value = int(value)
+        elif isinstance(self, _Float):
+            value = float(value)
         super().__init__(value)
 
     def __new__(cls, *args, **kwargs):
@@ -147,7 +157,7 @@ class _Numeric:
         return self.__class__(self.value * other_value)
 
 
-def _make_ctype_from_ctypes(ctypes_type):
+def _make_ctype_from_ctypes(ctypes_type, *extra_bases):
     ctypes_namespace = dict(ctypes_type.__dict__)
 
     namespace = {
@@ -157,33 +167,33 @@ def _make_ctype_from_ctypes(ctypes_type):
 
     return type(
         ctypes_type.__name__.replace("c_", ""),
-        tuple([_Numeric, *ctypes_type.__bases__]),
+        tuple([_Numeric, *extra_bases, *ctypes_type.__bases__]),
         namespace,
     )
 
 
 class ctype:  # noqa
-    bool = _make_ctype_from_ctypes(ctypes.c_bool)
-    byte = _make_ctype_from_ctypes(ctypes.c_byte)
-    char = _make_ctype_from_ctypes(ctypes.c_char)
-    short = _make_ctype_from_ctypes(ctypes.c_short)
-    ushort = _make_ctype_from_ctypes(ctypes.c_ushort)
-    int = _make_ctype_from_ctypes(ctypes.c_int)
-    uint = _make_ctype_from_ctypes(ctypes.c_uint)
-    long = _make_ctype_from_ctypes(ctypes.c_long)
-    ulong = _make_ctype_from_ctypes(ctypes.c_ulong)
-    longlong = _make_ctype_from_ctypes(ctypes.c_longlong)
-    ulonglong = _make_ctype_from_ctypes(ctypes.c_ulonglong)
-    double = _make_ctype_from_ctypes(ctypes.c_double)
-    float = _make_ctype_from_ctypes(ctypes.c_float)
-    int8 = _make_ctype_from_ctypes(ctypes.c_int8)
-    uint8 = _make_ctype_from_ctypes(ctypes.c_uint8)
-    int16 = _make_ctype_from_ctypes(ctypes.c_int16)
-    uint16 = _make_ctype_from_ctypes(ctypes.c_uint16)
-    int32 = _make_ctype_from_ctypes(ctypes.c_int32)
-    uint32 = _make_ctype_from_ctypes(ctypes.c_uint32)
-    int64 = _make_ctype_from_ctypes(ctypes.c_int64)
-    uint64 = _make_ctype_from_ctypes(ctypes.c_uint64)
+    bool = _make_ctype_from_ctypes(ctypes.c_bool, _Integer)
+    byte = _make_ctype_from_ctypes(ctypes.c_byte, _Integer)
+    char = _make_ctype_from_ctypes(ctypes.c_char, _Integer)
+    short = _make_ctype_from_ctypes(ctypes.c_short, _Integer)
+    ushort = _make_ctype_from_ctypes(ctypes.c_ushort, _Integer)
+    int = _make_ctype_from_ctypes(ctypes.c_int, _Integer)
+    uint = _make_ctype_from_ctypes(ctypes.c_uint, _Integer)
+    long = _make_ctype_from_ctypes(ctypes.c_long, _Integer)
+    ulong = _make_ctype_from_ctypes(ctypes.c_ulong, _Integer)
+    longlong = _make_ctype_from_ctypes(ctypes.c_longlong, _Integer)
+    ulonglong = _make_ctype_from_ctypes(ctypes.c_ulonglong, _Integer)
+    double = _make_ctype_from_ctypes(ctypes.c_double, _Float)
+    float = _make_ctype_from_ctypes(ctypes.c_float, _Float)
+    int8 = _make_ctype_from_ctypes(ctypes.c_int8, _Integer)
+    uint8 = _make_ctype_from_ctypes(ctypes.c_uint8, _Integer)
+    int16 = _make_ctype_from_ctypes(ctypes.c_int16, _Integer)
+    uint16 = _make_ctype_from_ctypes(ctypes.c_uint16, _Integer)
+    int32 = _make_ctype_from_ctypes(ctypes.c_int32, _Integer)
+    uint32 = _make_ctype_from_ctypes(ctypes.c_uint32, _Integer)
+    int64 = _make_ctype_from_ctypes(ctypes.c_int64, _Integer)
+    uint64 = _make_ctype_from_ctypes(ctypes.c_uint64, _Integer)
 
 
 extras = {
