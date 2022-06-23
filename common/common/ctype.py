@@ -5,6 +5,14 @@ import struct
 from common.misc import classproperty
 
 
+class _Bool:
+    pass
+
+
+class _Char:
+    pass
+
+
 class _Integer:
     pass
 
@@ -19,12 +27,16 @@ class _Numeric:
     def __init__(self, value):
         if isinstance(value, (bytearray, bytes)):
             value = struct.unpack(self._type_, value)[0]
-        if isinstance(value, _Numeric):
+        if isinstance(value, _Char):
+            value = int.from_bytes(value.value, "big")
+        elif isinstance(value, _Numeric):
             value = value.value
         if isinstance(self, _Integer):
             value = int(value)
         elif isinstance(self, _Float):
             value = float(value)
+        elif isinstance(self, _Bool):
+            value = bool(value)
         super().__init__(value)
 
     def __new__(cls, *args, **kwargs):
@@ -173,9 +185,9 @@ def _make_ctype_from_ctypes(ctypes_type, *extra_bases):
 
 
 class ctype:  # noqa
-    bool = _make_ctype_from_ctypes(ctypes.c_bool, _Integer)
+    bool = _make_ctype_from_ctypes(ctypes.c_bool, _Bool)
     byte = _make_ctype_from_ctypes(ctypes.c_byte, _Integer)
-    char = _make_ctype_from_ctypes(ctypes.c_char, _Integer)
+    char = _make_ctype_from_ctypes(ctypes.c_char, _Char)
     short = _make_ctype_from_ctypes(ctypes.c_short, _Integer)
     ushort = _make_ctype_from_ctypes(ctypes.c_ushort, _Integer)
     int = _make_ctype_from_ctypes(ctypes.c_int, _Integer)
