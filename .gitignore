@@ -2,6 +2,7 @@
 *.pyo
 *.pyi
 *pycache*
+.pytest_cache
 
 .idea
 game/game/data/static
