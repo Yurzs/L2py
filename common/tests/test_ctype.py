@@ -2,6 +2,14 @@ from common.ctype import ctype
 
 
 def test_ctypes():
+    """
+    This test check if all ctypes attributes present,
+    do they properly work and named.
+    """
+
+    c_types = [eval(f"ctype.{i}") for i in dir(ctype) if i[0:2] != "__"]
+    assert len(c_types) == 21, "Amount of types are changed, convert_dict should be updated or ctypes restored."
+
     convert_dict = {"int": (2_147_483_647, 2_147_483_647),
                     "int8": (127, 127),
                     "int16": (32767, 32767),
@@ -28,8 +36,3 @@ def test_ctypes():
     for key in convert_dict:
         value = eval(f"ctype.{key}({convert_dict[key][0]})")
         assert convert_dict[key][1] == value, f"{key}: {convert_dict[key][1]} != {value}"
-
-
-def test_ctypes_len():
-    c_types = [eval(f"ctype.{i}") for i in dir(ctype) if i[0:2] != "__"]
-    assert len(c_types) == 21, "Amount of types are changed, probably tests should be updated or ctypes restored."
