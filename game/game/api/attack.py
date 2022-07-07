@@ -24,9 +24,7 @@ async def attack(request):
         False,
         ctype.int32(0),
         character.position,
-        game.packets.Attack.Hit(
-            target_id=request.validated_data["object_id"], damage=1
-        ),
+        game.packets.Attack.Hit(target_id=request.validated_data["object_id"], damage=1),
     )
     request.session.send_packet(attack_packet)
     WORLD.broadcast_attack(character, attack_packet)

@@ -11,7 +11,7 @@ class XORMiddleware(Middleware):
         ecx = key
 
         for pos in range(start, stop, 4):
-            edx = ctype.int32(data[pos: pos + 4])
+            edx = ctype.int32(data[pos : pos + 4])
 
             ecx += edx
             edx ^= ecx
@@ -28,7 +28,7 @@ class XORMiddleware(Middleware):
         ecx = key
 
         while stop < pos:
-            edx = data[pos: pos + 4]
+            edx = data[pos : pos + 4]
 
             edx ^= ecx
             ecx -= edx
