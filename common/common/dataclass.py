@@ -93,9 +93,7 @@ class BaseDataclass:
             return self._get_field(field_name).type
         except KeyError:
             if isinstance(getattr(self.__class__, field_name), property):
-                signature = str(
-                    inspect.signature(getattr(self.__class__, field_name).fget)
-                )
+                signature = str(inspect.signature(getattr(self.__class__, field_name).fget))
 
                 _, typehint = signature.split("->")
                 typehint = typehint.strip()

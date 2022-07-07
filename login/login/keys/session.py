@@ -11,22 +11,12 @@ class SessionKey:
         play_ok1: ctype.int32 = None,
         play_ok2: ctype.int32 = None,
     ):
-        self.login_ok1: ctype.int32 = (
-            ctype.int32.random() if login_ok1 is None else login_ok1
-        )
-        self.login_ok2: ctype.int32 = (
-            ctype.int32.random() if login_ok2 is None else login_ok2
-        )
+        self.login_ok1: ctype.int32 = ctype.int32.random() if login_ok1 is None else login_ok1
+        self.login_ok2: ctype.int32 = ctype.int32.random() if login_ok2 is None else login_ok2
 
-        self.login_ok2: ctype.int32 = (
-            ctype.int32.random() if login_ok2 is None else login_ok2
-        )
-        self.play_ok1: ctype.int32 = (
-            ctype.int32.random() if play_ok1 is None else play_ok1
-        )
-        self.play_ok2: ctype.int32 = (
-            ctype.int32.random() if play_ok2 is None else play_ok2
-        )
+        self.login_ok2: ctype.int32 = ctype.int32.random() if login_ok2 is None else login_ok2
+        self.play_ok1: ctype.int32 = ctype.int32.random() if play_ok1 is None else play_ok1
+        self.play_ok2: ctype.int32 = ctype.int32.random() if play_ok2 is None else play_ok2
 
     def __eq__(self, other):
         if isinstance(other, SessionKey):

@@ -39,9 +39,7 @@ async def _char_list(session):
             Parameter(id="DEX", start="$MEN.stop", length=4, type=ctype.int32),
             Parameter(id="WIT", start="$DEX.stop", length=4, type=ctype.int32),
             Parameter(id="hair_style", start="$WIT.stop", length=4, type=ctype.int32),
-            Parameter(
-                id="hair_color", start="$hair_style.stop", length=4, type=ctype.int32
-            ),
+            Parameter(id="hair_color", start="$hair_style.stop", length=4, type=ctype.int32),
             Parameter(id="face", start="$hair_color.stop", length=4, type=ctype.int32),
         ]
     ),
@@ -49,9 +47,7 @@ async def _char_list(session):
 )
 async def character_create(request):
 
-    templates = {
-        template.class_id: template for template in StaticCharacterTemplate.read_file()
-    }
+    templates = {template.class_id: template for template in StaticCharacterTemplate.read_file()}
     class_template = templates[request.validated_data["class_id"]]
     account = request.session.account
 
@@ -134,9 +130,7 @@ async def character_restore(request):
 async def character_selected(request):
     account = request.session.account
 
-    for slot_id, character in enumerate(
-        await Character.all(account_username=account.username)
-    ):
+    for slot_id, character in enumerate(await Character.all(account_username=account.username)):
         if slot_id == request.validated_data["character_slot"]:
             request.session.set_state(game.states.CharacterSelected)
             request.session.set_character(character)

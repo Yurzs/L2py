@@ -12,16 +12,12 @@ from game.models.structures.object.object import L2Object
 class Playable(L2Object):
     target: typing.Optional[Playable] = None
 
-    @Broadcaster.broadcast(
-        lambda self: game.packets.TargetSelected(me=self, target=self.target)
-    )
+    @Broadcaster.broadcast(lambda self: game.packets.TargetSelected(me=self, target=self.target))
     async def set_target(self, target: Playable):
         self.target = target
 
     @Broadcaster.broadcast(
-        lambda self: game.packets.TargetUnselected(
-            target_id=self.id, position=self.position
-        )
+        lambda self: game.packets.TargetUnselected(target_id=self.id, position=self.position)
     )
     async def unset_target(self):
         self.target = None

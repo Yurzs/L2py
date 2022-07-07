@@ -33,9 +33,7 @@ async def action(request):
         return game.packets.ActionFailed()
 
     await character.set_target(obj)
-    request.session.send_packet(
-        game.packets.MyTargetSelected(object_id=object_id, color=0)
-    )
+    request.session.send_packet(game.packets.MyTargetSelected(object_id=object_id, color=0))
 
     return
 
@@ -117,6 +115,4 @@ async def action_use(request):
     ),
 )
 async def social_action(request):
-    await request.session.character.use_social_action(
-        request.validated_data["action_id"]
-    )
+    await request.session.character.use_social_action(request.validated_data["action_id"])

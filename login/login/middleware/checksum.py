@@ -17,7 +17,7 @@ class ChecksumMiddleware(Middleware):
         checksum = ctype.int32(0)
 
         for i in range(0, len(data) - 4, 4):
-            checksum ^= ctype.int32(data[i: i + 4])
+            checksum ^= ctype.int32(data[i : i + 4])
 
         check = ctype.int32(data[-4:])
 
@@ -30,7 +30,7 @@ class ChecksumMiddleware(Middleware):
         checksum = ctype.int32(0)
 
         for i in range(0, len(response_data) - 4, 4):
-            checksum ^= ctype.int32(response_data[i: i + 4])
+            checksum ^= ctype.int32(response_data[i : i + 4])
 
         response_data[-4:] = bytearray(bytes(checksum))
 

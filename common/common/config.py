@@ -1,6 +1,7 @@
 import asyncio
-import dotenv
 import os
+
+import dotenv
 
 from common.misc import Singleton
 
