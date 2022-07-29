@@ -12,6 +12,8 @@ services:
       - .env
     ports:
       - 2106:2106
+    environment:
+      - MONGO_URI=mongo
 
   game:
     build:
@@ -19,5 +21,7 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      - MONGO_URI=mongo
     ports:
       - 7777:7777
