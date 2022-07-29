@@ -30,7 +30,7 @@ class StaticCharacterTemplate(StaticData):
     level_up_gain: LevelUpGain
     base_level: ctype.int32
 
-    __filepath__ = "data/char_templates.json"
+    __filepath__ = "game/data/char_templates.json"
 
     __encode__ = ["race_id", "class_id", ""]
 

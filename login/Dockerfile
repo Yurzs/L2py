@@ -11,4 +11,4 @@ RUN chmod +x -R /usr/local/bin
 RUN poetry update --no-interaction --no-ansi
 RUN poetry install --no-interaction --no-ansi
 
-CMD ["poetry", "run", "python", "/code/login/runner.py"]
+CMD ["poetry", "run", "python", "./login/runner.py"]

@@ -9,7 +9,7 @@ from game.static.static import StaticData
 @dataclass(kw_only=True)
 class EtcItem(Item, StaticData):
 
-    __filepath__ = "data/etcitem.json"
+    __filepath__ = "game/data/etcitem.json"
 
     @property
     def is_arrow(self):
