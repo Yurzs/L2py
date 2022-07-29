@@ -33,20 +33,23 @@ How to start developing
 Using docker-compose
 ------------
 
-* Build docker images `make docker-create`
+* Make sure you have `make, docker, docker-compose` installed.
+* Build docker images `make docker-build`
 * Start containers `docker-compose up -d`
-* Register game server in database `make compose-exec-login register_game_server <GAME_SERVER_HOST> <GAME_SERVER_PORT> <GAME_SERVER_ID>`.
+* Register game server in database `make compose-exec-login register_game_server <GAME_SERVER_HOST> <GAME_SERVER_PORT> <GAME_SERVER_ID>`.  
+_NOTE: <GAME_SERVER_HOST> can't be `0.0.0.0`_
 
 Without docker-compose
 --------------
-
+* Make sure you have `make, docker, docker-compose` installed.
 * Install poetry using `make install`
 * Run `poetry install`
 * Start mongodb in container or using other methods.
 * Activate virtual environment `. .venv/bin/activate`
-* Register game server in database `login/bin/register_game_server <GAME_SERVER_HOST> <GAME_SERVER_PORT> <GAME_SERVER_ID>`
-* Start login server `python login/login/runner.py`
-* Start game server `python game/game/runner.py`
+* Register game server in database `login/bin/register_game_server <GAME_SERVER_HOST> <GAME_SERVER_PORT> <GAME_SERVER_ID>`  
+  _NOTE: <GAME_SERVER_HOST> can't be `0.0.0.0`_
+* Start login server `make python -m login/login`
+* Start game server `make python -m game/game`
 
 Emulator server architecture
 ----------------
