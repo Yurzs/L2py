@@ -13,6 +13,7 @@ from game.models.structures.character.status import Status
 from game.models.structures.character.template import CharacterTemplate
 from game.models.structures.item.inventory import Inventory
 from game.models.structures.macro import Macro
+from game.models.structures.shortcut import Shortcut
 from game.models.structures.object.position import Position
 
 
@@ -47,6 +48,7 @@ class CharacterBase(CharStructure):
     pk_kills: ctype.int32 = 0
     pvp_kills: ctype.int32 = 0
 
+    shortcuts: list[Shortcut] = dataclasses.field(default_factory=list)
     macros: list[Macro] = dataclasses.field(default_factory=list)
     macros_revision = 0
 

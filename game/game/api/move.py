@@ -7,6 +7,7 @@ from common.template import Parameter, Template
 from game.models.character import Character
 from game.models.structures.object.point3d import Point3D
 from game.models.structures.object.position import Position
+from game.request import GameRequest
 
 
 @l2_request_handler(
@@ -24,7 +25,7 @@ from game.models.structures.object.position import Position
     ),
     states="*",  # TODO
 )
-async def move_back_to_location(request):
+async def move_back_to_location(request: GameRequest):
     character: Character = request.session.character
 
     if not request.validated_data["by_mouse"]:
