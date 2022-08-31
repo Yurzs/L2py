@@ -36,3 +36,4 @@ from .target_selected import TargetSelected
 from .target_unselected import TargetUnselected
 from .teleport_to_location import TeleportToLocation
 from .user_info import UserInfo
+from.shortcuts_list import ShortcutsList

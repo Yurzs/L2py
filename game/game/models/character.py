@@ -65,15 +65,15 @@ class CharacterBase(CharStructure):
 
     @classmethod
     async def from_template(
-        cls,
-        template: CharacterTemplate,
-        name,
-        account,
-        sex,
-        race,
-        face,
-        hair_style,
-        hair_color,
+            cls,
+            template: CharacterTemplate,
+            name,
+            account,
+            sex,
+            race,
+            face,
+            hair_style,
+            hair_color,
     ):
 
         status = Status(
@@ -121,7 +121,20 @@ class CharacterBase(CharStructure):
     def __hash__(self):
         return hash(f"{self.id}_{self.name}")
 
+    def notify_shortcuts(self, session):
+        """
+        Send updated shortcuts states to game client.
+        """
+        if self.shortcuts:
+            for shortcut in self.shortcuts:
+                session.send_packet(
+                    game.packets.ShortcutsList(shortcut=shortcut)
+                )
+
     def notify_macros(self, session):
+        """
+        Send updated macros states to game client.
+        """
         if self.macros:
             for macro in self.macros:
                 session.send_packet(

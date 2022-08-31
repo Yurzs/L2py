@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Optional
 
 from common.ctype import ctype
 from common.dataclass import BaseDataclass
@@ -10,4 +11,4 @@ class Shortcut(BaseDataclass):
     page: ctype.int32
     type: ctype.int32
     id: ctype.int32
-    level: ctype.int32
+    level: Optional[ctype.int32] = None  # works only for skills

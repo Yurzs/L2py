@@ -48,6 +48,8 @@ Without docker-compose
 * Activate virtual environment `. .venv/bin/activate`
 * Register game server in database `login/bin/register_game_server <GAME_SERVER_HOST> <GAME_SERVER_PORT> <GAME_SERVER_ID>`  
   _NOTE: <GAME_SERVER_HOST> can't be `0.0.0.0`_
+
+  _NOTE: to register game server you probably need to `export PYTHONPATH=$PWD:$PWD/common:$PWD/login:$PWD/game`_
 * Start login server `make python -m login/login`
 * Start game server `make python -m game/game`
 

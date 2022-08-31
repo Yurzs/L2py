@@ -4,6 +4,9 @@ import game.constants
 from common.ctype import ctype
 from common.api_handlers import l2_request_handler
 from common.template import Template, Parameter
+from game.models import Character
+from game.models.structures.shortcut import Shortcut
+from game.request import GameRequest
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 
@@ -13,8 +16,16 @@ LOG = logging.getLogger(f"l2py.{__name__}")
                         Parameter(id="type", start=0, length=4, type=ctype.int32),
                         Parameter(id="slot", start="$type.stop", length=4, type=ctype.int32),
                         Parameter(id="id", start="$slot.stop", length=4, type=ctype.int32),
-                        Parameter(id="unk", start="$id.stop", length=4, type=ctype.int32),
                     ]), states="*")
-async def request_short_cut_reg(request):
+async def request_short_cut_reg(request: GameRequest):
     LOG.debug("saving shortcut", request)
-    pass
+    character: Character = request.session.character
+    shortcut = Shortcut(
+        slot=ctype.int32(request.validated_data["slot"].value % 12),
+        page=ctype.int32(request.validated_data["slot"].value / 12),
+        type=ctype.int32(request.validated_data["type"]),
+        id=ctype.int32(request.validated_data["id"]),
+        level=None,
+    )
+    character.shortcuts.append(shortcut)
+    character.notify_shortcuts(request.session)
