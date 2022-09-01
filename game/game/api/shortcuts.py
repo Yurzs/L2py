@@ -36,4 +36,3 @@ async def request_short_cut_reg(request: GameRequest):
     character.shortcuts.append(shortcut)
     character.update_shortcut(request.session, shortcut)
     await character.commit_changes(fields=["shortcuts"])
-

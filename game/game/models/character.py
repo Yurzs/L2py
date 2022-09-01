@@ -67,15 +67,15 @@ class CharacterBase(CharStructure):
 
     @classmethod
     async def from_template(
-            cls,
-            template: CharacterTemplate,
-            name,
-            account,
-            sex,
-            race,
-            face,
-            hair_style,
-            hair_color,
+        cls,
+        template: CharacterTemplate,
+        name,
+        account,
+        sex,
+        race,
+        face,
+        hair_style,
+        hair_color,
     ):
 
         status = Status(
@@ -127,9 +127,7 @@ class CharacterBase(CharStructure):
         """
         Update shortcut immediately
         """
-        session.send_packet(
-            game.packets.ShortcutRegister(shortcut=shortcut)
-        )
+        session.send_packet(game.packets.ShortcutRegister(shortcut=shortcut))
 
     def notify_shortcuts(self, session):
         """
@@ -137,9 +135,7 @@ class CharacterBase(CharStructure):
         """
         if self.shortcuts:
             for shortcut in self.shortcuts:
-                session.send_packet(
-                    game.packets.ShortcutRegister(shortcut=shortcut)
-                )
+                session.send_packet(game.packets.ShortcutRegister(shortcut=shortcut))
 
     def notify_macros(self, session):
         """
