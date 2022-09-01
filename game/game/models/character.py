@@ -61,9 +61,7 @@ class CharacterBase(CharStructure):
 
     @classmethod
     async def all(cls, account_username=None, **kwargs):
-        return await super().all(
-            add_query={"account.username": account_username}, **kwargs
-        )
+        return await super().all(add_query={"account.username": account_username}, **kwargs)
 
     @classmethod
     async def from_template(
