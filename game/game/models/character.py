@@ -13,8 +13,8 @@ from game.models.structures.character.status import Status
 from game.models.structures.character.template import CharacterTemplate
 from game.models.structures.item.inventory import Inventory
 from game.models.structures.macro import Macro
-from game.models.structures.shortcut import Shortcut
 from game.models.structures.object.position import Position
+from game.models.structures.shortcut import Shortcut
 
 
 class Buff:
@@ -61,19 +61,21 @@ class CharacterBase(CharStructure):
 
     @classmethod
     async def all(cls, account_username=None, **kwargs):
-        return await super().all(add_query={"account.username": account_username}, **kwargs)
+        return await super().all(
+            add_query={"account.username": account_username}, **kwargs
+        )
 
     @classmethod
     async def from_template(
-            cls,
-            template: CharacterTemplate,
-            name,
-            account,
-            sex,
-            race,
-            face,
-            hair_style,
-            hair_color,
+        cls,
+        template: CharacterTemplate,
+        name,
+        account,
+        sex,
+        race,
+        face,
+        hair_style,
+        hair_color,
     ):
 
         status = Status(
@@ -127,9 +129,13 @@ class CharacterBase(CharStructure):
         """
         if self.shortcuts:
             for shortcut in self.shortcuts:
-                session.send_packet(
-                    game.packets.ShortcutsList(shortcut=shortcut)
-                )
+                session.send_packet(game.packets.ShortcutsList(shortcut=shortcut))
+
+    def update_short_cut(self, session, shortcut):
+        """
+        Update shortcut immediately
+        """
+        session.send_packet(game.packets.ShortcutRegister(shortcut=shortcut))
 
     def notify_macros(self, session):
         """

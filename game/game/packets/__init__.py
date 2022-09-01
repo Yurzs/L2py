@@ -29,6 +29,8 @@ from .open_minimap import OpenMinimap
 from .quest_list import QuestList
 from .restart_response import RestartResponse
 from .server_socket_close import ServerSocketClose
+from .shortcut_register import ShortcutRegister
+from .shortcuts_list import ShortcutsList
 from .snoop import Snoop
 from .social_action import SocialAction
 from .status_update import StatusUpdate
@@ -36,4 +38,3 @@ from .target_selected import TargetSelected
 from .target_unselected import TargetUnselected
 from .teleport_to_location import TeleportToLocation
 from .user_info import UserInfo
-from.shortcuts_list import ShortcutsList

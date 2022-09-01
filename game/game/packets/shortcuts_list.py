@@ -22,8 +22,10 @@ class ShortcutsList(GameServerPacket):
                 encoded,
                 [
                     ctype.int32(self.shortcut.slot + self.shortcut.page * 12),  # slot
-                    ctype.int32(3),  # TODO: get values from enum (item=1, skill=2, action=3, macro=4, recipe=5)
-                    ctype.int32(1)  # unknown
+                    ctype.int32(
+                        3
+                    ),  # TODO: get values from enum (item=1, skill=2, action=3, macro=4, recipe=5)
+                    ctype.int32(1),  # unknown
                 ],
             )
         return encoded
