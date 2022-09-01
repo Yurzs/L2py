@@ -34,4 +34,6 @@ async def request_short_cut_reg(request: GameRequest):
         level=ctype.int32(-1),
     )
     character.shortcuts.append(shortcut)
-    character.update_short_cut(request.session, shortcut)
+    character.update_shortcut(request.session, shortcut)
+    await character.commit_changes(fields=["shortcuts"])
+

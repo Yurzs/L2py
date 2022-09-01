@@ -146,9 +146,10 @@ async def character_selected(request):
     states="*",
 )
 async def restart(request):
+    character: Character = request.session.character
+    # character.save_states() TODO: good to implement this for save to db shortcuts, macros e.t.c on logout.
 
     request.session.send_packet(game.packets.RestartResponse(message="Good bye!"))
-
     request.session.set_state(game.states.WaitingCharacterSelect)
     request.session.logout_character()
 
