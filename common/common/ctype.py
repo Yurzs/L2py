@@ -139,6 +139,19 @@ class _Numeric:
     def __reversed__(self):
         return self.__class__(self.encode().data[::-1])
 
+    def __imod__(self, other):
+        other_value = other
+        if isinstance(other, _Numeric):
+            other_value = other.value
+        self.value = self.value % other_value
+        return self
+
+    def __mod__(self, other):
+        other_value = other
+        if isinstance(other, _Numeric):
+            other_value = other.value
+        return self.__class__(self.value % other_value)
+
     @classproperty
     def __extra__(cls):
         return (cls, *extras[cls])

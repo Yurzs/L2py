@@ -27,11 +27,11 @@ async def request_short_cut_reg(request: GameRequest):
     LOG.debug("saving shortcut", request)
     character: Character = request.session.character
     shortcut = Shortcut(
-        slot=ctype.int32(request.validated_data["slot"].value % 12),
-        page=ctype.int32(request.validated_data["slot"].value / 12),
-        type=ctype.int32(request.validated_data["type"]),
-        id=ctype.int32(request.validated_data["id"]),
-        level=ctype.int32(-1),
+        slot=ctype.int32(request.validated_data["slot"] % 12),
+        page=ctype.int32(request.validated_data["slot"] / 12),
+        type=request.validated_data["type"],
+        id=request.validated_data["id"],
+        level=ctype.int32(-1),  # TODO: add level support
     )
     character.shortcuts.append(shortcut)
     character.update_shortcut(request.session, shortcut)

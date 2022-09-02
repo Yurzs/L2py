@@ -122,23 +122,17 @@ class CharacterBase(CharStructure):
         return hash(f"{self.id}_{self.name}")
 
     def update_shortcut(self, session, shortcut):
-        """
-        Update shortcut immediately
-        """
+        """Update shortcut immediately."""
         session.send_packet(game.packets.ShortcutRegister(shortcut=shortcut))
 
     def notify_shortcuts(self, session):
-        """
-        Load shortcuts on enter the world.
-        """
+        """Load shortcuts on enter the world."""
         if self.shortcuts:
             for shortcut in self.shortcuts:
                 session.send_packet(game.packets.ShortcutRegister(shortcut=shortcut))
 
     def notify_macros(self, session):
-        """
-        Load macros states on enter the world.
-        """
+        """Load macros states on enter the world."""
         if self.macros:
             for macro in self.macros:
                 session.send_packet(

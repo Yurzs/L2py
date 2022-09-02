@@ -17,9 +17,9 @@ class ShortcutRegister(GameServerPacket):
             encoded,
             [
                 self.type,
-                ctype.int32(self.shortcut.type),  # (item=1, skill=2, action=3, macro=4, recipe=5)
-                ctype.int32(self.shortcut.slot + self.shortcut.page * 12),
-                ctype.int32(self.shortcut.id),
+                self.shortcut.type,  # (item=1, skill=2, action=3, macro=4, recipe=5)
+                self.shortcut.slot + self.shortcut.page * 12,
+                self.shortcut.id,
             ],
         )
 
