@@ -38,6 +38,11 @@ class CharacterBase(CharStructure):
 
     appearance: CharacterAppearance
 
+    # id of character who currently sends request (Party invite, Friend invite, Trade, etc.)
+    active_requestor: ctype.int32 = 0
+
+    is_online: ctype.int32 = 0
+
     delete_at: ctype.int32 = 0
     friends: list[ctype.int32] = dataclasses.field(default_factory=list)
     inventory: Inventory = dataclasses.field(default_factory=Inventory)
@@ -62,6 +67,11 @@ class CharacterBase(CharStructure):
     @classmethod
     async def all(cls, account_username=None, **kwargs):
         return await super().all(add_query={"account.username": account_username}, **kwargs)
+
+    @classmethod
+    async def all_by_game_id(cls, character_game_ids: list[ctype.int32]):
+        char_ids = [int(c) for c in character_game_ids]
+        return await super().all(add_query={"id": {"$in": char_ids}})
 
     @classmethod
     async def from_template(
