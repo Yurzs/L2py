@@ -30,6 +30,18 @@ class JsonEncoder(json.JSONEncoder):
             return None
         return super().default(o)
 
+    def encode_dict(self, o: dict):
+        """Encodes all values in dict."""
+
+        encoded = {}
+        for key, value in o.items():
+            if isinstance(value, dict):
+                encoded[key] = self.encode_dict(value)
+            else:
+                encoded[key] = self.encode(value)
+
+        return encoded
+
 
 class JsonDecoder(json.JSONDecoder):
     def __init__(self, *args, **kwargs):
