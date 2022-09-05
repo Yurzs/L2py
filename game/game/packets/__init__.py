@@ -29,6 +29,7 @@ from .open_minimap import OpenMinimap
 from .quest_list import QuestList
 from .restart_response import RestartResponse
 from .server_socket_close import ServerSocketClose
+from .shortcut_register import ShortcutRegister
 from .snoop import Snoop
 from .social_action import SocialAction
 from .status_update import StatusUpdate

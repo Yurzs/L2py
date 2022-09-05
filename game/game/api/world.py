@@ -2,7 +2,7 @@ import game.constants
 import game.packets
 import game.states
 from common.api_handlers import l2_request_handler
-from common.template import Parameter, Template
+from common.template import Template
 from game.models.world import WORLD
 from game.request import GameRequest
 
@@ -26,3 +26,4 @@ async def enter_world(request: GameRequest):
     request.session.send_packet(game.packets.ItemList(items=character.inventory.items))
 
     character.notify_macros(request.session)
+    character.notify_shortcuts(request.session)

@@ -14,6 +14,7 @@ from game.models.structures.character.template import CharacterTemplate
 from game.models.structures.item.inventory import Inventory
 from game.models.structures.macro import Macro
 from game.models.structures.object.position import Position
+from game.models.structures.shortcut import Shortcut
 
 
 class Buff:
@@ -47,6 +48,7 @@ class CharacterBase(CharStructure):
     pk_kills: ctype.int32 = 0
     pvp_kills: ctype.int32 = 0
 
+    shortcuts: list[Shortcut] = dataclasses.field(default_factory=list)
     macros: list[Macro] = dataclasses.field(default_factory=list)
     macros_revision = 0
 
@@ -119,7 +121,18 @@ class CharacterBase(CharStructure):
     def __hash__(self):
         return hash(f"{self.id}_{self.name}")
 
+    def update_shortcut(self, session, shortcut):
+        """Update shortcut immediately."""
+        session.send_packet(game.packets.ShortcutRegister(shortcut=shortcut))
+
+    def notify_shortcuts(self, session):
+        """Load shortcuts on enter the world."""
+        if self.shortcuts:
+            for shortcut in self.shortcuts:
+                session.send_packet(game.packets.ShortcutRegister(shortcut=shortcut))
+
     def notify_macros(self, session):
+        """Load macros states on enter the world."""
         if self.macros:
             for macro in self.macros:
                 session.send_packet(
