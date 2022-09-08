@@ -13,12 +13,11 @@ class FriendMessage(GameServerPacket):
     message: str
 
     def encode(self, session):
-        encoded = bytearray()
+        encoded = bytearray(self.type)
 
         extend_bytearray(
             encoded,
             [
-                self.type,
                 ctype.int32(0),  # not used, doesn't work without it
                 self.recipient_name,
                 self.sender_name,

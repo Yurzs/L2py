@@ -1,19 +1,18 @@
-import dataclasses
+from dataclasses import dataclass, field
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
 from game.packets.base import GameServerPacket
 
 
-@dataclasses.dataclass(kw_only=True)
+@dataclass(kw_only=True)
 class FriendInvite(GameServerPacket):
+    type: ctype.uint8 = field(default=125, init=False)
     requestor_name: str
-    type: ctype.uint8 = 125
 
     def encode(self, session):
-        encoded = bytearray()
+        encoded = bytearray(self.type)
 
-        if self.requestor_name:
-            extend_bytearray(encoded, [self.type, self.requestor_name])
+        extend_bytearray(encoded, [self.requestor_name])
 
         return encoded
