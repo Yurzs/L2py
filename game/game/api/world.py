@@ -3,8 +3,8 @@ import game.packets
 import game.states
 from common.api_handlers import l2_request_handler
 from common.template import Template
-from game.models.world import WORLD
 from game.models.character import Character
+from game.models.world import WORLD
 from game.request import GameRequest
 from game.session import GameSession
 
