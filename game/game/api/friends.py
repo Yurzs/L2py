@@ -10,8 +10,8 @@ from game.constants import (
     GAME_REQUEST_FRIEND_INVITE_ANSWER,
     GAME_REQUEST_FRIEND_MESSAGE,
 )
-from game.models.world import WORLD
 from game.models.character import Character
+from game.models.world import WORLD
 from game.packets import FriendInvite, FriendMessage
 from game.request import GameRequest
 
