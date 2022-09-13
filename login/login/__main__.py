@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-from game.runner import main
+from login.runner import main
 
 workdir = pathlib.Path(__file__).parent.parent
 
