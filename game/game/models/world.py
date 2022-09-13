@@ -4,7 +4,8 @@ import typing
 from dataclasses import dataclass, field
 
 import game.constants
-import game.packets
+
+# import game.packets
 from common.application_modules.scheduler import ScheduleModule
 from common.ctype import ctype
 from common.dataclass import BaseDataclass
@@ -79,7 +80,7 @@ class World(BaseDataclass):
     def get_session_by_character(self, character: "Character") -> "GameSession":
         return self._characters.get(character)
 
-    def get_session_by_character_name(self, char_name: str) -> typing.Union[None, "GameSession"]:
+    def get_session_by_character_name(self, char_name: str) -> "GameSession":
         for char, session in self._characters.items():
             if char.name == char_name:
                 return session

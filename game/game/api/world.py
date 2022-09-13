@@ -32,13 +32,18 @@ async def enter_world(request: GameRequest):
     await get_friends_list(request.session)
 
 
-# TODO notify friends on Character logout
 async def get_friends_list(session: GameSession):
     character = session.character
-    online_friends = await character.notify_friends(session)
-    if online_friends is None:
+    friends = await character.all_by_game_id(character.friends)
+    if not friends:
         return
 
-    for friend in online_friends:
-        friend_session = WORLD.get_session_by_character_name(friend.name)
-        await friend.notify_friends(friend_session)
+    friends_list = list()
+    for friend_char in friends:
+        if WORLD.get_session_by_character(friend_char):
+            friend_char.is_online = 1
+        else:
+            friend_char.is_online = 0
+        friends_list.append(friend_char)
+
+    session.send_packet(game.packets.FriendList(friends=friends_list))

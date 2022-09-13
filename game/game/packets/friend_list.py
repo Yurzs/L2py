@@ -12,12 +12,9 @@ class FriendList(GameServerPacket):
     friends: list[Character] = field(default_factory=list)
 
     def encode(self, session):
-        encoded = bytearray(self.type)
+        encoded = bytearray()
 
-        if not self.friends:
-            return encoded
-
-        extend_bytearray(encoded, [ctype.int16(len(self.friends))])
+        extend_bytearray(encoded, [self.type, ctype.int16(len(self.friends))])
 
         for character in self.friends:
             extend_bytearray(
