@@ -77,6 +77,14 @@ class World(BaseDataclass):
     def find_object_by_id(self, object_id: ctype.int32) -> typing.Union[None, L2Object]:
         return self._objects.get(object_id)
 
+    def get_session_by_character(self, character: "Character") -> "GameSession":
+        return self._characters.get(character)
+
+    def get_session_by_character_name(self, char_name: str) -> "GameSession":
+        for char, session in self._characters.items():
+            if char.name == char_name:
+                return session
+
     @staticmethod
     def _inside_sphere(character, my_position, radius):
         return (
