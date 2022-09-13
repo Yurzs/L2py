@@ -19,11 +19,11 @@ class FriendMessage(GameServerPacket):
             encoded,
             [
                 self.type,
-                ctype.int32(0),  # not used, doesn't work without it
+                ctype.int32(0),   # not used, doesn't work without it
                 self.recipient_name,
                 self.sender_name,
-                self.message,
-            ],
+                self.message
+            ]
         )
 
         return encoded

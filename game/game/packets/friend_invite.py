@@ -14,6 +14,12 @@ class FriendInvite(GameServerPacket):
         encoded = bytearray()
 
         if self.requestor_name:
-            extend_bytearray(encoded, [self.type, self.requestor_name])
+            extend_bytearray(
+                encoded,
+                [
+                    self.type,
+                    self.requestor_name
+                ]
+            )
 
         return encoded

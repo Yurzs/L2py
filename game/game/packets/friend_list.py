@@ -14,7 +14,13 @@ class FriendList(GameServerPacket):
     def encode(self, session):
         encoded = bytearray()
 
-        extend_bytearray(encoded, [self.type, ctype.int16(len(self.friends))])
+        extend_bytearray(
+            encoded,
+            [
+                self.type,
+                ctype.int16(len(self.friends))
+            ]
+        )
 
         for character in self.friends:
             extend_bytearray(
@@ -24,8 +30,8 @@ class FriendList(GameServerPacket):
                     character.id,
                     character.name,
                     character.is_online,
-                    ctype.int16(0),  # not used, doesn't work without it
-                ],
+                    ctype.int16(0)  # not used, doesn't work without it
+                ]
             )
 
         return encoded
