@@ -22,6 +22,7 @@ def main():
                 "port": GameConfig().GAME_SERVER_PORT,
             },
         },
+        log_level=logging.DEBUG,
         loop=GameConfig().loop,
         cleanup_task=WORLD.shutdown,
     )

@@ -36,6 +36,7 @@ from .shortcut_register import ShortcutRegister
 from .snoop import Snoop
 from .social_action import SocialAction
 from .status_update import StatusUpdate
+from .system_message import SystemMessagePacket
 from .target_selected import TargetSelected
 from .target_unselected import TargetUnselected
 from .teleport_to_location import TeleportToLocation

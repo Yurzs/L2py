@@ -11,6 +11,7 @@ from common.dataclass import BaseDataclass
 from game.config import GameConfig
 from game.models.structures.object.object import L2Object
 from game.models.structures.object.position import Position
+from game.models.structures.system_message import SystemMessage
 
 if typing.TYPE_CHECKING:
     from game.models.character import Character
@@ -222,6 +223,14 @@ class World(BaseDataclass):
     def broadcast_action(self, me: L2Object, action_packet):
         for session in self.players_sessions_nearby(me.position, me, 500):
             session.send_packet(action_packet)
+
+    @staticmethod
+    def send_sys_message(character: "Character", message: SystemMessage):
+        session = character.session
+        if session is None:
+            return
+
+        session.send_packet(game.packets.SystemMessagePacket(message=message))
 
 
 WORLD = World()

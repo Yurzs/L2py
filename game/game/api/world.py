@@ -3,7 +3,8 @@ import game.packets
 import game.states
 from common.api_handlers import l2_request_handler
 from common.template import Template
-from game.models.character import Character
+from game.constants import WELCOME_TO_LINEAGE
+from game.models.structures.system_message import SystemMessage
 from game.models.world import WORLD
 from game.request import GameRequest
 from game.session import GameSession
@@ -28,6 +29,9 @@ async def enter_world(request: GameRequest):
 
     request.session.send_packet(game.packets.ItemList(items=character.inventory.items))
 
+    welcome = SystemMessage(type=WELCOME_TO_LINEAGE)
+    WORLD.send_sys_message(character, welcome)
+
     character.notify_macros(request.session)
     character.notify_shortcuts(request.session)
 
@@ -35,7 +39,7 @@ async def enter_world(request: GameRequest):
 
 
 # TODO notify friends on Character logout
-async def notify_friends_login(session):
+async def notify_friends_login(session: GameSession):
     character = session.character
 
     online_friends = await character.notify_friends(session)
