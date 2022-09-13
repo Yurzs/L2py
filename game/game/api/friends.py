@@ -64,12 +64,12 @@ async def friend_invite_answer(request: GameRequest):
     friend_character = request.session.character
     requestor_id = friend_character.active_requestor
     requstor_character = WORLD.get_character_by_id(requestor_id)
-    requstor_session = requstor_character.session
 
     answer_type = request.validated_data["answer_type"]
     if answer_type == 1:
         friend_character.friends.append(requestor_id)
         requstor_character.friends.append(friend_character.id)
+        requestor_session = WORLD.get_session_by_character(requstor_character)
 
         friend_character.active_requestor = 0  # to be discussed
 
@@ -78,7 +78,7 @@ async def friend_invite_answer(request: GameRequest):
 
         await friend_character.notify_friends(request.session)
         # TODO: SysMsg: S1_JOINED_AS_FRIEND
-        await requstor_character.notify_friends(requstor_session)
+        await requstor_character.notify_friends(requestor_session)
         # TODO: SysMsg: S1_ADDED_TO_FRIENDS
 
         LOG.info(
@@ -142,10 +142,10 @@ async def friend_delete(request: GameRequest):
 
     character.friends.remove(friend_character.id)
     friend_character.friends.remove(character.id)
+    LOG.info(f"{character.name} has deleted his friend {friend_to_delete_name}")
 
     await character.commit_changes(fields=["friends"])
     await friend_character.commit_changes(fields=["friends"])
-    LOG.info(f"{character.name} has deleted his friend {friend_to_delete_name}")
 
     await character.notify_friends(request.session)
 

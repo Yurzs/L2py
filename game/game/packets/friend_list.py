@@ -20,15 +20,13 @@ class FriendList(GameServerPacket):
         extend_bytearray(encoded, [ctype.int16(len(self.friends))])
 
         for character in self.friends:
-            is_online = ctype.int32(1) if character.session else ctype.int32(0)
-
             extend_bytearray(
                 encoded,
                 [
                     ctype.int16(0),  # not used, doesn't work without it
                     character.id,
                     character.name,
-                    is_online,
+                    character.is_online,
                     ctype.int16(0),  # not used, doesn't work without it
                 ],
             )

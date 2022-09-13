@@ -1,7 +1,6 @@
 import dataclasses
 import math
 import time
-from typing import Union
 
 import game.packets
 from common.ctype import ctype
@@ -16,7 +15,6 @@ from game.models.structures.item.inventory import Inventory
 from game.models.structures.macro import Macro
 from game.models.structures.object.position import Position
 from game.models.structures.shortcut import Shortcut
-from game.session import GameSession
 
 
 class Buff:
@@ -40,10 +38,10 @@ class CharacterBase(CharStructure):
 
     appearance: CharacterAppearance
 
-    session: Union[None, GameSession] = None
-
     # id of character who currently sends request (Party invite, Friend invite, Trade, etc.)
     active_requestor: ctype.int32 = 0
+
+    is_online: ctype.int32 = 0
 
     delete_at: ctype.int32 = 0
     friends: list[ctype.int32] = dataclasses.field(default_factory=list)
@@ -167,21 +165,25 @@ class CharacterBase(CharStructure):
             )
 
     async def notify_friends(self, session):
-        friends_list = await self.all_by_game_id(self.friends)
-        if not friends_list:
+        friends = await self.all_by_game_id(self.friends)
+        if not friends:
             session.send_packet(game.packets.FriendList())
             return
 
         from game.models.world import WORLD
 
-        friends = list()
-        for char in friends_list:
-            char.session = WORLD.get_session_by_character_name(char.name)
-            friends.append(char)
+        online_friends = list()
+        friends_list = list()
+        for friend_char in friends:
+            if WORLD.get_session_by_character(friend_char):
+                friend_char.is_online = 1
+                online_friends.append(friend_char)
+            else:
+                friend_char.is_online = 0
 
-        session.send_packet(game.packets.FriendList(friends=friends))
+            friends_list.append(friend_char)
 
-        online_friends = [char for char in friends if char.session]
+        session.send_packet(game.packets.FriendList(friends=friends_list))
 
         return online_friends
 
