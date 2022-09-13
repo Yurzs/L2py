@@ -43,5 +43,5 @@ async def notify_friends_login(session):
         return
 
     for friend in online_friends:
-        await friend.notify_friends(friend.session)
+        await friend.notify_friends(session)
         # TODO SysMsg: FRIEND_S1_HAS_LOGGED_IN
