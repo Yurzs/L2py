@@ -55,6 +55,9 @@ class DocumentBase(BaseDataclass):
         if add_query is not None:
             query.update(add_query)
 
+        encoder = JsonEncoder()
+        query = encoder.encode_dict(query)
+
         result = await cls.collection().find_one(query, **kwargs)
         if result is not None:
             return cls(**cls.convert_dataclasses(result))
@@ -73,6 +76,9 @@ class DocumentBase(BaseDataclass):
 
         documents = []
         async_for = True
+
+        encoder = JsonEncoder()
+        query = encoder.encode_dict(query)
 
         cursor = cls.collection().find(query, **kwargs)
         if isinstance(cursor, typing.Coroutine):
