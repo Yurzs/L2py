@@ -15,6 +15,7 @@ from game.session import GameSession
 )
 async def enter_world(request: GameRequest):
     character = request.session.character
+    character.session = request.session
 
     request.session.send_packet(game.packets.EtcStatusUpdate(character=character))
 
@@ -33,12 +34,13 @@ async def enter_world(request: GameRequest):
 
 
 # TODO notify friends on Character logout
-async def get_friends_list(session: GameSession):
+async def get_friends_list(session):
     character = session.character
+
     online_friends = await character.notify_friends(session)
-    if online_friends is None:
+    if not online_friends:
         return
 
     for friend in online_friends:
-        friend_session = WORLD.get_session_by_character_name(friend.name)
-        await friend.notify_friends(friend_session)
+        await friend.notify_friends(session)
+        # TODO SysMsg: FRIEND_S1_HAS_LOGGED_IN
