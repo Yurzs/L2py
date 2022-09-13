@@ -11,6 +11,7 @@ from game.constants import (
     GAME_REQUEST_FRIEND_MESSAGE,
 )
 from game.models.world import WORLD
+from game.models.character import Character
 from game.packets import FriendInvite, FriendMessage
 from game.request import GameRequest
 
@@ -117,7 +118,7 @@ async def send_friend_message(request: GameRequest):
     recipient_session.send_packet(
         FriendMessage(sender_name=name, message=message, recipient_name=recipient_name)
     )
-    LOG.info(f'{name} has send friend message: "{message}" to {recipient_name}')
+    LOG.info(f"{name} has send friend message: {message} to {recipient_name}")
 
 
 @l2_request_handler(
@@ -130,7 +131,8 @@ async def friend_delete(request: GameRequest):
         return
 
     character = request.session.character
-    friend_character = await character.one_by_name(friend_to_delete_name, required=False)
+
+    friend_character = await Character.one_by_name(friend_to_delete_name, required=False)
     if friend_character is None:
         LOG.debug(f"{character.name} tried to delete not existing player {friend_to_delete_name}")
         return
