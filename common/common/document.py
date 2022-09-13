@@ -77,6 +77,9 @@ class DocumentBase(BaseDataclass):
         documents = []
         async_for = True
 
+        encoder = JsonEncoder()
+        query = encoder.encode_dict(query)
+
         cursor = cls.collection().find(query, **kwargs)
         if isinstance(cursor, typing.Coroutine):
             cursor = await cursor

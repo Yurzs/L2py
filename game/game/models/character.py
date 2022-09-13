@@ -65,13 +65,16 @@ class CharacterBase(CharStructure):
         return ctype.int32(self.delete_at - time.time() if self.delete_at else 0)
 
     @classmethod
+    async def one_by_name(cls, character_name: str, required=True):
+        return await super().one(add_query={"name": character_name}, required=required)
+
+    @classmethod
     async def all(cls, account_username=None, **kwargs):
         return await super().all(add_query={"account.username": account_username}, **kwargs)
 
     @classmethod
     async def all_by_game_id(cls, character_game_ids: list[ctype.int32]):
-        char_ids = [int(c) for c in character_game_ids]
-        return await super().all(add_query={"id": {"$in": char_ids}})
+        return await super().all(add_query={"id": {"$in": character_game_ids}})
 
     @classmethod
     async def from_template(
@@ -160,6 +163,29 @@ class CharacterBase(CharStructure):
                     total_macros=len(self.macros),
                 )
             )
+
+    async def notify_friends(self, session):
+        friends = await self.all_by_game_id(self.friends)
+        if not friends:
+            session.send_packet(game.packets.FriendList())
+            return
+
+        from game.models.world import WORLD
+
+        online_friends = list()
+        friends_list = list()
+        for friend_char in friends:
+            if WORLD.get_session_by_character(friend_char):
+                friend_char.is_online = 1
+                online_friends.append(friend_char)
+            else:
+                friend_char.is_online = 0
+
+            friends_list.append(friend_char)
+
+        session.send_packet(game.packets.FriendList(friends=friends_list))
+
+        return online_friends
 
 
 @dataclasses.dataclass(kw_only=True)
