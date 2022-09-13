@@ -4,7 +4,6 @@ import game.states
 from common.api_handlers import l2_request_handler
 from common.template import Template
 from game.models.world import WORLD
-from game.models.character import Character
 from game.request import GameRequest
 from game.session import GameSession
 
@@ -31,11 +30,11 @@ async def enter_world(request: GameRequest):
     character.notify_macros(request.session)
     character.notify_shortcuts(request.session)
 
-    await notify_friends_login(request.session)
+    await get_friends_list(request.session)
 
 
 # TODO notify friends on Character logout
-async def notify_friends_login(session):
+async def get_friends_list(session):
     character = session.character
 
     online_friends = await character.notify_friends(session)

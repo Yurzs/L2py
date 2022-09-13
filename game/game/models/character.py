@@ -1,7 +1,7 @@
 import dataclasses
 import math
 import time
-from typing import Optional
+from typing import Union
 
 import game.packets
 from common.ctype import ctype
@@ -40,7 +40,7 @@ class CharacterBase(CharStructure):
 
     appearance: CharacterAppearance
 
-    session: Optional[GameSession] = None
+    session: Union[None, GameSession] = None
 
     # id of character who currently sends request (Party invite, Friend invite, Trade, etc.)
     active_requestor: ctype.int32 = 0
@@ -167,12 +167,12 @@ class CharacterBase(CharStructure):
             )
 
     async def notify_friends(self, session):
-        from game.models.world import WORLD
-
-        friends_list = await Character.all_by_game_id(self.friends)
+        friends_list = await self.all_by_game_id(self.friends)
         if not friends_list:
             session.send_packet(game.packets.FriendList())
             return
+
+        from game.models.world import WORLD
 
         friends = list()
         for char in friends_list:
