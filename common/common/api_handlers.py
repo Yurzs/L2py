@@ -4,7 +4,6 @@ import logging
 
 from common.request import Request
 from common.response import Response
-from game.request import GameRequest
 
 _HANDLERS = {}
 
@@ -43,7 +42,7 @@ def l2_request_handler(action, template, states="*"):
     return wrapper
 
 
-async def handle_request(request: GameRequest):
+async def handle_request(request: Request):
     action_id, request.data = request.data[0], bytearray(request.data[1:])
     LOG.debug("Looking for action with ID %s", action_id)
     if action_id in _HANDLERS:
