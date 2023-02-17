@@ -1,6 +1,7 @@
 import dataclasses
 import math
 import time
+from typing import Optional
 
 import game.packets
 from common.ctype import ctype
@@ -15,6 +16,7 @@ from game.models.structures.item.inventory import Inventory
 from game.models.structures.macro import Macro
 from game.models.structures.object.position import Position
 from game.models.structures.shortcut import Shortcut
+from game.session import GameSession
 
 
 class Buff:
@@ -38,6 +40,11 @@ class CharacterBase(CharStructure):
 
     appearance: CharacterAppearance
 
+    session: Optional[GameSession] = None
+
+    # id of character who currently sends request (Party invite, Friend invite, Trade, etc.)
+    active_requestor: ctype.int32 = 0
+
     delete_at: ctype.int32 = 0
     friends: list[ctype.int32] = dataclasses.field(default_factory=list)
     inventory: Inventory = dataclasses.field(default_factory=Inventory)
@@ -60,8 +67,16 @@ class CharacterBase(CharStructure):
         return ctype.int32(self.delete_at - time.time() if self.delete_at else 0)
 
     @classmethod
+    async def one_by_name(cls, character_name: str, required=True):
+        return await super().one(add_query={"name": character_name}, required=required)
+
+    @classmethod
     async def all(cls, account_username=None, **kwargs):
         return await super().all(add_query={"account.username": account_username}, **kwargs)
+
+    @classmethod
+    async def all_by_game_id(cls, character_game_ids: list[ctype.int32]):
+        return await super().all(add_query={"id": {"$in": character_game_ids}})
 
     @classmethod
     async def from_template(
@@ -150,6 +165,25 @@ class CharacterBase(CharStructure):
                     total_macros=len(self.macros),
                 )
             )
+
+    async def notify_friends(self, session):
+        from game.models.world import WORLD
+
+        friends_list = await Character.all_by_game_id(self.friends)
+        if not friends_list:
+            session.send_packet(game.packets.FriendList())
+            return
+
+        friends = list()
+        for char in friends_list:
+            char.session = WORLD.get_session_by_character_name(char.name)
+            friends.append(char)
+
+        session.send_packet(game.packets.FriendList(friends=friends))
+
+        online_friends = [char for char in friends if char.session]
+
+        return online_friends
 
 
 @dataclasses.dataclass(kw_only=True)

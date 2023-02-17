@@ -18,6 +18,9 @@ from .crypt_init import CryptInit
 from .etc_status_update import EtcStatusUpdate
 from .ex_send_manor_list import ExSendManorList
 from .ex_storage_max_count import ExStorageMaxCount
+from .friend_invite import FriendInvite
+from .friend_list import FriendList
+from .friend_message import FriendMessage
 from .item_list import ItemList
 from .leave_world import LeaveWorld
 from .logout_ok import LogoutOk
@@ -33,6 +36,7 @@ from .shortcut_register import ShortcutRegister
 from .snoop import Snoop
 from .social_action import SocialAction
 from .status_update import StatusUpdate
+from .system_message import SystemMessagePacket
 from .target_selected import TargetSelected
 from .target_unselected import TargetUnselected
 from .teleport_to_location import TeleportToLocation

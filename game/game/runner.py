@@ -14,14 +14,15 @@ def main():
     GAME_SERVER_APPLICATION.run(
         {
             "game_web": {
-                "host": GameConfig().GAME_API_SERVER_HOST,
-                "port": GameConfig().GAME_API_SERVER_PORT,
+                "host": GameConfig().GAME_SERVER_API_HOST,
+                "port": GameConfig().GAME_SERVER_API_PORT,
             },
             "game_tcp": {
                 "host": GameConfig().GAME_SERVER_HOST,
                 "port": GameConfig().GAME_SERVER_PORT,
             },
         },
+        log_level=logging.DEBUG,
         loop=GameConfig().loop,
         cleanup_task=WORLD.shutdown,
     )
