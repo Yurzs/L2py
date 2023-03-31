@@ -5,20 +5,55 @@ import struct
 from common.misc import classproperty
 
 
-class _Bool:
-    pass
+def get_limits(cls) -> tuple[int, int]:
+    is_signed = cls(-1) > cls(0)
+    bit_size = ctypes.sizeof(cls) * 8
+    signed_limit = 2 ** (bit_size - 1)
+    return (-signed_limit, signed_limit - 1) if is_signed else (0, 2 * signed_limit - 1)
 
 
-class _Char:
-    pass
+class _CType:
+    @classmethod
+    def validate(cls, value):
+        try:
+            cls(value)
+        except ValueError:
+            raise ValueError(f"Value {value} is not a valid {cls.__name__}")
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        pass
 
 
-class _Integer:
-    pass
+class _Bool(_CType):
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(type="boolean")
 
 
-class _Float:
-    pass
+class _Char(_CType):
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(type="integer", minimum=0, maximum=255)
+
+
+class _Integer(_CType):
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        limit_min, limit_max = get_limits(cls)
+        field_schema.update(type="integer", minimum=limit_min, maximum=limit_max)
+
+
+class _Float(_CType):
+
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        limit_min, limit_max = get_limits(cls)
+        field_schema.update(type="float", mininum=limit_min, maximum=limit_max)
 
 
 class _Numeric:
