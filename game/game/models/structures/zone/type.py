@@ -1,16 +1,14 @@
 import typing
-from dataclasses import dataclass, field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.models.structures.zone.farm import ZoneFarm
 
 
-@dataclass(kw_only=True)
-class ZoneType(BaseDataclass):
+class ZoneType(BaseModel):
     zone: ZoneFarm
-    characters: typing.List[None]  # TODO
+    characters: list[None]  # TODO
     min_lvl: ctype.int32
     max_lvl: ctype.int32
-    races: typing.List[ctype.int32]
-    classes: typing.List[ctype.int32]
+    races: list[ctype.int32]
+    classes: list[ctype.int32]

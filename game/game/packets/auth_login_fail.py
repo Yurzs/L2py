@@ -1,11 +1,10 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 
 from .base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class AuthLoginFail(GameServerPacket):
-    type: ctype.int8 = field(default=12, init=False, repr=False)
+    type: ctype.int8 = 12
     reason_id: ctype.int32

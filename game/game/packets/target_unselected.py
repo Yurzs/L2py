@@ -1,18 +1,16 @@
-import typing
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
 from game.models.structures.object.position import Position
 from game.packets.base import GameServerPacket
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from game.session import GameSession
 
 
-@dataclass(kw_only=True)
 class TargetUnselected(GameServerPacket):
-    type: ctype.int8 = field(default=42, init=False, repr=False)
+    type: ctype.int8 = 42
     target_id: ctype.int32
     position: Position
 

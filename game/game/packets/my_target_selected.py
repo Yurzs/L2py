@@ -1,11 +1,10 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from game.packets.base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class MyTargetSelected(GameServerPacket):
-    type: ctype.int8 = field(default=166, init=False, repr=False)
+    type: ctype.int8 = 166
     object_id: ctype.int32
     color: ctype.int

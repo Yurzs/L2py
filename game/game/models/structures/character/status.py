@@ -1,11 +1,8 @@
-import dataclasses
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class Status(BaseDataclass):
+class Status(BaseModel):
     cp: ctype.int32 = 0
     hp: ctype.int32 = 0
     mp: ctype.int32 = 0

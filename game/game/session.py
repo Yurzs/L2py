@@ -1,18 +1,15 @@
-import typing
-from dataclasses import field
+from typing import TYPE_CHECKING
 
 from common.ctype import ctype
 from common.session import Session
 from game.keys.xor_key import GameXorKey
 from game.models.world import WORLD
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from game.models.character import Character
 
 
 class GameSession(Session):
-    id: ctype.int32 = field(default_factory=lambda: ctype.int32.random())
-
     def __init__(self, protocol):
         super().__init__()
 

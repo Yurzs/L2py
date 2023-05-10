@@ -1,18 +1,13 @@
-import typing
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
 from game.packets.base import GameServerPacket
 
-if typing.TYPE_CHECKING:
-    from game.session import GameSession
 
-
-@dataclass(kw_only=True)
 class RestartResponse(GameServerPacket):
-    type: ctype.int8 = field(default=95, init=False, repr=False)
-    ok: ctype.int32 = field(default=1, init=False, repr=False)
+    type: ctype.int8 = 95
+    ok: ctype.int32 = 0
     message: str
 
     def encode(self, session):

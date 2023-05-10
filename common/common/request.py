@@ -1,17 +1,17 @@
 import typing
-from dataclasses import dataclass, field
 
-from common.dataclass import BaseDataclass
+from pydantic import Field
+
+from common.model import BaseModel
 from common.session import Session
 
 
-@dataclass(kw_only=True)
-class Request(BaseDataclass):
+class Request(BaseModel):
     raw_data: bytearray  # Data received from socket
     session: Session  # Client connection session
-    data: bytearray = field(default_factory=bytearray)  # Data modified during processing
-    validated_data: typing.Dict[str, typing.Any] = field(default_factory=dict)
+    data: bytearray = Field(default_factory=bytearray)  # Data modified during processing
+    validated_data: typing.Dict[str, typing.Any] = Field(default_factory=dict)
 
-    def __post_init__(self):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.data = self.raw_data
-        self.validated_data = self.validated_data or {}

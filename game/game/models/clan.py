@@ -1,18 +1,17 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 import pymongo
 
 from common.ctype import ctype
-from common.document import Document, DocumentBase
+from common.document import Document
 
 
-@dataclass(kw_only=True)
 class Clan(Document):
     name: str
     leader: ctype.int32
 
-    __collection__ = "clans"
-    __database__ = "l2py"
+    __collection__: ClassVar[str] = "clans"
+    __database__: ClassVar[str] = "l2py"
 
     def create_indexes(self):
         self.sync_collection().create_index([("name", pymongo.ASCENDING)], unique=True)

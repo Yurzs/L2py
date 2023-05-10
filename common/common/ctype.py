@@ -9,7 +9,7 @@ class _CType:
     @classmethod
     def validate(cls, value):
         try:
-            cls(value)
+            return cls(value)
         except ValueError:
             raise ValueError(f"Value {value} is not a valid {cls.__name__}")
 
@@ -45,7 +45,7 @@ class _Integer(_CType):
     @classmethod
     def __modify_schema__(cls, field_schema):
         limit_min, limit_max = cls.__limits__()
-        field_schema.update(type="integer", minimum=limit_min, maximum=limit_max)
+        field_schema.update(type=str(cls.__name__), minimum=limit_min, maximum=limit_max)
 
 
 class _Float(_CType):

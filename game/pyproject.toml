@@ -16,6 +16,7 @@ APScheduler = "^3.8.1"
 motor = "^2.5.1"
 typeguard = "^2.13.3"
 python-dotenv = "^0.19.2"
+pydantic = "^1.10.7"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,5 +1,4 @@
-import typing
-from dataclasses import dataclass
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
@@ -9,7 +8,6 @@ from game.models.structures.object.point3d import Point3D
 from game.static.static import StaticData
 
 
-@dataclass(kw_only=True)
 class StaticCharacterTemplate(StaticData):
     spawn: Point3D
     items: list[ctype.int32]
@@ -30,9 +28,7 @@ class StaticCharacterTemplate(StaticData):
     level_up_gain: LevelUpGain
     base_level: ctype.int32
 
-    __filepath__ = "game/data/char_templates.json"
-
-    __encode__ = ["race_id", "class_id", ""]
+    filepath: ClassVar[str] = "game/data/char_templates.json"
 
     @classmethod
     def by_id(cls, class_id) -> "CharacterBaseTemplate":

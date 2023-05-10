@@ -1,13 +1,9 @@
-import typing
-from dataclasses import dataclass, field
+from typing import ClassVar, Optional
 
 from common.ctype import ctype
-from game.models.structures.character.stats import BaseStats, Stats
-from game.models.structures.object.point3d import Point3D
 from game.static.static import StaticData
 
 
-@dataclass(kw_only=True)
 class NpcStatic(StaticData):
     id: ctype.int32
     name: str
@@ -43,7 +39,7 @@ class NpcStatic(StaticData):
     armor: ctype.int32
     walkspd: ctype.int32
     runspd: ctype.int32
-    faction_id: typing.Optional[ctype.int32]
+    faction_id: Optional[ctype.int32]
     faction_range: ctype.int32
     absorb_level: ctype.int32
     absorb_type: str
@@ -52,4 +48,4 @@ class NpcStatic(StaticData):
     server_side_title: ctype.int32
     is_undead: ctype.bool
 
-    __filepath__ = "static/sql/npc.json"
+    filepath: ClassVar[str] = "static/sql/npc.json"

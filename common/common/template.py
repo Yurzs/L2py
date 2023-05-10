@@ -2,16 +2,14 @@ from __future__ import annotations
 
 import copy
 import typing
-from dataclasses import dataclass
 
-from common.request import Request
+from common.model import BaseModel
 
 
-@dataclass(kw_only=True)
-class Parameter:
+class Parameter(BaseModel):
     id: str
     start: typing.Union[int, str]
-    type: typing.Union[type, Template]
+    type: typing.Union[typing.Type, Template]
     length: int = None
     func: typing.Optional[typing.Callable] = None
     stop: typing.Optional[int] = None
@@ -88,3 +86,6 @@ class Template:
             self.set_stop(parameter.id, start + stop)
             result[parameter.id] = parsed_value
         return result
+
+
+Parameter.update_forward_refs()

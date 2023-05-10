@@ -1,31 +1,32 @@
 import logging
 import time
-import typing
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Union
+
+from pydantic import Field
 
 import game.constants
 import game.packets
 from common.application_modules.scheduler import ScheduleModule
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.config import GameConfig
 from game.models.structures.object.object import L2Object
 from game.models.structures.object.position import Position
 from game.models.structures.system_message import SystemMessage
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from game.models.character import Character
     from game.session import GameSession
 
 LOG = logging.getLogger(f"l2py.{__name__}")
 
 
-@dataclass(kw_only=True)
-class Clock:
-    start_time: int = field(default=int(time.time()))
-    _is_night = False
+class Clock(BaseModel):
+    start_time: int = Field(default_factory=lambda: int(time.time()))
     TICKS_PER_SECOND = 10
     MSEC_IN_TICK = 1000 / TICKS_PER_SECOND
+
+    _is_night = False
 
     @property
     def is_night(self):
@@ -57,12 +58,11 @@ class Clock:
 CLOCK = Clock()
 
 
-@dataclass(kw_only=True)
-class World(BaseDataclass):
-    _characters: typing.Dict["Character", "GameSession"] = field(default_factory=dict)
-    _char_ids: typing.Dict[ctype.int32, "Character"] = field(default_factory=dict)
-    _sessions: typing.Dict["GameSession", "Character"] = field(default_factory=dict)
-    _objects: typing.Dict[ctype.int32, L2Object] = field(default_factory=dict)
+class World(BaseModel):
+    _characters: dict["Character", "GameSession"] = {}
+    _char_ids: dict[ctype.int32, "Character"] = {}
+    _sessions: dict["GameSession", "Character"] = {}
+    _objects: dict[ctype.int32, L2Object] = {}
     _parties = {}
 
     clock = CLOCK
@@ -71,13 +71,13 @@ class World(BaseDataclass):
     def characters(self):
         return list(self._characters)
 
-    def get_character_by_id(self, char_id: ctype.int32) -> typing.Union[None, "Character"]:
+    def get_character_by_id(self, char_id: ctype.int32) -> Union[None, "Character"]:
         return self._char_ids.get(char_id)
 
-    def find_object_by_id(self, object_id: ctype.int32) -> typing.Union[None, L2Object]:
+    def find_object_by_id(self, object_id: ctype.int32) -> Union[None, L2Object]:
         return self._objects.get(object_id)
 
-    def get_session_by_character_name(self, char_name: str) -> typing.Union[None, "GameSession"]:
+    def get_session_by_character_name(self, char_name: str) -> Union[None, "GameSession"]:
         for char, session in self._characters.items():
             if char.name == char_name:
                 return session

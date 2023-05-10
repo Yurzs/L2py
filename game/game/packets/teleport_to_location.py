@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 
@@ -6,9 +6,8 @@ from ..models.structures.object.position import Position
 from .base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class TeleportToLocation(GameServerPacket):
-    type: ctype.int8 = field(default=56, init=False, repr=False)
+    type: ctype.int8 = 56
 
     character_id: ctype.int32
     position: Position

@@ -1,5 +1,4 @@
-import dataclasses
-import typing
+from typing import ClassVar, Optional
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
@@ -7,10 +6,9 @@ from game.models.structures.macro import Macro
 from game.packets.base import GameServerPacket
 
 
-@dataclasses.dataclass(kw_only=True)
 class MacrosList(GameServerPacket):
-    type: ctype.uint8 = 231
-    macro: typing.Optional[Macro] = None
+    type: ctype.int8 = 231
+    macro: Optional[Macro] = None
     total_macros: ctype.int32 = 0
     revision: ctype.int32 = 0
 

@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from game.models.crest import Crest
@@ -6,9 +6,8 @@ from game.models.crest import Crest
 from .base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class AllyCrest(GameServerPacket):
-    type: ctype.int8 = field(default=174, init=False, repr=False)
+    type: ctype.int8 = 174
     crest: Crest
 
     def encode(self, session):

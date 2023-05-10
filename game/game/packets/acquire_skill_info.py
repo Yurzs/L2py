@@ -1,23 +1,21 @@
-import typing
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
+from common.model import BaseModel
 
 from .base import GameServerPacket
 
 
-@dataclass(kw_only=True)
-class Requirement:
+class Requirement(BaseModel):
     item_id: ctype.int32
     count: ctype.int32
     type: ctype.int32
     unk: ctype.int32
 
 
-@dataclass(kw_only=True)
 class AcquireSkillInfo(GameServerPacket):
-    type: ctype.int8 = field(default=193, init=False, repr=False)
-    requirements: typing.List[Requirement]
+    type: ctype.int8 = 193
+    requirements: list[Requirement]
     id: ctype.int32
     level: ctype.int32
     sp_cost: ctype.int32

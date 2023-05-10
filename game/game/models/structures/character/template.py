@@ -1,36 +1,31 @@
-import dataclasses
-from dataclasses import field
+from pydantic import Field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.models.structures.character.stats import Stats
 from game.models.structures.object.point3d import Point3D
 
 
-@dataclasses.dataclass(kw_only=True)
-class LevelUpIncrease(BaseDataclass):
+class LevelUpIncrease(BaseModel):
     base: ctype.float = 0
     add: ctype.float = 0
     mod: ctype.float = 0
 
 
-@dataclasses.dataclass(kw_only=True)
-class LevelUpGain(BaseDataclass):
+class LevelUpGain(BaseModel):
     level: ctype.int32 = 0
-    hp: LevelUpIncrease = field(default_factory=LevelUpIncrease)
-    cp: LevelUpIncrease = field(default_factory=LevelUpIncrease)
-    mp: LevelUpIncrease = field(default_factory=LevelUpIncrease)
+    hp: LevelUpIncrease = Field(default_factory=LevelUpIncrease)
+    cp: LevelUpIncrease = Field(default_factory=LevelUpIncrease)
+    mp: LevelUpIncrease = Field(default_factory=LevelUpIncrease)
 
 
-@dataclasses.dataclass(kw_only=True)
-class ClassInfo(BaseDataclass):
+class ClassInfo(BaseModel):
     id: ctype.int32
     name: str
     base_level: ctype.int32
 
 
-@dataclasses.dataclass(kw_only=True)
-class CharacterTemplate(BaseDataclass):
+class CharacterTemplate(BaseModel):
     class_info: ClassInfo
     stats: Stats
     race: ctype.int32
@@ -44,7 +39,7 @@ class CharacterTemplate(BaseDataclass):
     mp_consume_rate: ctype.int32
     hp_consume_rate: ctype.int32
 
-    items: list
+    items: list[ctype.int32]
 
     @classmethod
     def from_static_template(cls, template, sex):

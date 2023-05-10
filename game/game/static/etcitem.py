@@ -1,15 +1,11 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
-import game.constants
-from common.ctype import ctype
-from game.static.item import Item, ItemProperties
+from game.static.item import Item
 from game.static.static import StaticData
 
 
-@dataclass(kw_only=True)
 class EtcItem(Item, StaticData):
-
-    __filepath__ = "game/data/etcitem.json"
+    filepath: ClassVar[str] = "game/data/etcitem.json"
 
     @property
     def is_arrow(self):

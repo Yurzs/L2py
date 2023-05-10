@@ -1,25 +1,21 @@
-import dataclasses
-from dataclasses import field
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class Effects(BaseDataclass):
-    is_afraid: ctype.bool = field(default=False)
-    is_confused: ctype.bool = field(default=False)
-    is_faking_death: ctype.bool = field(default=False)
-    is_flying: ctype.bool = field(default=False)
-    is_muted: ctype.bool = field(default=False)
-    is_physically_muted: ctype.bool = field(default=False)
-    is_dead: ctype.bool = field(default=False)
-    is_immobilized: ctype.bool = field(default=False)
-    is_overloaded: ctype.bool = field(default=False)
-    is_paralyzed: ctype.bool = field(default=False)
-    is_riding: ctype.bool = field(default=False)
-    is_pending_revive: ctype.bool = field(default=False)
-    is_rooted: ctype.bool = field(default=False)
-    is_sleeping: ctype.bool = field(default=False)
-    is_stunned: ctype.bool = field(default=False)
-    is_betrayed: ctype.bool = field(default=False)
+class Effects(BaseModel):
+    is_afraid: ctype.bool = False
+    is_confused: ctype.bool = False
+    is_faking_death: ctype.bool = False
+    is_flying: ctype.bool = False
+    is_muted: ctype.bool = False
+    is_physically_muted: ctype.bool = False
+    is_dead: ctype.bool = False
+    is_immobilized: ctype.bool = False
+    is_overloaded: ctype.bool = False
+    is_paralyzed: ctype.bool = False
+    is_riding: ctype.bool = False
+    is_pending_revive: ctype.bool = False
+    is_rooted: ctype.bool = False
+    is_sleeping: ctype.bool = False
+    is_stunned: ctype.bool = False
+    is_betrayed: ctype.bool = False

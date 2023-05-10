@@ -1,18 +1,16 @@
-import typing
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
 from game.models.structures.object.object import L2Object
 from game.packets.base import GameServerPacket
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from game.session import GameSession
 
 
-@dataclass(kw_only=True)
 class TargetSelected(GameServerPacket):
-    type: ctype.int8 = field(default=41, init=False, repr=False)
+    type: ctype.int8 = 41
     me: L2Object
     target: L2Object
 

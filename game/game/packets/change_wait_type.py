@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
@@ -7,9 +7,8 @@ from ..models.structures.object.position import Position
 from .base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class ChangeWaitType(GameServerPacket):
-    type: ctype.int8 = field(default=47, init=False, repr=False)
+    type: ctype.int8 = 47
 
     character_id: ctype.int32
     move_type: ctype.int32

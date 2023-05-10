@@ -1,18 +1,18 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
+from common.misc import extend_bytearray
 from login.packets.base import LoginServerPacket
 
 
-@dataclass(kw_only=True)
 class Init(LoginServerPacket):
-    type: ctype.char = field(default=0, init=False, repr=False)
+    type: ctype.char = 0
     session_id: ctype.int32
     protocol_version: ctype.int32
     rsa_key: bytes
-    unknown1: ctype.uint = field(default=0x29DD954E, init=False, repr=False)
-    unknown2: ctype.uint = field(default=0x77C39CFC, init=False, repr=False)
-    unknown3: ctype.uint = field(default=0x97ADB620, init=False, repr=False)
-    unknown4: ctype.uint = field(default=0x07BDE0F7, init=False, repr=False)
+    unknown1: ctype.uint = 0x29DD954E
+    unknown2: ctype.uint = 0x77C39CFC
+    unknown3: ctype.uint = 0x97ADB620
+    unknown4: ctype.uint = 0x07BDE0F7
     blowfish_key: bytes
-    null_termination: ctype.char = field(default=0, init=False, repr=False)
+    null_termination: ctype.char = 0

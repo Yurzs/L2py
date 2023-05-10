@@ -1,33 +1,33 @@
-import typing
-from dataclasses import dataclass, field
+from typing import ClassVar
+
+from pydantic import Field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.models.structures.object.position import Position
 
 from .base import GameServerPacket
 
 
-@dataclass(kw_only=True)
-class Hit(BaseDataclass):
+class Hit(BaseModel):
     target_id: ctype.int32
     damage: ctype.int32
     flags: ctype.int8 = 0
 
 
-@dataclass(kw_only=True)
 class Attack(GameServerPacket):
-    type: ctype.int8 = field(default=5, init=False, repr=False)
+    type: ctype.int8 = 5
     attacker_id: ctype.int32
     soulshot: ctype.bool
     grade: ctype.int32
     position: Position
     hit: Hit
-    hits: typing.List[Hit] = field(default_factory=list, init=False)
     Hit = Hit
 
-    def __post_init__(self):
-        super().__post_init__()
+    hits: list[Hit] = Field(default_factory=list)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.hits.append(self.hit)
 
     def add_hit(

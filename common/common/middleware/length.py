@@ -18,4 +18,4 @@ class DataLengthMiddleware(Middleware):
     @classmethod
     def after(cls, session: Session, response: Response):
         packet_len = ctype.int16(2 + len(response.data))
-        response.data = bytes(packet_len) + response.data
+        response.data = bytearray(bytes(packet_len) + response.data)

@@ -1,13 +1,13 @@
-import typing
+from typing import ClassVar
 
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 from .cache import StaticDataCache
 
 
-class StaticData(BaseDataclass):
-    __filepath__: str
+class StaticData(BaseModel):
+    filepath: ClassVar[str]
 
     @classmethod
-    def read_file(cls) -> typing.List["StaticData"]:
-        return StaticDataCache().read(cls.__filepath__, cls)
+    def read_file(cls) -> list["StaticData"]:
+        return StaticDataCache().read(cls.filepath, cls)

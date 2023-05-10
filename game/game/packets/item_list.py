@@ -1,5 +1,4 @@
-import typing
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
@@ -7,11 +6,10 @@ from game.models.structures.item import Item
 from game.packets.base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class ItemList(GameServerPacket):
-    type: ctype.int8 = field(default=27, init=False, repr=False)
+    type: ctype.int8 = 27
 
-    items: typing.List[Item]
+    items: list[Item]
     show_window: ctype.int8 = 0
 
     def encode(self, session):

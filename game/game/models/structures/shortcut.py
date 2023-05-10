@@ -1,12 +1,10 @@
-import dataclasses
 from typing import Optional
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class Shortcut(BaseDataclass):
+class Shortcut(BaseModel):
     slot: ctype.int32
     page: ctype.int32
     type: ctype.int32

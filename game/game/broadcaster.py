@@ -52,6 +52,3 @@ class Broadcaster:
             radius=radius,
         ):
             session.send_packet(packet)
-
-
-import game.packets  # noqa mokeypatch -> PLEASE FIX CIRCULAR IMPORTS!

@@ -1,5 +1,5 @@
 import asyncio
-import dataclasses
+from typing import ClassVar
 
 import bson
 
@@ -7,14 +7,13 @@ from common.ctype import ctype
 from common.document import Document
 
 
-@dataclasses.dataclass(kw_only=True)
 class IDFactory(Document):
-    __collection__ = "id_factory"
-    __database__ = "l2py"
+    __collection__: ClassVar[str] = "id_factory"
+    __database__: ClassVar[str] = "l2py"
 
-    NAME_ITEMS = "items"
-    NAME_CHARACTERS = "characters"
-    NAME_ACCOUNTS = "accounts"
+    NAME_ITEMS: ClassVar[str] = "items"
+    NAME_CHARACTERS: ClassVar[str] = "characters"
+    NAME_ACCOUNTS: ClassVar[str] = "accounts"
 
     name: str
     counter: ctype.int32 = 1
@@ -29,4 +28,6 @@ class IDFactory(Document):
         return item_id_factory.counter
 
     async def increment(self):
-        self.collection().update_one({"_id": self._id}, {"$inc": {"counter": 1}})
+        self.collection().update_one(
+            {self.primary_key_field_name: self.primary_key}, {"$inc": {"counter": 1}}
+        )

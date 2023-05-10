@@ -1,16 +1,14 @@
 from __future__ import annotations
 
-import dataclasses
-import typing
+from typing import Optional
 
 import game.packets
 from game.broadcaster import Broadcaster
 from game.models.structures.object.object import L2Object
 
 
-@dataclasses.dataclass(kw_only=True)
 class Playable(L2Object):
-    target: typing.Optional[Playable] = None
+    target: Optional[Playable] = None
 
     @Broadcaster.broadcast(lambda self: game.packets.TargetSelected(me=self, target=self.target))
     async def set_target(self, target: Playable):

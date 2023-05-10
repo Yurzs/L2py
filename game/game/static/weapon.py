@@ -1,12 +1,10 @@
-import typing
-from dataclasses import dataclass, field
+from typing import Optional
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclass(kw_only=True)
-class Weapon(BaseDataclass):
+class Weapon(BaseModel):
     item_id: ctype.int32
     name: str
     bodypart: str
@@ -15,7 +13,7 @@ class Weapon(BaseDataclass):
     soulshots: ctype.char
     spiritshots: ctype.char
     material: str
-    crystal_type: typing.Optional[str]
+    crystal_type: Optional[str]
     physical_damage: ctype.int32
     random_damage: ctype.int32
     critical: ctype.int32

@@ -1,16 +1,15 @@
-import dataclasses
-import typing
-from dataclasses import field
+from typing import Optional
+
+from pydantic import Field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.models.structures.item.armor import Armor
 from game.models.structures.item.item import Item
 from game.models.structures.item.weapon import Weapon
 
 
-@dataclasses.dataclass(kw_only=True)
-class PaperDoll(BaseDataclass):
+class PaperDoll(BaseModel):
     class IDs:
         under_id = ctype.int32(0)
         left_ear_id = ctype.int32(1)
@@ -53,24 +52,24 @@ class PaperDoll(BaseDataclass):
             double_hair_id,
         ]
 
-    under: typing.Optional[Armor] = None
-    left_ear: typing.Optional[Armor] = None
-    right_ear: typing.Optional[Armor] = None
-    neck: typing.Optional[Armor] = None
-    left_finger: typing.Optional[Armor] = None
-    right_finger: typing.Optional[Armor] = None
-    head: typing.Optional[Armor] = None
-    right_hand: typing.Optional[Weapon] = None
-    left_hand: typing.Optional[Weapon] = None
-    gloves: typing.Optional[Armor] = None
-    chest: typing.Optional[Armor] = None
-    legs: typing.Optional[Armor] = None
-    feet: typing.Optional[Armor] = None
-    back: typing.Optional[Armor] = None
-    face: typing.Optional[Armor] = None
-    hair: typing.Optional[Armor] = None
-    hair_all: typing.Optional[Armor] = None
-    double_handed: typing.Optional[Weapon] = None
+    under: Optional[Armor] = None
+    left_ear: Optional[Armor] = None
+    right_ear: Optional[Armor] = None
+    neck: Optional[Armor] = None
+    left_finger: Optional[Armor] = None
+    right_finger: Optional[Armor] = None
+    head: Optional[Armor] = None
+    right_hand: Optional[Weapon] = None
+    left_hand: Optional[Weapon] = None
+    gloves: Optional[Armor] = None
+    chest: Optional[Armor] = None
+    legs: Optional[Armor] = None
+    feet: Optional[Armor] = None
+    back: Optional[Armor] = None
+    face: Optional[Armor] = None
+    hair: Optional[Armor] = None
+    hair_all: Optional[Armor] = None
+    double_handed: Optional[Weapon] = None
 
     def by_id(self, item_slot_id: ctype.int32):
         """Finds item by its slot ID."""
@@ -123,10 +122,9 @@ class PaperDoll(BaseDataclass):
         }[body_part_name]
 
 
-@dataclasses.dataclass(kw_only=True)
-class Inventory(BaseDataclass):
-    equipped_items: PaperDoll = field(default_factory=PaperDoll)
-    items: typing.List[Item] = field(default_factory=list)
+class Inventory(BaseModel):
+    equipped_items: PaperDoll = Field(default_factory=PaperDoll)
+    items: list[Item] = Field(default_factory=list)
 
     @property
     def total_weight(self):

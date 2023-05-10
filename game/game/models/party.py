@@ -1,10 +1,7 @@
-import dataclasses
-
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.models.structures.character.character import Character
 
 
-@dataclasses.dataclass(kw_only=True)
-class Party(BaseDataclass):
+class Party(BaseModel):
     participants: list
     leader: Character

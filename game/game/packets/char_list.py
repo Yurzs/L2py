@@ -1,15 +1,13 @@
-import typing
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
 from common.misc import encode_str, extend_bytearray
+from common.model import BaseModel
 from game.models.character import Character
 from game.packets.base import GameServerPacket
 
 
-@dataclass
-class FormattedCharacter(BaseDataclass):
+class FormattedCharacter(BaseModel):
     name: str
     id: ctype.int32
     account_username: str
@@ -21,10 +19,9 @@ class FormattedCharacter(BaseDataclass):
     active_class: ctype.int32
 
 
-@dataclass(kw_only=True)
 class CharList(GameServerPacket):
-    type: ctype.int8 = field(default=19, init=False, repr=False)
-    characters: typing.List[Character] = ()
+    type: ctype.int8 = 19
+    characters: list[Character] = ()
 
     def encode(self, session):
         account = session.account
