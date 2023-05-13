@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import ClassVar
 
 from common.model import BaseModel
@@ -10,4 +11,7 @@ class StaticData(BaseModel):
 
     @classmethod
     def read_file(cls) -> list["StaticData"]:
-        return StaticDataCache().read(cls.filepath, cls)
+        import game
+
+        game_root = Path(game.__path__[0]).parent
+        return StaticDataCache().read(Path(game_root, cls.filepath), cls)
