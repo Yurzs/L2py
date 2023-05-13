@@ -1,8 +1,5 @@
-from dataclasses import dataclass
-
-from common import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclass(kw_only=True)
-class ServerEvent(BaseDataclass):
+class ServerEvent(BaseModel):
     pass

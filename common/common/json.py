@@ -4,13 +4,13 @@ from typing import Any
 import bson
 
 from common.ctype import _Numeric, extras
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
 class JsonEncoder(json.JSONEncoder):
     def encode(self, o: Any):
-        if isinstance(o, BaseDataclass):
-            return o.to_dict()
+        if isinstance(o, BaseModel):
+            return {**o.dict(), "$model": o.__class__.__name__}
         elif isinstance(o, (bytes, str)):
             return str(o)
         elif isinstance(o, int):
@@ -52,5 +52,7 @@ class JsonDecoder(json.JSONDecoder):
             if "$oid" in data:
                 return bson.ObjectId(data["$oid"])
             elif "$model" in data:
-                return BaseDataclass.__models__()[data.pop("$model")](**data)
+                for model in BaseModel.__subclasses__():
+                    if model.__name__ == data["$model"]:
+                        return model(**data)
         return data

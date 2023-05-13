@@ -1,9 +1,5 @@
-import typing
-from dataclasses import dataclass, field
-
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclass(kw_only=True)
-class ZoneManager(BaseDataclass):
-    zones: typing.List[None]
+class ZoneManager(BaseModel):
+    zones: list

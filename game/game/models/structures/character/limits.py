@@ -1,11 +1,8 @@
-import dataclasses
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class Limits(BaseDataclass):
+class Limits(BaseModel):
     inventory: ctype.int32
     warehouse: ctype.int32
     freight: ctype.int32

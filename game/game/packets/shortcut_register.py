@@ -1,4 +1,4 @@
-import dataclasses
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
@@ -6,10 +6,9 @@ from game.models.structures.shortcut import Shortcut
 from game.packets.base import GameServerPacket
 
 
-@dataclasses.dataclass(kw_only=True)
 class ShortcutRegister(GameServerPacket):
+    type: ctype.int8 = 68  # 0x44
     shortcut: Shortcut
-    type: ctype.uint8 = 68  # 0x44
 
     def encode(self, session):
         encoded = bytearray()

@@ -1,6 +1,6 @@
-import dataclasses
-import typing
-from dataclasses import field
+from typing import Optional
+
+from pydantic import Field
 
 import game.packets
 from common.ctype import ctype
@@ -14,20 +14,19 @@ from game.models.structures.skill.skill import Skill
 from game.models.structures.world_region import WorldRegion
 
 
-@dataclasses.dataclass(kw_only=True)
 class Character(Playable):
     stats: Stats
     status: Status
     template: CharacterTemplate
-    attacked_by: list = field(default_factory=list)
+    attacked_by: list = Field(default_factory=list)
 
-    last_skill: typing.Optional[Skill] = None
+    last_skill: Optional[Skill] = None
     last_heal_amount: ctype.int32 = 0
     title: str = ""
     ai_class: str = ""
-    hp_updates: UpdateChecks = field(default_factory=UpdateChecks)
-    skills: list[Skill] = field(default_factory=list)
-    current_zone: WorldRegion = field(default_factory=WorldRegion)
+    hp_updates: UpdateChecks = Field(default_factory=UpdateChecks)
+    skills: list[Skill] = Field(default_factory=list)
+    current_zone: WorldRegion = Field(default_factory=WorldRegion)
     name_color: ctype.int32 = 2147483647
     title_color: ctype.int32 = 2147483647
 

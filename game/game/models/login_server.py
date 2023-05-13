@@ -1,23 +1,16 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
+
+from pydantic import Field
 
 from common.ctype import ctype
-from common.document import Document, DocumentBases, DocumentDefaults
+from common.document import Document
 
 
-@dataclass(kw_only=True)
-class LoginServerDefaults(DocumentDefaults):
-    __collection__: str = field(default="login_servers", repr=False, init=False)
-    __database__: str = field(default="l2py", repr=False, init=False)
-
-
-@dataclass(kw_only=True)
-class LoginServerBases(DocumentBases):
-    _id: str
+class LoginServer(Document):
+    id: str = Field(alias="_id")
     host: str
     port: ctype.int
     status: ctype.int8
 
-
-@dataclass(kw_only=True)
-class LoginServer(Document, DocumentBases, DocumentDefaults):
-    pass
+    __collection__: ClassVar[str] = "login_servers"
+    __database__: ClassVar[str] = "l2py"

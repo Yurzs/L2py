@@ -1,10 +1,7 @@
-import dataclasses
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class ObjectPolymorph(BaseDataclass):
+class ObjectPolymorph(BaseModel):
     id: ctype.int32 = 0
     type: ctype.int32 = 0

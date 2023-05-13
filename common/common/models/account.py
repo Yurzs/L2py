@@ -1,41 +1,41 @@
 import base64
-import dataclasses
 import os
-from dataclasses import field
 from hashlib import sha3_512
+from typing import ClassVar, Optional
 
 import pymongo
+from pydantic import Field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
 from common.document import Document
+from common.model import BaseModel
 from common.models.id_factory import IDFactory
 
 
-@dataclasses.dataclass(kw_only=True)
-class GameAuth(BaseDataclass):
+class GameAuth(BaseModel):
     server_id: ctype.char = 0
-    play_ok1: ctype.int32 = field(default_factory=ctype.int32.random)
-    play_ok2: ctype.int32 = field(default_factory=ctype.int32.random)
-    login_ok1: ctype.int32 = field(default_factory=ctype.int32.random)
-    login_ok2: ctype.int32 = field(default_factory=ctype.int32.random)
+    play_ok1: ctype.int32 = Field(default_factory=ctype.int32.random)
+    play_ok2: ctype.int32 = Field(default_factory=ctype.int32.random)
+    login_ok1: ctype.int32 = Field(default_factory=ctype.int32.random)
+    login_ok2: ctype.int32 = Field(default_factory=ctype.int32.random)
 
 
-@dataclasses.dataclass(kw_only=True)
 class Account(Document):
-    id: ctype.int32
+    __collection__: ClassVar[str] = "accounts"
+    __database__: ClassVar[str] = "l2py"
+
+    account_id: ctype.int32
     username: str
     password: str
 
-    __collection__ = "accounts"
-    __database__ = "l2py"
+    STATUS_USER: ClassVar[ctype.char] = 0
 
-    status: ctype.char = 0
+    status: ctype.char = Field(default=STATUS_USER)
     last_server: ctype.char = 0
     last_character: str = ""
     email: str = ""
     salt: str = ""
-    game_auth: GameAuth = field(default_factory=GameAuth)
+    game_auth: GameAuth = Field(default_factory=GameAuth)
 
     @classmethod
     async def create_index(cls):
@@ -50,17 +50,26 @@ class Account(Document):
         """Constructs new account."""
 
         new_id = await IDFactory.get_new_id(IDFactory.NAME_ACCOUNTS)
+        hashed_password, salt = cls.hash_password(password)
         acc = Account(
-            id=new_id,
+            account_id=new_id,
             username=username,
-            password="",
+            password=hashed_password,
+            salt=salt,
         )
         await acc.insert()
-        await acc.set_new_password(password=password)
+
         return acc
 
     @classmethod
-    async def one(cls, document_id=None, username=None, add_query=None, **kwargs) -> "Account":
+    async def one(
+        cls,
+        document_id: Optional[str] = None,
+        account_id: Optional[ctype.int32] = None,
+        username: Optional[str] = None,
+        add_query: Optional[dict] = None,
+        **kwargs,
+    ) -> "Account":
         """Finds one account."""
 
         query = {}
@@ -73,15 +82,21 @@ class Account(Document):
 
         return await super().one(add_query=query, **kwargs)
 
+    @staticmethod
+    def hash_password(password: str) -> tuple[str, str]:
+        """Hashes password with salt."""
+
+        salt = base64.b64encode(os.urandom(20)).decode()
+        salted_password = password + salt
+        return base64.b64encode(sha3_512(salted_password.encode()).digest()).decode(), salt
+
     async def set_new_password(self, password: str):
         """Sets new password for user.
 
         :param password: User defined password.
         """
-        salt = base64.b64encode(os.urandom(20)).decode()
-        salted_password = password + salt
-        self.password = base64.b64encode(sha3_512(salted_password.encode()).digest()).decode()
-        self.salt = salt
+
+        self.password, self.salt = self.hash_password(password)
         await self.commit_changes(fields=["salt", "password"])
 
     def authenticate(self, password) -> bool:

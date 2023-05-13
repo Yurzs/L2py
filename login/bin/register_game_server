@@ -10,7 +10,7 @@ from common.models.game_server import GameServer
 async def create_server(args):
 
     server = GameServer(
-        id=args.server_id,
+        server_id=args.server_id,
         host=str(args.host),
         port=args.port,
         is_pvp=args.pvp if args.pvp is not None else False,
@@ -19,7 +19,7 @@ async def create_server(args):
     )
 
     await server.insert()
-    print(server)
+    print(server.dict())
 
 
 def main():

@@ -1,12 +1,9 @@
-import dataclasses
-
 from common.packet import Packet
 
 
-@dataclasses.dataclass(kw_only=True)
 class LoginServerPacket(Packet):
-    def encode(self, session):
-        return self.body
+    def encode(self, session, strings_format="utf-16-le"):
+        return super().encode(session, strings_format="utf-16-le")
 
     @classmethod
     def parse(cls, data, client):

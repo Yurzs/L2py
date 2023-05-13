@@ -1,11 +1,8 @@
-import dataclasses
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class AttacksBuffs(BaseDataclass):
+class AttacksBuffs(BaseModel):
     physical_plants: ctype.int32
     physical_insects: ctype.int32
     physical_animals: ctype.int32

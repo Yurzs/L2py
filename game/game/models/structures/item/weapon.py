@@ -1,5 +1,6 @@
-import dataclasses
 import typing
+
+from pydantic import Field
 
 from common.ctype import ctype
 from game.models.structures.skill.skill import Skill
@@ -7,7 +8,6 @@ from game.models.structures.skill.skill import Skill
 from .item import Item
 
 
-@dataclasses.dataclass(kw_only=True)
 class Weapon(Item):
     soulshot_count: ctype.int32
     spiritshot_count: ctype.int32
@@ -25,5 +25,5 @@ class Weapon(Item):
     passive_skill: typing.Union[None, Skill] = None
     enchant4_skill: typing.Union[None, Skill] = None
 
-    skills_on_hit: typing.List[Skill] = ()
-    skills_on_cast: typing.List[Skill] = ()
+    skills_on_hit: list[Skill] = Field(default_factory=list)
+    skills_on_cast: list[Skill] = Field(default_factory=list)

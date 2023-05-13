@@ -1,18 +1,15 @@
-# from __future__ import annotations
-
-import dataclasses
 import time
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.document import Document
 
 
-@dataclasses.dataclass(kw_only=True)
 class GameServer(Document):
-    __collection__ = "game_servers"
-    __database__ = "l2py"
+    __collection__: ClassVar[str] = "game_servers"
+    __database__: ClassVar[str] = "l2py"
 
-    id: ctype.char
+    server_id: ctype.char
     host: str
     port: ctype.uint32
 
@@ -24,19 +21,6 @@ class GameServer(Document):
     type: ctype.int32 = 1
     brackets: ctype.char = False
     last_alive: ctype.long = 0
-
-    __encode__ = (
-        "id",
-        "host_as_bytearray",
-        "port",
-        "age_limit",
-        "is_pvp",
-        "online_count",
-        "max_online",
-        "server_is_alive",
-        "type",
-        "brackets",
-    )
 
     @property
     def is_full(self) -> ctype.bool:
@@ -52,4 +36,4 @@ class GameServer(Document):
 
     @classmethod
     async def one(cls, server_id, **kwargs) -> "GameServer":
-        return await super().one(add_query={"id": int(server_id)}, **kwargs)
+        return await super().one(add_query={"server_id": int(server_id)}, **kwargs)

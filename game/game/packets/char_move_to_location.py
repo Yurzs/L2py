@@ -1,5 +1,4 @@
-import typing
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
@@ -7,13 +6,12 @@ from game.models.structures.object.position import Position
 from game.packets.base import GameServerPacket
 from game.session import GameSession
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from game.models.character import Character
 
 
-@dataclass(kw_only=True)
 class CharMoveToLocation(GameServerPacket):
-    type: ctype.int8 = field(default=1, init=False, repr=False)
+    type: ctype.int8 = 1
     character: "Character"
     new_position: Position
 

@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
@@ -6,9 +6,8 @@ from game.models.structures.system_message import SystemMessage
 from game.packets.base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class SystemMessagePacket(GameServerPacket):
-    type: ctype.int8 = field(default=100, init=False)
+    type: ctype.int8 = 100
     message: SystemMessage
 
     def encode(self, session):

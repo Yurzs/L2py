@@ -1,11 +1,8 @@
-import dataclasses
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class UpdateChecks(BaseDataclass):
+class UpdateChecks(BaseModel):
     increase: ctype.int64 = 0
     decrease: ctype.int64 = 0
     interval: ctype.int64 = 0

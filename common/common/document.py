@@ -1,32 +1,42 @@
-import dataclasses
 import json
 import typing
+from typing import ClassVar
 
 import bson
 import pymongo
 from motor.motor_asyncio import AsyncIOMotorClient
+from pydantic import Field
 
 from common import exceptions
 from common.config import Config
-from common.dataclass import BaseDataclass
 from common.json import JsonEncoder
+from common.model import BaseModel
 
 
-class DocumentBase(BaseDataclass):
-    __primary_key__ = "_id"
+class Document(BaseModel):
+    __primary_key__: ClassVar[str] = "object_id"
 
-    NotFoundError = exceptions.DocumentNotFound
+    __database__: ClassVar[str]
+    __collection__: ClassVar[str]
+
+    NotFoundError: ClassVar = exceptions.DocumentNotFound
+
+    object_id: str = Field(default_factory=lambda: str(bson.ObjectId()), alias="_id")
 
     @property
     def primary_key(self):
         return getattr(self, self.__primary_key__)
 
+    @property
+    def primary_key_field_name(self):
+        return self.__fields__[self.__primary_key__].alias
+
     @classmethod
-    def client(cls):
+    def client(cls) -> AsyncIOMotorClient:
         return AsyncIOMotorClient(Config().MONGO_URI)
 
     @classmethod
-    def sync_client(cls):
+    def sync_client(cls) -> pymongo.MongoClient:
         return pymongo.MongoClient(Config().MONGO_URI)
 
     @classmethod
@@ -60,7 +70,7 @@ class DocumentBase(BaseDataclass):
 
         result = await cls.collection().find_one(query, **kwargs)
         if result is not None:
-            return cls(**cls.convert_dataclasses(result))
+            return cls(**result)
         elif required:
             raise cls.NotFoundError()
 
@@ -96,41 +106,22 @@ class DocumentBase(BaseDataclass):
     def delete(self):
         """Deletes document from collection."""
 
-        return self.collection().delete_one(
-            {self.__primary_key__: getattr(self, self.__primary_key__)}
-        )
+        return self.collection().delete_one({self.primary_key_field_name: self.primary_key})
 
     async def commit_changes(self, fields=None):
         """Saves changed document to collection."""
 
-        search_query = {self.__primary_key__: getattr(self, self.__primary_key__)}
+        search_query = {self.primary_key_field_name: self.primary_key}
         update_query = {"$set": {}}
-        fields = (
-            fields
-            if fields is not None
-            else [field for field in self._fields if not field.startswith("__")]
-        )
+        fields = fields if fields is not None else [field for field in self.dict()]
+
+        data = self.dict()
 
         for field in fields:
-            value = getattr(self, field)
-            update_query["$set"].update({field: json.dumps(value, cls=JsonEncoder)})
+            update_query["$set"].update({field: data[field]})
         return await self.collection().update_one(search_query, update_query)
 
     async def insert(self):
         """Inserts document into collection."""
 
-        return await self.collection().insert_one(self.to_dict())
-
-
-@dataclasses.dataclass(kw_only=True)
-class Document(DocumentBase):
-    _id: str = dataclasses.field(default_factory=lambda: str(bson.ObjectId()))
-
-
-class MetaDocumentMixin(type):
-    def __new__(mcs, name, bases, namespace):
-        fields = []
-        for field in dataclasses.fields(Document):
-            field.kw_only = True
-            fields.append((field.name, field.type, field))
-        return dataclasses.make_dataclass(name, fields=fields, bases=bases, namespace=namespace)
+        return await self.collection().insert_one(self.dict())

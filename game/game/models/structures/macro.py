@@ -1,11 +1,10 @@
-import dataclasses
+from pydantic import Field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class MacroEntry(BaseDataclass):
+class MacroEntry(BaseModel):
     entry_id: ctype.int8
     type: ctype.int8
     skill_id: ctype.int32
@@ -13,11 +12,10 @@ class MacroEntry(BaseDataclass):
     command: str
 
 
-@dataclasses.dataclass(kw_only=True)
-class Macro(BaseDataclass):
+class Macro(BaseModel):
     id: ctype.int32
     name: str
     icon: ctype.int8
     acronym: str = ""
     description: str = ""
-    entries: list[MacroEntry] = dataclasses.field(default_factory=list)
+    entries: list[MacroEntry] = Field(default_factory=list)

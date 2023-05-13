@@ -1,4 +1,6 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
+
+from pydantic import Field
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
@@ -6,10 +8,9 @@ from game.models.character import Character
 from game.packets.base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class FriendList(GameServerPacket):
-    type: ctype.uint8 = field(default=250, init=False)
-    friends: list[Character] = field(default_factory=list)
+    type: ctype.int8 = 250
+    friends: list[Character] = Field(default_factory=list)
 
     def encode(self, session):
         encoded = bytearray(self.type)

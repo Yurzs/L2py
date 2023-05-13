@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from common.ctype import ctype
 
 from .base import LoginServerPacket
@@ -12,9 +14,6 @@ class Reason:
 
 class AccountKicked(LoginServerPacket):
     type: ctype.int8 = 2
-    arg_order = ["type", "kick_reason"]
+    kick_reason: ctype.int32
 
-    REASON = Reason
-
-    def __init__(self, kick_reason_id):
-        self.kick_reason: ctype.int32 = kick_reason_id
+    REASON: ClassVar[ctype.int8] = Reason

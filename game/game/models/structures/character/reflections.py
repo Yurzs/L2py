@@ -1,11 +1,8 @@
-import dataclasses
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class Reflections(BaseDataclass):
+class Reflections(BaseModel):
     damage_percent: ctype.int32
     magic_skill: ctype.int32
     physical_skill: ctype.int32

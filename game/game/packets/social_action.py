@@ -1,12 +1,11 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from game.packets.base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class SocialAction(GameServerPacket):
-    type: ctype.int8 = field(default=45, init=False, repr=False)
+    type: ctype.int8 = 45
 
     character_id: ctype.int32
     action_id: ctype.int32

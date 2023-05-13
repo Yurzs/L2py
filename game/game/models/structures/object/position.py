@@ -1,13 +1,12 @@
-import dataclasses
+from pydantic import Field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.models.structures.object.point3d import Point3D
 from game.models.structures.world_region import WorldRegion
 
 
-@dataclasses.dataclass(kw_only=True)
-class Position(BaseDataclass):
+class Position(BaseModel):
     heading_angle: ctype.int32
     point3d: Point3D
-    region: WorldRegion = dataclasses.field(default_factory=WorldRegion)
+    region: WorldRegion = Field(default_factory=WorldRegion)

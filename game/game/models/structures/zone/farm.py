@@ -1,8 +1,5 @@
-from dataclasses import dataclass, field
-
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclass(kw_only=True)
-class ZoneFarm(BaseDataclass):
+class ZoneFarm(BaseModel):
     pass

@@ -27,13 +27,12 @@ async def auth_login(request):
         username = decode_str("utf-8")(decrypted[94:107])[0]
         password = decode_str("utf-8")(decrypted[108:124])[0]
     except UnicodeDecodeError:
-        return LoginFail(login.constants.LOGIN_FAIL_WRONG_LOGIN_OR_PASSWORD)
+        return LoginFail(reason_id=login.constants.LOGIN_FAIL_WRONG_LOGIN_OR_PASSWORD)
 
     try:
         account = await Account.one(username=username, required=False)
         if account is None:
             account = await Account.new(username=username, password=password)
-        print(account)
         if not account.authenticate(password):
             raise WrongCredentials("Wrong Password")
     except WrongCredentials:
@@ -107,7 +106,7 @@ async def server_login(request):
     )
 
     await request.session.account.login_authenticated(
-        game_server.id,
+        game_server.server_id,
         request.session.session_key.play_ok1,
         request.session.session_key.play_ok2,
         request.session.session_key.login_ok1,

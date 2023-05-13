@@ -1,5 +1,6 @@
-import typing
-from dataclasses import dataclass, field
+from typing import ClassVar
+
+from pydantic import Field
 
 from common.ctype import ctype
 from game.static.character_template import StaticCharacterTemplate
@@ -7,10 +8,9 @@ from game.static.character_template import StaticCharacterTemplate
 from .base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class CharTemplates(GameServerPacket):
-    type: ctype.int8 = field(default=23, init=False, repr=False)
-    templates: typing.List[StaticCharacterTemplate] = ()
+    type: ctype.int8 = 23
+    templates: list[StaticCharacterTemplate] = Field(default_factory=list)
 
     def encode(self, session):
         result = bytearray(self.type)

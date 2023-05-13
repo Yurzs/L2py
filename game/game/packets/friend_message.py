@@ -1,13 +1,12 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
 from game.packets.base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class FriendMessage(GameServerPacket):
-    type: ctype.uint8 = field(default=253, init=False)
+    type: ctype.int8 = 253
     recipient_name: str
     sender_name: str
     message: str

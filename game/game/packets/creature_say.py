@@ -1,13 +1,12 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
 from game.packets.base import GameServerPacket
 
 
-@dataclass(kw_only=True)
 class CreatureSay(GameServerPacket):
-    type: ctype.int8 = field(default=74, init=False, repr=False)
+    type: ctype.int8 = 74
     object_id: ctype.int32
     text_type: ctype.int32
     character_name: str

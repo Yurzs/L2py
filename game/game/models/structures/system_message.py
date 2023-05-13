@@ -1,18 +1,18 @@
-from dataclasses import dataclass, field
+from typing import ClassVar
+
+from pydantic import Field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclass(kw_only=True)
-class MessageValue(BaseDataclass):
-    type: ctype.int32
-    value: tuple = field(init=False)
+class MessageValue(BaseModel):
+    type: ClassVar[ctype.int32]
+    value: tuple
 
 
-@dataclass(kw_only=True)
 class Text(MessageValue):
-    type: ctype.int32 = field(default=0, init=False)
+    type: ClassVar[ctype.int32] = 0
     text: str
 
     @property
@@ -20,9 +20,8 @@ class Text(MessageValue):
         return (self.text,)
 
 
-@dataclass(kw_only=True)
 class Number(MessageValue):
-    type: ctype.int32 = field(default=1, init=False)
+    type: ClassVar[ctype.int32] = 1
     number: ctype.int32
 
     @property
@@ -30,9 +29,8 @@ class Number(MessageValue):
         return (self.number,)
 
 
-@dataclass(kw_only=True)
 class NpcName(MessageValue):
-    type: ctype.int32 = field(default=2, init=False)
+    type: ClassVar[ctype.int32] = 2
     npc_id: ctype.int32
 
     @property
@@ -40,9 +38,8 @@ class NpcName(MessageValue):
         return (self.npc_id + 1000000,)
 
 
-@dataclass(kw_only=True)
 class ItemName(MessageValue):
-    type: ctype.int32 = field(default=3, init=False)
+    type: ClassVar[ctype.int32] = 3
     item_id: ctype.int32
 
     @property
@@ -50,9 +47,8 @@ class ItemName(MessageValue):
         return (self.item_id,)
 
 
-@dataclass(kw_only=True)
 class SkillName(MessageValue):
-    type: ctype.int32 = field(default=4, init=False)
+    type: ClassVar[ctype.int32] = 4
     skill_id: ctype.int32
     skill_lvl: ctype.int32
 
@@ -61,9 +57,8 @@ class SkillName(MessageValue):
         return self.skill_id, self.skill_lvl
 
 
-@dataclass(kw_only=True)
 class ZoneName(MessageValue):
-    type: ctype.int32 = field(default=7, init=False)
+    type: ClassVar[ctype.int32] = 7
     x: ctype.int32
     y: ctype.int32
     z: ctype.int32
@@ -73,7 +68,6 @@ class ZoneName(MessageValue):
         return self.x, self.y, self.z
 
 
-@dataclass(kw_only=True)
-class SystemMessage(BaseDataclass):
+class SystemMessage(BaseModel):
     type: ctype.int32
-    data: tuple[MessageValue, ...] = field(default_factory=tuple)
+    data: tuple[MessageValue, ...] = Field(default_factory=tuple)

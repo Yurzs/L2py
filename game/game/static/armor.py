@@ -1,27 +1,14 @@
-from dataclasses import dataclass, field
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
-from game.models.structures.item.item import Item, ItemProperties, ItemPropertiesBases
+from game.models.structures.item.item import Item, ItemProperties
 
 
-@dataclass(kw_only=True)
-class ArmorPropertiesDefaults(BaseDataclass):
-    stackable: ctype.bool = field(default=False, init=False, repr=False)
-
-
-@dataclass(kw_only=True)
-class ArmorPropertiesBases(ItemPropertiesBases):
+class ArmorProperties(ItemProperties):
+    stackable: ctype.bool = False
     crystallizable: ctype.bool
     sellable: ctype.bool
     droppable: ctype.bool
     destroyable: ctype.bool
     tradable: ctype.bool
-
-
-@dataclass(kw_only=True)
-class ArmorProperties(ItemProperties, ArmorPropertiesDefaults, ArmorPropertiesBases):
-    pass
 
 
 class Armor(Item):

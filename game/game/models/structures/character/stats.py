@@ -1,13 +1,11 @@
-import dataclasses
-from dataclasses import field
+from pydantic import Field
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.models.structures.character.resists import Resists
 
 
-@dataclasses.dataclass(kw_only=True)
-class BaseStats(BaseDataclass):
+class BaseStats(BaseModel):
     STR: ctype.int32 = 0
     CON: ctype.int32 = 0
     DEX: ctype.int32 = 0
@@ -16,8 +14,7 @@ class BaseStats(BaseDataclass):
     MEN: ctype.int32 = 0
 
 
-@dataclasses.dataclass(kw_only=True)
-class Stats(BaseDataclass):
+class Stats(BaseModel):
     max_hp: ctype.int32 = 0
     max_mp: ctype.int32 = 0
     max_cp: ctype.int32 = 0
@@ -51,8 +48,8 @@ class Stats(BaseDataclass):
     ride_walk_speed: ctype.int32 = 0
     fly_run_speed: ctype.int32 = 0
     fly_walk_speed: ctype.int32 = 0
-    base: BaseStats = field(default_factory=BaseStats)
-    resists: Resists = field(default_factory=Resists)
+    base: BaseStats = Field(default_factory=BaseStats)
+    resists: Resists = Field(default_factory=Resists)
     exp: ctype.int64 = 0
     sp: ctype.int32 = 0
     level: ctype.int32 = 0

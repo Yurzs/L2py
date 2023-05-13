@@ -1,8 +1,9 @@
-import dataclasses
 import typing
 
+from pydantic import validator
+
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 from game.models.structures.object.object import L2Object
 from game.models.structures.skill.skill import Skill
 
@@ -102,8 +103,7 @@ class ItemLocation:
     FREIGHT = 8
 
 
-@dataclasses.dataclass(kw_only=True)
-class ItemProperties(BaseDataclass):
+class ItemProperties(BaseModel):
     crystallizable: ctype.bool
     stackable: ctype.bool
     sellable: ctype.bool
@@ -113,13 +113,11 @@ class ItemProperties(BaseDataclass):
     degradable: ctype.bool
 
 
-@dataclasses.dataclass(kw_only=True)
-class Crystallization:
+class Crystallization(BaseModel):
     type: ctype.int32 = 0
     count: ctype.int32 = 0
 
 
-@dataclasses.dataclass(kw_only=True)
 class ItemTemplate(L2Object):
     type: ctype.int32
     inventory_type: ctype.int32
@@ -132,15 +130,17 @@ class ItemTemplate(L2Object):
     price: ctype.int32
     properties: ItemProperties
 
-    skills: typing.List[Skill]
+    skills: list[Skill]
     object_id: ctype.int32
 
-    def validate_material(self):
-        if self.material not in Materials.__dict__:
+    @classmethod
+    @validator("material")
+    def validate_material(cls, v):
+        if v not in dir(Materials):
             raise Exception("Unknown material")
+        return v
 
 
-@dataclasses.dataclass(kw_only=True)
 class Item(ItemTemplate):
     owner_id: ctype.int32
     count: ctype.int32
@@ -160,7 +160,7 @@ class Item(ItemTemplate):
     augmentation: ctype.int32 = None
     mana: ctype.int32 = -1
     consuming_mana: ctype.bool = False
-    mana_consumption_rate = 60000
+    mana_consumption_rate: ctype.int32 = 60000
 
     charged_soulshot: ctype.int32 = 0
     charged_spiritshot: ctype.int32 = 0

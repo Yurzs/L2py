@@ -1,18 +1,16 @@
-import typing
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, ClassVar
 
 from common.ctype import ctype
 from common.misc import extend_bytearray
 from game.packets.base import GameServerPacket
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from game.models.character import Character
     from game.session import GameSession
 
 
-@dataclass(kw_only=True)
 class CharInfo(GameServerPacket):
-    type: ctype.int8 = field(default=3, init=False, repr=False)
+    type: ctype.int8 = 3
     character: "Character"
 
     def encode(self, session: "GameSession"):

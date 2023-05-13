@@ -1,11 +1,8 @@
-import dataclasses
-
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclasses.dataclass(kw_only=True)
-class WeaponVulnerabilities(BaseDataclass):
+class WeaponVulnerabilities(BaseModel):
     shield: ctype.int32 = 0
     sword: ctype.int32 = 0
     blunt: ctype.int32 = 0

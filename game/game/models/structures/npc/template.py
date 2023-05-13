@@ -1,15 +1,8 @@
-import dataclasses
-
 from common.ctype import ctype
-from game.models.structures.character.template import CharacterTemplateBase
-
-#
-# class ServerSide(BaseDataclass):
-#     name:
+from game.models.structures.character.template import CharacterTemplate
 
 
-@dataclasses.dataclass(kw_only=True)
-class NpcTemplate(CharacterTemplateBase):
+class NpcTemplate(CharacterTemplate):
     id: ctype.int32
     template_id: ctype.int32
     type: str

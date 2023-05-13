@@ -1,32 +1,15 @@
 from abc import abstractmethod
-from dataclasses import dataclass
 
 from common.ctype import ctype
-from common.dataclass import BaseDataclass
+from common.model import BaseModel
 
 
-@dataclass(kw_only=True)
-class Packet(BaseDataclass):
+class Packet(BaseModel):
     type: ctype.int8
 
     @abstractmethod
-    def encode(self):
-        return self.body
-
-    @property
-    def body(self):
-        data = bytearray()
-        for field_name, field in self._fields.items():
-            value = getattr(self, field_name)
-            if isinstance(value, str):
-                data.extend(bytearray(value, "utf-8"))
-            elif isinstance(value, bytearray):
-                data.extend(value)
-            elif isinstance(value, bytes):
-                data.extend(value)
-            else:
-                data.extend(value)
-        return data
+    def encode(self, session, strings_format="utf-8"):
+        return super().encode(strings_format=strings_format)
 
     @classmethod
     @abstractmethod
