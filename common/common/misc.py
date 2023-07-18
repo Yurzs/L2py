@@ -6,6 +6,19 @@ class Singleton(type):
             cls._instances[cls] = super().__call__(*args, **kwargs)
         return cls._instances[cls]
 
+    def get_instance(cls):
+        return cls._instances[cls]
+
+
+def CustomSingleton(*bases: type) -> type:  # noqa
+    mcs: set[type] = {Singleton}
+
+    for base in bases:
+        if base.__class__ is not type:
+            mcs.add(base.__class__)
+
+    return type("Singleton", tuple(mcs), {"_instances": {}})
+
 
 class _ClassProperty:
     def __init__(self, fget, fset=None):
