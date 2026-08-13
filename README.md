@@ -1,3 +1,5 @@
+
+
 L2py
 ====
 
@@ -41,7 +43,7 @@ _NOTE: <GAME_SERVER_HOST> can't be `0.0.0.0`_
 
 Without docker-compose
 --------------
-* Make sure you have `make, docker, docker-compose` installed.
+* Make sure you have `make, docker` installed.
 * Install poetry using `make install`
 * Run `poetry install`
 * Start mongodb in container or using other methods.
